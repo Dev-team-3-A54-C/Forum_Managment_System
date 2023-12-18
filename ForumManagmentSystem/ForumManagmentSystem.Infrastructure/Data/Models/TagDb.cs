@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ForumManagmentSystem.Infrastructure.Data.Models.Contracts;
+
 
 namespace ForumManagmentSystem.Infrastructure.Data.Models
 {
-    public class TagDb
+    public class TagDb : ISoftDelete
     {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public bool IsDeleted { get; set; }
+        public virtual ICollection<PostDb> Posts { get; set; } = new HashSet<PostDb>();
     }
 }
