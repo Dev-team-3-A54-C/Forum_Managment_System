@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ForumManagmentSystem.Infrastructure.Data.Models
 {
-    internal class PostDb
+    public class PostDb
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

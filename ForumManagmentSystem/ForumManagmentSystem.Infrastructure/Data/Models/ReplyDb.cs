@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ForumManagmentSystem.Infrastructure.Data.Models
 {
-    internal class ReplyDb
+    public class ReplyDb
     {
     }
 }

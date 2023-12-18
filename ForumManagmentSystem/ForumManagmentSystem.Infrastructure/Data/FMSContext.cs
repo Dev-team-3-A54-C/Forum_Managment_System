@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ForumManagmentSystem.Infrastructure.Data
 {
-    internal class FMSContext : DbContext
+    public class FMSContext : DbContext
     {
     }
 }
