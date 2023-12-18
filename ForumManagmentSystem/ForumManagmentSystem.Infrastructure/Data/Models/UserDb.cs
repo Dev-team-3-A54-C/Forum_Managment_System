@@ -13,8 +13,8 @@ namespace ForumManagmentSystem.Infrastructure.Data.Models
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsAdmin { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<PostDb> Posts { get; set; } = new HashSet<PostDb>();
-        public bool IsDeleted { get; set; }
     }
 }

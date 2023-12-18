@@ -15,8 +15,8 @@ namespace ForumManagmentSystem.Infrastructure.Data.Models
         public int Likes { get; set; }
         public Guid UserId { get; set; }
         public virtual UserDb User { get; set; }
+        public bool IsDeleted { get; set; }
         public virtual ICollection<ReplyDb> Replies { get; set; } = new HashSet<ReplyDb>();
         public virtual ICollection<TagDb> Tags { get; set; } = new HashSet<TagDb>();
-        public bool IsDeleted { get; set; }
     }
 }
