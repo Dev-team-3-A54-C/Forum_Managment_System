@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ForumManagmentSystem.Infrastructure.Data.Models.Contracts;
+
 
 namespace ForumManagmentSystem.Infrastructure.Data.Models
 {
-    public class UserDb
+    public class UserDb : ISoftDelete
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
@@ -18,5 +15,6 @@ namespace ForumManagmentSystem.Infrastructure.Data.Models
         public bool IsAdmin { get; set; }
 
         public virtual ICollection<PostDb> Posts { get; set; } = new HashSet<PostDb>();
+        public bool IsDeleted { get; set; }
     }
 }
