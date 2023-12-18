@@ -3,11 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForumManagmentSystem.Web", "ForumManagmentSystem.Web\ForumManagmentSystem.Web.csproj", "{81DEFD39-068F-4D02-B7EA-FFD66C64383A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumManagmentSystem.Web", "ForumManagmentSystem.Web\ForumManagmentSystem.Web.csproj", "{81DEFD39-068F-4D02-B7EA-FFD66C64383A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForumManagmentSystem.Core", "ForumManagmentSystem.Core\ForumManagmentSystem.Core.csproj", "{4566B55E-D581-43F5-AAAE-ABF409F4C1C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumManagmentSystem.Core", "ForumManagmentSystem.Core\ForumManagmentSystem.Core.csproj", "{4566B55E-D581-43F5-AAAE-ABF409F4C1C6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{08509ABB-8616-40AF-BBB5-9C58C020E6C9} = {08509ABB-8616-40AF-BBB5-9C58C020E6C9}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForumManagmentSystem.Infrastructure", "ForumManagmentSystem.Infrastructure\ForumManagmentSystem.Infrastructure.csproj", "{08509ABB-8616-40AF-BBB5-9C58C020E6C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumManagmentSystem.Infrastructure", "ForumManagmentSystem.Infrastructure\ForumManagmentSystem.Infrastructure.csproj", "{08509ABB-8616-40AF-BBB5-9C58C020E6C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
