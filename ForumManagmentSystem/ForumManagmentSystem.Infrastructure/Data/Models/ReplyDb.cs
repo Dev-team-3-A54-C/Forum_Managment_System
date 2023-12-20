@@ -12,6 +12,6 @@ namespace ForumManagmentSystem.Infrastructure.Data.Models
         public Guid UserId { get; set; }
         public virtual UserDb User { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime DeletedOn { get; set; }
+        public DateTime? DeletedOn { get; set; }
     }
 }
