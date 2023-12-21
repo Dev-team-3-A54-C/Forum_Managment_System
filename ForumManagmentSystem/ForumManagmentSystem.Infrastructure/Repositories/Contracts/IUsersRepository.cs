@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
 {
-    internal interface IUsersRepository
+    public interface IUsersRepository
     {
         IList<UserDb> GetAll();
         UserDb GetById(int id);
