@@ -12,8 +12,8 @@ namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
         IList<PostDb> GetAll();
         PostDb GetById(int id);
         PostDb GetByName(string name);
-        PostDb Create(PostDb newUser); // Register
-        PostDb Update(int id, PostDb beer);
+        PostDb Create(PostDb newPost); // Register
+        PostDb Update(int id, PostDb post);
         bool Delete(int id);
         bool PostExists(string name);
         int Count();
