@@ -1,8 +1,8 @@
 ﻿using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Infrastructure.Data.Models;
-using ForumManagmentSystem.Web.Exceptions;
-using ForumManagmentSystem.Web.Helpers;
+using ForumManagmentSystem.Core.Exceptions;
+using ForumManagmentSystem.Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumManagmentSystem.Web.Controllers
@@ -30,18 +30,22 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet("{id}")] // api/users/{id}
         public IActionResult GetPost(int id)
         {
+            
             try
             {
+                /*
                 PostDb post = postService.Get(id);
                 PostResponseDTO postResponseDTO = modelMapper.Map(post);
                 // TODO: Resposne DTO           BeerResponseDto beerResponseDto = modelMapper.Map(beer);
-
+                
                 return Ok(post);
+                */
             }
             catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
+            throw new NotImplementedException();
         }
     }
 }

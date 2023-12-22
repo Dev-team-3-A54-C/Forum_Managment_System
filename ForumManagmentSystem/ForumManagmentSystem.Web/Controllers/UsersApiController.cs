@@ -1,8 +1,10 @@
 ﻿using ForumManagmentSystem.Core.DTOs;
 using ForumManagmentSystem.Core.Services;
-using ForumManagmentSystem.Web.Exceptions;
-using ForumManagmentSystem.Web.Helpers;
+using ForumManagmentSystem.Core.Exceptions;
+using ForumManagmentSystem.Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using ForumManagmentSystem.Core.ResponseDTOs;
+using ForumManagmentSystem.Core.QueryParameters;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
@@ -20,15 +22,25 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet("")] // api/users/
-        public IActionResult GetUsers()
+        public IActionResult GetUsers([FromQuery] UserQueryParameters filterParameters)
         {
+            /*
             var user = userService.GetAll();
+
+            List<UserResponseDTO> users = userService
+                .FilterBy(filterParameters);
+
             return Ok(user);
+            */
+
+            throw new NotImplementedException();
         }
 
         [HttpGet("{id}")] // api/users/{id}
-        public IActionResult GetUser(int id)
+        public IActionResult GetUser(string id)
         {
+            throw new NotImplementedException();
+            /*
             try
             {
                 var user = userService.GetUser(id);
@@ -40,6 +52,7 @@ namespace ForumManagmentSystem.Web.Controllers
             {
                 return NotFound(ex.Message);
             }
+            */
         }
 
         // Register
@@ -53,7 +66,7 @@ namespace ForumManagmentSystem.Web.Controllers
         // Update ?
 
         [HttpDelete("{id}")] // api/users/{id}
-        public IActionResult DeleteUser(int id, [FromHeader] string username)
+        public IActionResult DeleteUser(string id, [FromHeader] string username)
         {
             throw new NotImplementedException();
         }

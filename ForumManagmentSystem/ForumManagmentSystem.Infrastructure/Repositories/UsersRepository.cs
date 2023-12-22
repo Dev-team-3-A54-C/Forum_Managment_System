@@ -9,12 +9,13 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 {
     internal class UsersRepository
     {
-        private readonly ApplicationContext context;
-
+        //private readonly ApplicationContext context;
+        /*
         public UsersRepository(ApplicationContext context)
         {
             this.context = context;
         }
+        */
         private IQueryable<UserDb> GetUsers()
         {
             /*

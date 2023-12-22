@@ -1,7 +1,7 @@
 ﻿using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 
-namespace ForumManagmentSystem.Web.Helpers
+namespace ForumManagmentSystem.Core.Helpers
 {
     public class AuthManager
     {
@@ -14,6 +14,7 @@ namespace ForumManagmentSystem.Web.Helpers
 
         public virtual UserDb TryGetUser(int id)
         {
+            /*
             try
             {
                 return usersService.GetUser(id);
@@ -22,6 +23,8 @@ namespace ForumManagmentSystem.Web.Helpers
             {
                 throw new UnauthorizedOperationException("Invalid id!");
             }
+            */
+            throw new NotImplementedException();
         }
     }
 }
