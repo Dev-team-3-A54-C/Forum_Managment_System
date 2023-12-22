@@ -10,7 +10,6 @@ namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
     internal interface IUsersRepository
     {
         IList<UserDb> GetAll();
-        IList<UserDb> FilterBy(int id);
         UserDb GetById(int id);
         UserDb GetByName(string name);
         PostDb Create(PostDb newUser); // Register
