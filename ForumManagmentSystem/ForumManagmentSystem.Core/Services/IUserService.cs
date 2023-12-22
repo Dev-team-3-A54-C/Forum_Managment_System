@@ -16,7 +16,8 @@ namespace ForumManagmentSystem.Core.Services
         UserResponseDTO GetUser(string username);
         UserResponseDTO GetUser(int id);
         UserDb Update(int id, UserDTO user);
-        void Delete(int id);
+        void Delete(int id, UserDb user);
+        IList<UserResponseDTO> FilterBy();
 
     }
 }
