@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ForumManagmentSystem.Core.DTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
-
+using ForumManagmentSystem.Infrastructure.Data.Models;
 
 namespace ForumManagmentSystem.Core.Services
 {
     public interface IPostService
     {
-        List<PostResponseDTO> GetAll();
+        PostDb CreatePost(UserDb user, string title, string content);
+        IList<PostResponseDTO> GetAll();
         PostResponseDTO Get(int id);
         PostResponseDTO Get(string title);
+        PostDb Update(int postId, UserDTO user, PostDTO newData);
+        void Delete(UserDb user, int postId);
     }
 }
