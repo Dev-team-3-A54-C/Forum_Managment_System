@@ -1,9 +1,10 @@
 ﻿using ForumManagmentSystem.Core.DTOs;
 using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Core.Exceptions;
-using ForumManagmentSystem.Web.Helpers;
-using ForumManagmentSystem.Web.QueryParameters;
+using ForumManagmentSystem.Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using ForumManagmentSystem.Core.ResponseDTOs;
+using ForumManagmentSystem.Core.QueryParameters;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
@@ -23,13 +24,23 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet("")] // api/users/
         public IActionResult GetUsers([FromQuery] UserQueryParameters filterParameters)
         {
+            /*
             var user = userService.GetAll();
+
+            List<UserResponseDTO> users = userService
+                .FilterBy(filterParameters);
+
             return Ok(user);
+            */
+
+            throw new NotImplementedException();
         }
 
         [HttpGet("{id}")] // api/users/{id}
         public IActionResult GetUser(string id)
         {
+            throw new NotImplementedException();
+            /*
             try
             {
                 var user = userService.GetUser(id);
@@ -41,6 +52,7 @@ namespace ForumManagmentSystem.Web.Controllers
             {
                 return NotFound(ex.Message);
             }
+            */
         }
 
         // Register
