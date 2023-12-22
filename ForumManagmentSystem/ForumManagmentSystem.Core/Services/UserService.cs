@@ -76,9 +76,14 @@ namespace ForumManagmentSystem.Core.Services
         {
             if(!u.IsAdmin)
             {
-                throw new ArgumentException(); // switch to custom exception
+                throw new (); // switch to custom exception
             }
             usersRepository.Delete(id);
+        }
+
+        public IList<UserDb> FilterBy()
+        {
+            throw new NotImplementedException();
         }
     }
 }
