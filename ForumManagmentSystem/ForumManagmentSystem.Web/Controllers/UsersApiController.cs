@@ -1,7 +1,8 @@
 ﻿using ForumManagmentSystem.Core.DTOs;
 using ForumManagmentSystem.Core.Services;
-using ForumManagmentSystem.Web.Exceptions;
+using ForumManagmentSystem.Core.Exceptions;
 using ForumManagmentSystem.Web.Helpers;
+using ForumManagmentSystem.Web.QueryParameters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumManagmentSystem.Web.Controllers
@@ -20,14 +21,14 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet("")] // api/users/
-        public IActionResult GetUsers()
+        public IActionResult GetUsers([FromQuery] UserQueryParameters filterParameters)
         {
             var user = userService.GetAll();
             return Ok(user);
         }
 
         [HttpGet("{id}")] // api/users/{id}
-        public IActionResult GetUser(int id)
+        public IActionResult GetUser(string id)
         {
             try
             {
@@ -53,7 +54,7 @@ namespace ForumManagmentSystem.Web.Controllers
         // Update ?
 
         [HttpDelete("{id}")] // api/users/{id}
-        public IActionResult DeleteUser(int id, [FromHeader] string username)
+        public IActionResult DeleteUser(string id, [FromHeader] string username)
         {
             throw new NotImplementedException();
         }
