@@ -4,6 +4,7 @@ using ForumManagmentSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumManagmentSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(FMSContext))]
-    partial class FMSContextModelSnapshot : ModelSnapshot
+    [Migration("20231222084015_Changed_ManyToMany_Names")]
+    partial class Changed_ManyToMany_Names
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,9 +168,6 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         .HasColumnType("nvarchar(32)");
 
                     b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsBlocked")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")

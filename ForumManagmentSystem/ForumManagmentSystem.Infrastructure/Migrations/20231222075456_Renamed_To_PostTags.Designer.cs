@@ -4,6 +4,7 @@ using ForumManagmentSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumManagmentSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(FMSContext))]
-    partial class FMSContextModelSnapshot : ModelSnapshot
+    [Migration("20231222075456_Renamed_To_PostTags")]
+    partial class Renamed_To_PostTags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +41,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LikesCount")
+                    b.Property<int>("Likes")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -58,36 +60,6 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostLikesDb", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PostId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PostLikes");
-                });
-
-            modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostTagsDb", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TagId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PostId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("PostTags");
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.ReplyDb", b =>
@@ -168,9 +140,6 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsBlocked")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -204,6 +173,36 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("LikesFromUsers", b =>
+                {
+                    b.Property<Guid>("LikedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LikedPostsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("LikedById", "LikedPostsId");
+
+                    b.HasIndex("LikedPostsId");
+
+                    b.ToTable("LikesFromUsers");
+                });
+
+            modelBuilder.Entity("PostTags", b =>
+                {
+                    b.Property<Guid>("PostsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TagsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PostsId", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("PostTags");
+                });
+
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostDb", b =>
                 {
                     b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.UserDb", "User")
@@ -213,44 +212,6 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostLikesDb", b =>
-                {
-                    b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.PostDb", "Post")
-                        .WithMany("Likes")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.UserDb", "User")
-                        .WithMany("LikedPosts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostTagsDb", b =>
-                {
-                    b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.PostDb", "Post")
-                        .WithMany("Tags")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.TagDb", "Tag")
-                        .WithMany("Posts")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.ReplyDb", b =>
@@ -272,24 +233,43 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostDb", b =>
+            modelBuilder.Entity("LikesFromUsers", b =>
                 {
-                    b.Navigation("Likes");
+                    b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.UserDb", null)
+                        .WithMany()
+                        .HasForeignKey("LikedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Replies");
-
-                    b.Navigation("Tags");
+                    b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.PostDb", null)
+                        .WithMany()
+                        .HasForeignKey("LikedPostsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.TagDb", b =>
+            modelBuilder.Entity("PostTags", b =>
                 {
-                    b.Navigation("Posts");
+                    b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.PostDb", null)
+                        .WithMany()
+                        .HasForeignKey("PostsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.TagDb", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostDb", b =>
+                {
+                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.UserDb", b =>
                 {
-                    b.Navigation("LikedPosts");
-
                     b.Navigation("MyPosts");
 
                     b.Navigation("MyReplies");

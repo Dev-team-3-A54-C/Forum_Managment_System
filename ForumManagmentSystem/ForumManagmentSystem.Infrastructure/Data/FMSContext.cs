@@ -15,6 +15,8 @@ namespace ForumManagmentSystem.Infrastructure.Data
         public DbSet<PostDb> Posts { get; set; }
         public DbSet<ReplyDb> Replies { get; set; }
         public DbSet<TagDb> Tags { get; set; }
+        public DbSet<PostTagsDb> PostTags { get; set; }
+        public DbSet<PostLikesDb> PostLikes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder
             .AddInterceptors(new SoftDeletionInterceptor());
@@ -55,6 +57,8 @@ namespace ForumManagmentSystem.Infrastructure.Data
                 .HasIndex(u => u.Username)
                 .IsUnique();
 
+            builder.Entity<UserDb>().HasQueryFilter(e => e.IsDeleted == false);
+
             //Post entity config
             builder.Entity<PostDb>(e =>
             {
@@ -74,17 +78,13 @@ namespace ForumManagmentSystem.Infrastructure.Data
                 .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
 
-                e.HasMany(p => p.LikedBy)
-                .WithMany(u => u.LikedPosts)
-                .UsingEntity("LikesFromUsers");
-
-                e.HasMany(p => p.Tags)
-                .WithMany(t => t.Posts);
             });
 
             builder.Entity<PostDb>()
                 .HasIndex(p =>p.Title)
                 .IsUnique();
+
+            builder.Entity<PostDb>().HasQueryFilter(e => e.IsDeleted == false);
 
             //Reply entity config
             builder.Entity<ReplyDb>(e =>
@@ -108,6 +108,8 @@ namespace ForumManagmentSystem.Infrastructure.Data
                 .OnDelete(DeleteBehavior.NoAction);
             });
 
+            builder.Entity<ReplyDb>().HasQueryFilter(e => e.IsDeleted == false);
+
             //Tag entity config
             builder.Entity<TagDb>(e =>
             {
@@ -115,7 +117,49 @@ namespace ForumManagmentSystem.Infrastructure.Data
 
                 e.Property(t => t.Name)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(20);                  
+            });
+
+            builder.Entity<TagDb>().HasQueryFilter(e => e.IsDeleted == false);
+
+            //PostTags entity config
+            builder.Entity<PostTagsDb>(e =>
+            {
+                e.HasKey(e => new
+                {
+                    e.PostId,
+                    e.TagId
+                });
+
+                e.HasOne<TagDb>(pt => pt.Tag)
+                .WithMany(t => t.Posts)
+                .HasForeignKey(pt => pt.TagId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                e.HasOne<PostDb>(pt => pt.Post)
+                .WithMany(t => t.Tags)
+                .HasForeignKey(pt => pt.PostId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            //PostLikes entity config
+            builder.Entity<PostLikesDb>(e =>
+            {
+                e.HasKey(e => new
+                {
+                    e.PostId,
+                    e.UserId
+                });
+
+                e.HasOne<PostDb>(pl => pl.Post)
+                .WithMany(p => p.Likes)
+                .HasForeignKey(pl => pl.PostId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                e.HasOne<UserDb>(pl => pl.User)
+                .WithMany(p => p.LikedPosts)
+                .HasForeignKey(pl => pl.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }
