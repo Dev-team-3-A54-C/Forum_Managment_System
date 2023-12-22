@@ -38,7 +38,7 @@ namespace ForumManagmentSystem.Core.Services
             {
                 Title = temp.Title,
                 Content = temp.Content,
-                Likes = temp.Likes,
+                Likes = temp.LikesCount,
                 Username = temp.User.Username
             };
         }
@@ -50,7 +50,7 @@ namespace ForumManagmentSystem.Core.Services
             {
                 Title = temp.Title,
                 Content = temp.Content,
-                Likes = temp.Likes,
+                Likes = temp.LikesCount,
                 Username = temp.User.Username
             };
         }
@@ -62,7 +62,7 @@ namespace ForumManagmentSystem.Core.Services
                 {
                     Title = x.Title,
                     Content = x.Content,
-                    Likes = x.Likes,
+                    Likes = x.LikesCount,
                     Username = x.User.Username
                 })
                 .ToList();
