@@ -72,8 +72,12 @@ namespace ForumManagmentSystem.Core.Services
             UserDb temp = usersRepository.GetByName(user.Username);
             return usersRepository.Update(id, temp);
         }
-        public void Delete(int id)
+        public void Delete(int id, UserDb u)
         {
+            if(!u.IsAdmin)
+            {
+                throw new ArgumentException(); // switch to custom exception
+            }
             usersRepository.Delete(id);
         }
     }
