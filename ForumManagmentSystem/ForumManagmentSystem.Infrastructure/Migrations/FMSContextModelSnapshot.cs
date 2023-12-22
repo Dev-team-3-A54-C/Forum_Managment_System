@@ -57,7 +57,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostLikesDb", b =>
@@ -72,7 +72,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PostLikes");
+                    b.ToTable("PostLikes", (string)null);
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostTagsDb", b =>
@@ -87,7 +87,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("PostTags");
+                    b.ToTable("PostTags", (string)null);
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.ReplyDb", b =>
@@ -119,7 +119,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Replies");
+                    b.ToTable("Replies", (string)null);
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.TagDb", b =>
@@ -141,7 +141,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.UserDb", b =>
@@ -201,7 +201,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostDb", b =>
