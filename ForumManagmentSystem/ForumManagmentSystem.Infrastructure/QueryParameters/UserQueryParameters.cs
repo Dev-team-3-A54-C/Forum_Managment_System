@@ -1,4 +1,4 @@
-﻿namespace ForumManagmentSystem.Core.QueryParameters
+﻿namespace ForumManagmentSystem.Infrastructure.QueryParameters
 {
     public class UserQueryParameters
     {

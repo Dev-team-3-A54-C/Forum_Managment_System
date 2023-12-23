@@ -1,7 +1,7 @@
-﻿using ForumManagmentSystem.Core.QueryParameters;
-using ForumManagmentSystem.Core.RequestDTOs;
+﻿using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Infrastructure.Data.Models;
+using ForumManagmentSystem.Infrastructure.QueryParameters;
 
 namespace ForumManagmentSystem.Core.Services
 {
@@ -13,7 +13,7 @@ namespace ForumManagmentSystem.Core.Services
         UserResponseDTO GetUser(int id);
         UserDb Update(int id, UserDTO user);
         void Delete(int id, UserDb user);
-        IList<UserDb> FilterBy(UserQueryParameters query);
+        IList<UserResponseDTO> FilterBy(UserQueryParameters usersParams);
 
     }
 }

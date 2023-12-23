@@ -4,8 +4,8 @@ using ForumManagmentSystem.Core.Exceptions;
 using ForumManagmentSystem.Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using ForumManagmentSystem.Core.ResponseDTOs;
-using ForumManagmentSystem.Core.QueryParameters;
 using ForumManagmentSystem.Core.RequestDTOs;
+using ForumManagmentSystem.Infrastructure.QueryParameters;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
@@ -27,16 +27,10 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet("")] // api/users/
         public IActionResult GetUsers([FromQuery] UserQueryParameters filterParameters)
         {
-            /*
-            var user = userService.GetAll();
 
-            List<UserResponseDTO> users = userService
-                .FilterBy(filterParameters);
-
+            var user = userService.FilterBy(filterParameters);
             return Ok(user);
-            */
 
-            throw new NotImplementedException();
         }
 
         [HttpGet("{id}")] // api/users/{id}

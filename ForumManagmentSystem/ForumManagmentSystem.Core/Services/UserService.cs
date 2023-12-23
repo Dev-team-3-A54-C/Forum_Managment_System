@@ -1,5 +1,4 @@
 ﻿using ForumManagmentSystem.Core.RequestDTOs;
-using ForumManagmentSystem.Core.QueryParameters;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
@@ -12,6 +11,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using ForumManagmentSystem.Infrastructure.QueryParameters;
 
 namespace ForumManagmentSystem.Core.Services
 {
@@ -82,10 +82,15 @@ namespace ForumManagmentSystem.Core.Services
             usersRepository.Delete(id);
         }
 
-        public IList<UserDb> FilterBy(UserQueryParameters query)
+        public IList<UserResponseDTO> FilterBy(UserQueryParameters usersParams)
         {
-            //return usersRepository.FilterBy(query);
-            throw new NotImplementedException();
+            return usersRepository.FilterBy(usersParams)
+                .Select(x => new UserResponseDTO
+                {
+                    Username = x.Username,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                }).ToList();
         }
     }
 }
