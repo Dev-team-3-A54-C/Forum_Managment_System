@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ForumManagmentSystem.Core.DTOs;
+using ForumManagmentSystem.Core.QueryParameters;
+using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 
@@ -17,7 +19,7 @@ namespace ForumManagmentSystem.Core.Services
         UserResponseDTO GetUser(int id);
         UserDb Update(int id, UserDTO user);
         void Delete(int id, UserDb user);
-        IList<UserDb> FilterBy();
+        IList<UserDb> FilterBy(UserQueryParameters query);
 
     }
 }

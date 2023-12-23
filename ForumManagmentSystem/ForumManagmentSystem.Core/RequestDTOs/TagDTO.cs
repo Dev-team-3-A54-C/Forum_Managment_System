@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace ForumManagmentSystem.Core.DTOs
+namespace ForumManagmentSystem.Core.RequestDTOs
 {
     public class TagDTO
     {

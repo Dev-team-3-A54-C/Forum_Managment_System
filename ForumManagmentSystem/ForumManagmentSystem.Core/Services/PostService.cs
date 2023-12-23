@@ -1,4 +1,4 @@
-﻿using ForumManagmentSystem.Core.DTOs;
+﻿using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
