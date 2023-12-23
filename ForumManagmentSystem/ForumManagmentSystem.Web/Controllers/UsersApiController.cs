@@ -1,13 +1,16 @@
-﻿using ForumManagmentSystem.Core.DTOs;
+﻿
 using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Core.Exceptions;
 using ForumManagmentSystem.Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.QueryParameters;
+using ForumManagmentSystem.Core.RequestDTOs;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
+    [ApiController]
+    [Route("api/forum/users")]
     public class UsersApiController : ControllerBase
     {
         private readonly IUserService userService;

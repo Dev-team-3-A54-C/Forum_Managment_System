@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
+    [ApiController]
+    [Route("api/forum/posts")]
     public class PostsApiController : ControllerBase
     {
         private readonly IPostService postService;
