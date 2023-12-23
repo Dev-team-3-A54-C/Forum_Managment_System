@@ -1,4 +1,8 @@
+using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Infrastructure.Data;
+using ForumManagmentSystem.Infrastructure.Repositories;
+using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
+using ForumManagmentSystem.Web.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +13,9 @@ namespace ForumManagmentSystem.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddDbContext<FMSContext>(options =>
             {
@@ -21,9 +28,7 @@ namespace ForumManagmentSystem.Web
                 options.EnableSensitiveDataLogging();
             });
 
-
             builder.Services.AddControllers();
-
 
             var app = builder.Build();
 

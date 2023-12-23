@@ -1,6 +1,7 @@
 ﻿using ForumManagmentSystem.Infrastructure.Data;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.QueryParameters;
+using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ForumManagmentSystem.Infrastructure.Repositories
 {
-    public class UsersRepository
+    public class UsersRepository : IUsersRepository
     {
         private readonly FMSContext context;
 
@@ -89,6 +90,16 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         }
 
         public bool UserExists(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UserDb Create(UserDb newUser)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UserDb Update(int id, UserDb user)
         {
             throw new NotImplementedException();
         }

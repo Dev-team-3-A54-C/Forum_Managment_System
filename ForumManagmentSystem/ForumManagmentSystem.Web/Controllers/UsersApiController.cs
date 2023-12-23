@@ -24,7 +24,7 @@ namespace ForumManagmentSystem.Web.Controllers
             this.authManager = authManager;
         }
 
-        [HttpGet("")] // api/users/
+        [HttpGet("")] 
         public IActionResult GetUsers([FromQuery] UserQueryParameters filterParameters)
         {
 
