@@ -20,5 +20,6 @@ namespace ForumManagmentSystem.Infrastructure.Data.Models
         public virtual ICollection<PostLikesDb> LikedPosts { get; set; } = new HashSet<PostLikesDb>();
         public virtual ICollection<PostDb> MyPosts { get; set; } = new HashSet<PostDb>();
         public virtual ICollection<ReplyDb> MyReplies { get; set; } = new HashSet<ReplyDb>();
+        public virtual ICollection<ReplyLikesDb> MyLikedReplies { get; set; } = new HashSet<ReplyLikesDb>();
     }
 }
