@@ -48,6 +48,7 @@ namespace ForumManagmentSystem.Infrastructure.Data
                 .IsRequired();
 
                 e.Property(u => u.PhoneNumber)
+                .IsRequired(false)
                 .HasMaxLength(15);
             });
 
