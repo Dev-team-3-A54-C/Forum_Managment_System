@@ -8,7 +8,7 @@ namespace ForumManagmentSystem.Core.ResponseDTOs
         public int Likes { get; set; }
         public string CreatedBy { get; set; }
 
-        public ICollection<ReplyResponseDTO> Replies { get; set; }
+        //public ICollection<ReplyResponseDTO> Replies { get; set; }
 
         //possibly id for user?
     }
