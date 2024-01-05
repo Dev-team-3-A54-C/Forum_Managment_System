@@ -4,9 +4,12 @@ using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Core.Exceptions;
 using ForumManagmentSystem.Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using ForumManagmentSystem.Core.DTOs;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
+    [ApiController]
+    [Route("api/posts")]
     public class PostsApiController : ControllerBase
     {
         private readonly IPostService postService;
@@ -20,15 +23,17 @@ namespace ForumManagmentSystem.Web.Controllers
             this.authManager = authManager;
         }
 
-        [HttpGet("")] // api/users/
+        // Read: Gets all posts
+        [HttpGet("")] // api/posts/
         public IActionResult GetPosts()
         {
             var posts = postService.GetAll();
             return Ok(posts);
         }
 
+        // Read: Gets a single post
         [HttpGet("{id}")] // api/users/{id}
-        public IActionResult GetPost(int id)
+        public IActionResult GetPost(string id, [FromHeader] string username)
         {
             
             try
@@ -45,6 +50,27 @@ namespace ForumManagmentSystem.Web.Controllers
             {
                 return NotFound(ex.Message);
             }
+            throw new NotImplementedException();
+        }
+
+        // Create: Creates a signle post
+        [HttpPost("")]  // api/posts/id
+        public IActionResult CreatePost([FromHeader] string username, [FromBody] PostDTO postDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Update: Updates a single post
+        [HttpPut("id")] // api/posts/id
+        public IActionResult UpdatePost(string id, [FromHeader] string username, [FromBody] PostDTO postDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Delete: Deletes a single post
+        [HttpDelete("id")] // api/posts/id
+        public IActionResult DeletePost(string id, [FromHeader] string username)
+        {
             throw new NotImplementedException();
         }
     }

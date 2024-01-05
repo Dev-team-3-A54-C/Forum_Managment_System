@@ -8,6 +8,8 @@ using ForumManagmentSystem.Core.QueryParameters;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
+    [ApiController]
+    [Route("api/users")]
     public class UsersApiController : ControllerBase
     {
         private readonly IUserService userService;
@@ -21,21 +23,20 @@ namespace ForumManagmentSystem.Web.Controllers
             this.authManager = authManager;
         }
 
+        // READ All: Get all Users or filter by parameters
         [HttpGet("")] // api/users/
         public IActionResult GetUsers([FromQuery] UserQueryParameters filterParameters)
         {
-            /*
+            
             var user = userService.GetAll();
 
             List<UserResponseDTO> users = userService
                 .FilterBy(filterParameters);
 
             return Ok(user);
-            */
-
-            throw new NotImplementedException();
         }
 
+        // READ Id: Get single User
         [HttpGet("{id}")] // api/users/{id}
         public IActionResult GetUser(string id)
         {
@@ -55,20 +56,35 @@ namespace ForumManagmentSystem.Web.Controllers
             */
         }
 
-        // Register
+        // Create (Register): Creates a new user
         [HttpPost("register")] // api/users/register
         public IActionResult CreateNewUser([FromHeader] string username, [FromBody] UserDTO dto)
         {
             throw new NotImplementedException();
         }
 
-        // Login ?
-        // Update ?
-
-        [HttpDelete("{id}")] // api/users/{id}
-        public IActionResult DeleteUser(string id, [FromHeader] string username)
+        // Update: Update their profile
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser(string id, [FromHeader] string username, [FromBody] UserDTO dto)
         {
+            // Users should not be able to change their username once registered
             throw new NotImplementedException();
         }
+
+        /*
+         * Login
+         * Logout
+         * Block
+         * Unblock
+         */
+
+        /*
+            // Delete: Deletes user
+            [HttpDelete("{id}")] // api/users/{id}
+            public IActionResult DeleteUser(string id, [FromHeader] string username)
+            {
+                throw new NotImplementedException();
+            }
+        */
     }
 }
