@@ -15,6 +15,7 @@ namespace ForumManagmentSystem.Infrastructure.Data.Models
         public int LikesCount { get; set; }
         public Guid UserId { get; set; }
         public virtual UserDb User { get; set; }
+        public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
         public virtual ICollection<PostLikesDb> Likes { get; set; } = new HashSet<PostLikesDb>();

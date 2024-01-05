@@ -1,12 +1,7 @@
-﻿using ForumManagmentSystem.Core.DTOs;
+﻿using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ForumManagmentSystem.Core.Services
 {
@@ -39,7 +34,7 @@ namespace ForumManagmentSystem.Core.Services
                 Title = temp.Title,
                 Content = temp.Content,
                 Likes = temp.LikesCount,
-                Username = temp.User.Username
+                CreatedBy = temp.User.Username
             };
         }
 
@@ -51,7 +46,7 @@ namespace ForumManagmentSystem.Core.Services
                 Title = temp.Title,
                 Content = temp.Content,
                 Likes = temp.LikesCount,
-                Username = temp.User.Username
+                CreatedBy = temp.User.Username
             };
         }
 
@@ -63,7 +58,7 @@ namespace ForumManagmentSystem.Core.Services
                     Title = x.Title,
                     Content = x.Content,
                     Likes = x.LikesCount,
-                    Username = x.User.Username
+                    CreatedBy = x.User.Username
                 })
                 .ToList();
             return result.ToList();

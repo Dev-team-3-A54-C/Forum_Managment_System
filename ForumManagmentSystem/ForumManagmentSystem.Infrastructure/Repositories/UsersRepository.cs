@@ -1,4 +1,8 @@
-﻿using ForumManagmentSystem.Infrastructure.Data.Models;
+﻿using ForumManagmentSystem.Infrastructure.Data;
+using ForumManagmentSystem.Infrastructure.Data.Models;
+using ForumManagmentSystem.Infrastructure.QueryParameters;
+using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace ForumManagmentSystem.Infrastructure.Repositories
 {
-    internal class UsersRepository
+    public class UsersRepository : IUsersRepository
     {
-        //private readonly ApplicationContext context;
-        /*
-        public UsersRepository(ApplicationContext context)
+        private readonly FMSContext context;
+
+        public UsersRepository(FMSContext context)
         {
             this.context = context;
         }
-        */
+
         private IQueryable<UserDb> GetUsers()
         {
             /*
@@ -31,23 +35,28 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
         public IList<UserDb> GetAll()
         {
-            throw new NotImplementedException();
-            // return users.ToList();;
+            return context.Users.ToList();
         }
-        public IList<UserDb> FilterBy(int id)
+        public IList<UserDb> FilterBy(UserQueryParameters usersParams)
         {
-            /*
-            var result = GetUsers();
-            result = FilterByName(result, filterParameters.Name);
-            result = FilterByStyle(result, filterParameters.Style);
-            result = FilterByMinAbv(result, filterParameters.MinAbv);
-            result = FilterByMaxAbv(result, filterParameters.MaxAbv);
-            result = SortBy(result, filterParameters.SortBy);
-            result = Order(result, filterParameters.SortOrder);
+            IQueryable<UserDb> result = context.Users;
+
+            if (!string.IsNullOrEmpty(usersParams.Username))
+            {
+                result = result.Where(user => user.Username.Contains(usersParams.Username));
+            }
+
+            if (!string.IsNullOrEmpty(usersParams.FirstName))
+            {
+                result = result.Where(user => user.FirstName == usersParams.FirstName);
+            }
+
+            if (!string.IsNullOrEmpty(usersParams.Email))
+            {
+                result = result.Where(user => user.Email == usersParams.Email);
+            }
 
             return result.ToList();
-            */
-            throw new NotImplementedException();
         }
 
         public int Count()
@@ -81,6 +90,16 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         }
 
         public bool UserExists(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UserDb Create(UserDb newUser)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UserDb Update(int id, UserDb user)
         {
             throw new NotImplementedException();
         }

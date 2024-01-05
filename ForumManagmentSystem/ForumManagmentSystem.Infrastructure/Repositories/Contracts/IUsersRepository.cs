@@ -1,4 +1,5 @@
 ﻿using ForumManagmentSystem.Infrastructure.Data.Models;
+using ForumManagmentSystem.Infrastructure.QueryParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
     public interface IUsersRepository
     {
         IList<UserDb> GetAll();
-        IList<UserDb> FilterBy(int id);
+        IList<UserDb> FilterBy(UserQueryParameters usersParams);
         UserDb GetById(int id);
         UserDb GetByName(string name);
         UserDb Create(UserDb newUser); // Register

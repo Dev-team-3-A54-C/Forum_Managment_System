@@ -1,4 +1,4 @@
-﻿using ForumManagmentSystem.Core.DTOs;
+﻿using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 
 namespace ForumManagmentSystem.Core.Helpers

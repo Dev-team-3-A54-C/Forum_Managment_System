@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ForumManagmentSystem.Core.DTOs;
+using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 

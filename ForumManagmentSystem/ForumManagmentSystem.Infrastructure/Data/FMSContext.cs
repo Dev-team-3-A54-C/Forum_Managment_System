@@ -17,6 +17,7 @@ namespace ForumManagmentSystem.Infrastructure.Data
         public DbSet<TagDb> Tags { get; set; }
         public DbSet<PostTagsDb> PostTags { get; set; }
         public DbSet<PostLikesDb> PostLikes { get; set; }
+        public DbSet<ReplyLikesDb> ReplyLikes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder
             .AddInterceptors(new SoftDeletionInterceptor());
@@ -47,6 +48,7 @@ namespace ForumManagmentSystem.Infrastructure.Data
                 .IsRequired();
 
                 e.Property(u => u.PhoneNumber)
+                .IsRequired(false)
                 .HasMaxLength(15);
             });
 
@@ -159,6 +161,26 @@ namespace ForumManagmentSystem.Infrastructure.Data
                 e.HasOne<UserDb>(pl => pl.User)
                 .WithMany(p => p.LikedPosts)
                 .HasForeignKey(pl => pl.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            //ReplyLikes entity config
+            builder.Entity<ReplyLikesDb>(e =>
+            {
+                e.HasKey(e => new
+                {
+                    e.ReplyId,
+                    e.UserId
+                });
+
+                e.HasOne(rl => rl.Reply)
+                .WithMany(r => r.Likes)
+                .HasForeignKey(rl => rl.ReplyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                e.HasOne(rl => rl.User)
+                .WithMany(u => u.MyLikedReplies)
+                .HasForeignKey(rl => rl.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
         }
