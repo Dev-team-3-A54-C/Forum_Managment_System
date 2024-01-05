@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ForumManagmentSystem.Infrastructure.Repositories
 {
-    internal class ReplyRepository
+    public class ReplyRepository
     {
     }
 }
