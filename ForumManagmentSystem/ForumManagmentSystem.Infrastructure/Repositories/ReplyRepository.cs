@@ -1,48 +1,131 @@
-﻿using ForumManagmentSystem.Infrastructure.Data.Models;
+﻿using ForumManagmentSystem.Infrastructure.Data;
+using ForumManagmentSystem.Infrastructure.Data.Models;
+using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+
 
 namespace ForumManagmentSystem.Infrastructure.Repositories
 {
     public class ReplyRepository : IReplyRepository
     {
-        public Task<ReplyDb> Create(ReplyDb reply)
+        private readonly FMSContext context;
+
+        public ReplyRepository(FMSContext context)
         {
-            throw new NotImplementedException();
+            this.context = context;
         }
 
-        public Task<ReplyDb> Delete(Guid id)
+        public async Task<IEnumerable<ReplyDb>> GetAll()
         {
-            throw new NotImplementedException();
+            var replies = await context.Replies.ToListAsync();
+
+            return replies;
         }
 
-        public Task<IEnumerable<ReplyDb>> GetAll()
+        public async Task<IEnumerable<ReplyLikesDb>> GetLikedRepliesFromUser(string username)
         {
-            throw new NotImplementedException();
+            var userLikedReplies = await context.ReplyLikes
+                .Include(rl => rl.Reply)
+                .Include(rl => rl.User)
+                .Where(r => r.User.Username == username)
+                .ToListAsync();
+
+            return userLikedReplies;
         }
 
-        public Task<IEnumerable<ReplyDb>> GetLikedRepliesFromUser(string username)
+        public async Task<IEnumerable<ReplyDb>> GetRepliesFromUser(string username)
         {
-            throw new NotImplementedException();
+            var userReplies = await context.Replies
+                .Include(r => r.User)
+                .Where(r => r.User.Username == username)
+                .ToListAsync();
+
+            return userReplies;
+        }
+        public async Task<IEnumerable<ReplyDb>> GetRepliesFromPost(string postTitle)
+        {
+            var postReplies = await context.Replies
+                .Include(r => r.Post)
+                .Where(r => r.Post.Title == postTitle)
+                .ToListAsync();
+
+            return postReplies;
         }
 
-        public Task<IEnumerable<ReplyDb>> GetRepliesFromUser(string username)
+        public async Task<ReplyDb> Create(ReplyDb reply)
         {
-            throw new NotImplementedException();
+            await context.Replies.AddAsync(reply);
+            return reply;
+        }
+        public async Task<ReplyDb> Update(Guid id, ReplyDb newReply)
+        {
+            var replyForUpdate = await context
+                .Replies
+                .FirstOrDefaultAsync(r => r.Id == id) ?? throw new EntityNotFoundException($"Reply with Id: {id} does not exist.");  
+
+            replyForUpdate.Content = newReply.Content;
+
+            await context.SaveChangesAsync();
+
+            return replyForUpdate;
+        }
+        public async Task<ReplyDb> AddLikes(ReplyLikesDb replyLike)
+        {
+            await context.ReplyLikes.AddAsync(replyLike);
+
+            var reply = await context
+                .Replies
+                .FirstOrDefaultAsync(r => r.Id == replyLike.ReplyId) ?? throw new EntityNotFoundException($"Reply with Id: {replyLike.ReplyId} does not exist.");
+
+            reply.LikesCount++;
+
+            var user = await context
+                .Users
+                .FirstOrDefaultAsync(u => u.Id == replyLike.UserId) ?? throw new EntityNotFoundException($"User with Id: {replyLike.UserId} does not exist.");
+
+            user.MyLikedReplies.Add(replyLike);
+
+            await context.SaveChangesAsync();
+
+            return reply;
+        }
+        public async Task<ReplyDb> RemoveLike(ReplyLikesDb replyLike)
+        {
+            var replyLikeForDeletion = await context.ReplyLikes.FirstOrDefaultAsync(rl => rl.UserId == replyLike.UserId && rl.ReplyId == replyLike.ReplyId) ?? throw new EntityNotFoundException($"There is no like from user {replyLike.UserId} on reply {replyLike.ReplyId}.");
+
+            var reply = await context
+                .Replies
+                .FirstOrDefaultAsync(r => r.Id == replyLike.ReplyId) ?? throw new EntityNotFoundException($"Reply with Id: {replyLike.ReplyId} does not exist.");
+
+            reply.LikesCount--;
+
+            var user = await context
+                .Users
+                .FirstOrDefaultAsync(u => u.Id == replyLike.UserId) ?? throw new EntityNotFoundException($"User with Id: {replyLike.UserId} does not exist.");
+
+
+            user.MyLikedReplies.Remove(replyLikeForDeletion);
+
+            context.ReplyLikes.Remove(replyLikeForDeletion);
+
+            await context.SaveChangesAsync();
+
+            return reply;
         }
 
-        public Task<IEnumerable<ReplyDb>> PostReplies(string postTitle)
+        public async Task<ReplyDb> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var replyForDeletion = await context.Replies.FirstOrDefaultAsync(r => r.Id == id);
+
+            context.Replies.Remove(replyForDeletion);
+
+            await context.SaveChangesAsync();
+
+            return replyForDeletion;
+
         }
 
-        public Task<ReplyDb> Update(Guid id, ReplyDb newReply)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

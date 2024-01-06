@@ -47,7 +47,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
             await context.SaveChangesAsync();
 
-            return newTag;
+            return tagToUpdate;
         }
         public async Task<TagDb> Delete(string name)
         {
