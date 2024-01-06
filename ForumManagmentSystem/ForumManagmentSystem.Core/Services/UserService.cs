@@ -58,7 +58,7 @@ namespace ForumManagmentSystem.Core.Services
             return response;
         }
 
-        public UserResponseDTO GetUser(int id)
+        public UserResponseDTO GetUser(Guid id)
         {
             UserResponseDTO response = new UserResponseDTO();
             UserDb user = usersRepository.GetById(id);
@@ -68,12 +68,12 @@ namespace ForumManagmentSystem.Core.Services
             return response;
         }
 
-        public UserDb Update(int id, UserDTO user)
+        public UserDb Update(Guid id, UserDTO user)
         {
             UserDb temp = usersRepository.GetByName(user.Username);
             return usersRepository.Update(id, temp);
         }
-        public void Delete(int id, UserDb u)
+        public void Delete(Guid id, UserDb u)
         {
             if(!u.IsAdmin)
             {
@@ -84,6 +84,7 @@ namespace ForumManagmentSystem.Core.Services
 
         public IList<UserResponseDTO> FilterBy(UserQueryParameters usersParams)
         {
+            //TODO use automapper
             return usersRepository.FilterBy(usersParams)
                 .Select(x => new UserResponseDTO
                 {

@@ -12,11 +12,11 @@ namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
     {
         IList<UserDb> GetAll();
         IList<UserDb> FilterBy(UserQueryParameters usersParams);
-        UserDb GetById(int id);
+        UserDb GetById(Guid id);
         UserDb GetByName(string name);
         UserDb Create(UserDb newUser); // Register
-        UserDb Update(int id, UserDb user);
-        bool Delete(int id);
+        UserDb Update(Guid id, UserDb user);
+        bool Delete(Guid id);
         bool UserExists(string name);
         int Count();
 

@@ -1,3 +1,4 @@
+using ForumManagmentSystem.Core.Helpers;
 using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Infrastructure.Data;
 using ForumManagmentSystem.Infrastructure.Repositories;
@@ -5,6 +6,7 @@ using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 using ForumManagmentSystem.Web.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ForumManagmentSystem.Web
 {
@@ -16,6 +18,8 @@ namespace ForumManagmentSystem.Web
 
             builder.Services.AddScoped<IUsersRepository, UsersRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IModelMapper, ModelMapper>();
+            builder.Services.AddScoped<AuthManager>();
 
             builder.Services.AddDbContext<FMSContext>(options =>
             {
@@ -32,7 +36,7 @@ namespace ForumManagmentSystem.Web
 
             var app = builder.Build();
 
-            //app.MapConnections();
+            app.MapControllers();
 
             app.Run();
         }

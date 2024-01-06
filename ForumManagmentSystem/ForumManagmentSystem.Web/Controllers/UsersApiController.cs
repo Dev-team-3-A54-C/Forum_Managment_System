@@ -1,6 +1,6 @@
 ﻿
 using ForumManagmentSystem.Core.Services;
-using ForumManagmentSystem.Core.Exceptions;
+using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using ForumManagmentSystem.Core.ResponseDTOs;
@@ -28,14 +28,10 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet("")] // api/users/
         public IActionResult GetUsers([FromQuery] UserQueryParameters filterParameters)
         {
-            
-            var user = userService.GetAll();
-
-            List<UserResponseDTO> users = userService
+            IList<UserResponseDTO> users = userService
                 .FilterBy(filterParameters);
 
-            var user = userService.FilterBy(filterParameters);
-            return Ok(user);
+            return Ok(users);
         }
 
         // READ Id: Get single User

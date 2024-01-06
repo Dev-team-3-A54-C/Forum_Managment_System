@@ -1,10 +1,11 @@
 ﻿using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Infrastructure.Data.Models;
-using ForumManagmentSystem.Core.Exceptions;
+using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using ForumManagmentSystem.Core.DTOs;
+using ForumManagmentSystem.Core.ResponseDTOs;
+using ForumManagmentSystem.Core.RequestDTOs;
 
 namespace ForumManagmentSystem.Web.Controllers
 {

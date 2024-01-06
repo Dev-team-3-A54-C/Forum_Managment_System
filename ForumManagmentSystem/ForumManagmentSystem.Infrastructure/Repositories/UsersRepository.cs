@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ForumManagmentSystem.Infrastructure.Exceptions;
 
 namespace ForumManagmentSystem.Infrastructure.Repositories
 {
@@ -18,19 +19,6 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         public UsersRepository(FMSContext context)
         {
             this.context = context;
-        }
-
-        private IQueryable<UserDb> GetUsers()
-        {
-            /*
-            return context.Beers
-                    .Include(beer => beer.Style)
-                    .Include(beer => beer.CreatedBy)
-                    .Include(beer => beer.Ratings)
-                        .ThenInclude(rating => rating.User);
-            */
-
-            throw new NotImplementedException();
         }
 
         public IList<UserDb> GetAll()
@@ -58,50 +46,51 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
             return result.ToList();
         }
-
-        public int Count()
+        public UserDb GetById(Guid id)
         {
-            throw new NotImplementedException();
-        }
-
-        public PostDb Create(PostDb newUser)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UserDb GetById(int id)
-        {
-            throw new NotImplementedException();
+            return context.Users.FirstOrDefault(u => u.Id == id) ??
+                throw new EntityNotFoundException($"User with id:{id} not found.");
         }
 
         public UserDb GetByName(string name)
         {
-            throw new NotImplementedException();
+            return context.Users.FirstOrDefault(u => u.Username == name) ??
+                throw new EntityNotFoundException($"User with username:{name} is not found.");
         }
-
-        public PostDb Update(int id, PostDb beer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UserExists(string name)
-        {
-            throw new NotImplementedException();
-        }
-
         public UserDb Create(UserDb newUser)
         {
-            throw new NotImplementedException();
+            context.Users.Add(newUser);
+            return newUser;
         }
 
-        public UserDb Update(int id, UserDb user)
+        public UserDb Update(Guid id, UserDb user)
         {
-            throw new NotImplementedException();
+            UserDb userToUpdate = context.Users.FirstOrDefault(u => u.Id == id) ??
+                throw new EntityNotFoundException($"User to update with id:{id} not found.");
+            //TODO: use automapper to update the data of this user with the data of "user" user
+            return userToUpdate;
         }
+        public bool Delete(Guid id)
+        {
+            try
+            {
+                UserDb toDelete = GetById(id);
+                toDelete.IsDeleted = true;
+                return true;
+            }
+            catch(EntityNotFoundException)
+            {
+                return false;
+            }
+            //TODO see if thats the right method to delete a user
+        }
+        public bool UserExists(string name)
+        {
+            return context.Users.Any(u => u.Username == name);
+        }
+        public int Count()
+        {
+            return context.Users.Count();
+        }  
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ForumManagmentSystem.Core.Exceptions
+﻿namespace ForumManagmentSystem.Infrastructure.Exceptions
 {
     public class UnauthorizedOperationException : ApplicationException
     {
