@@ -1,7 +1,9 @@
 ﻿using ForumManagmentSystem.Infrastructure.Data;
 using ForumManagmentSystem.Infrastructure.Data.Models;
+using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 
 namespace ForumManagmentSystem.Infrastructure.Repositories
@@ -23,7 +25,9 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
         public async Task<TagDb> GetByName(string name)
         {
-            var tag = await context.Tags.FirstOrDefaultAsync(x => x.Name == name);
+            var tag = await context
+                .Tags
+                .FirstOrDefaultAsync(x => x.Name == name) ?? throw new EntityNotFoundException($"Tag with name: {name} does not exist.");
 
             return tag;
         }
@@ -35,7 +39,9 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
         public async Task<TagDb> Update(TagDb newTag)
         {
-            var tagToUpdate = await context.Tags.FirstOrDefaultAsync(t => t.Id == newTag.Id);
+            var tagToUpdate = await context
+            .Tags
+                .FirstOrDefaultAsync(t => t.Id == newTag.Id) ?? throw new EntityNotFoundException($"Tag with Id: {newTag.Id} does not exist.");
 
             tagToUpdate.Name = newTag.Name;
 
@@ -45,7 +51,9 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         }
         public async Task<TagDb> Delete(string name)
         {
-            var tagForDeletion = await context.Tags.FirstOrDefaultAsync(t => t.Name == name);
+            var tagForDeletion = await context
+                .Tags
+                .FirstOrDefaultAsync(t => t.Name == name) ?? throw new EntityNotFoundException($"Tag with name: {name} does not exist.");
 
             context.Tags.Remove(tagForDeletion);
 
