@@ -48,7 +48,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         }
         public UserDb GetById(Guid id)
         {
-            return context.Users.FirstOrDefault(u => u.Id == id) ??
+            return context.Users.Include(u => u.LikedPosts).FirstOrDefault(u => u.Id == id) ??
                 throw new EntityNotFoundException($"User with id:{id} not found.");
         }
 
@@ -67,22 +67,22 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         {
             UserDb userToUpdate = context.Users.FirstOrDefault(u => u.Id == id) ??
                 throw new EntityNotFoundException($"User to update with id:{id} not found.");
-            //TODO: use automapper to update the data of this user with the data of "user" user
+            userToUpdate.FirstName = user.FirstName;
+            userToUpdate.LastName = user.LastName;
+            userToUpdate.Email = user.Email;
+            userToUpdate.Username = user.Username;
+
             return userToUpdate;
         }
         public bool Delete(Guid id)
         {
-            try
+            UserDb toDelete = GetById(id);
+            context.Remove(toDelete);
+            if(toDelete.IsDeleted)
             {
-                UserDb toDelete = GetById(id);
-                toDelete.IsDeleted = true;
                 return true;
             }
-            catch(EntityNotFoundException)
-            {
-                return false;
-            }
-            //TODO see if thats the right method to delete a user
+            return false;
         }
         public bool UserExists(string name)
         {

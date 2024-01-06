@@ -12,32 +12,39 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using ForumManagmentSystem.Infrastructure.QueryParameters;
+using ForumManagmentSystem.Infrastructure.Exceptions;
+using AutoMapper;
 
 namespace ForumManagmentSystem.Core.Services
 {
     public class UserService : IUserService
     {
         private readonly IUsersRepository usersRepository;
-        public UserService(IUsersRepository uRep)
+        private readonly IMapper autoMapper;
+        public UserService(IUsersRepository uRep, IMapper mapper)
         {
             usersRepository = uRep;
+            autoMapper = mapper;
         }
 
         public UserDb CreateUser(string username, string password, UserDTO user)
         {
-            UserDb userDb = new UserDb();
-            userDb.Username = username;
-            userDb.Password = password;
-            userDb.Email = user.Email;
-            userDb.CreatedOn = DateTime.Now;
-            userDb.FirstName = user.FirstName;
-            userDb.LastName = user.LastName;
+            //TODO: check
+            
+            //UserDb userDb = new UserDb();
+            //userDb.Username = username;
+            //userDb.Password = password;
+            //userDb.Email = user.Email;
+            //userDb.CreatedOn = DateTime.Now;
+            //userDb.FirstName = user.FirstName;
+            //userDb.LastName = user.LastName;
 
-            return usersRepository.Create(userDb);
+            return usersRepository.Create(autoMapper.Map<UserDb>(user));
         }
 
         public IList<UserResponseDTO> GetAll()
         {
+            //TODO automapper
             return usersRepository.GetAll()
                 .Select(x => new UserResponseDTO()
                 {
@@ -50,6 +57,7 @@ namespace ForumManagmentSystem.Core.Services
 
         public UserResponseDTO GetUser(string username)
         {
+            //TODO Automapper
             UserResponseDTO response = new UserResponseDTO();
             UserDb user = usersRepository.GetByName(username);
             response.Username = user.Username;
@@ -60,6 +68,7 @@ namespace ForumManagmentSystem.Core.Services
 
         public UserResponseDTO GetUser(Guid id)
         {
+            //TODO: auto mapper
             UserResponseDTO response = new UserResponseDTO();
             UserDb user = usersRepository.GetById(id);
             response.Username = user.Username;
@@ -77,7 +86,7 @@ namespace ForumManagmentSystem.Core.Services
         {
             if(!u.IsAdmin)
             {
-                throw new (); // switch to custom exception
+                throw new UnauthorizedOperationException($"User is not authorized.");
             }
             usersRepository.Delete(id);
         }
