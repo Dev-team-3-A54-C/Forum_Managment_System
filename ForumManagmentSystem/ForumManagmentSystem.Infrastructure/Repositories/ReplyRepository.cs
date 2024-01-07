@@ -70,7 +70,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
             return replyForUpdate;
         }
-        public async Task<ReplyDb> AddLikes(ReplyLikesDb replyLike)
+        public async Task<ReplyDb> AddLike(ReplyLikesDb replyLike)
         {
             await context.ReplyLikes.AddAsync(replyLike);
 
