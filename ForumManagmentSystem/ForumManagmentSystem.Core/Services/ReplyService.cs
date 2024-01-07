@@ -1,26 +1,21 @@
-﻿using ForumManagmentSystem.Core.RequestDTOs;
+﻿using AutoMapper;
+using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.Services.Contracts;
+using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 
 namespace ForumManagmentSystem.Core.Services
 {
     public class ReplyService : IReplyService
     {
-        public ReplyResponseDTO AddLike(ReplyDTO reply)
-        {
-            throw new NotImplementedException();
-        }
+        private readonly IReplyRepository replyRepository;
+        private readonly IMapper mapper;
 
-        public ReplyResponseDTO Create(ReplyDTO reply)
+        public ReplyService(IReplyRepository replyRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            this.replyRepository = replyRepository;
+            this.mapper = mapper;
         }
-
-        public ReplyResponseDTO Delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<ReplyResponseDTO> GetAll()
         {
             throw new NotImplementedException();
@@ -40,8 +35,20 @@ namespace ForumManagmentSystem.Core.Services
         {
             throw new NotImplementedException();
         }
-
+        public ReplyResponseDTO Create(ReplyDTO reply)
+        {
+            throw new NotImplementedException();
+        }
+        public ReplyResponseDTO AddLike(ReplyDTO reply)
+        {
+            throw new NotImplementedException();
+        }
         public ReplyResponseDTO Update(Guid id, ReplyDTO reply)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReplyResponseDTO Delete(Guid id)
         {
             throw new NotImplementedException();
         }
