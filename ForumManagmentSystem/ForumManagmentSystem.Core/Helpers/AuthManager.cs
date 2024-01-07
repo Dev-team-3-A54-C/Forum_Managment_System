@@ -1,4 +1,4 @@
-﻿using ForumManagmentSystem.Core.Services;
+﻿using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 
 namespace ForumManagmentSystem.Core.Helpers

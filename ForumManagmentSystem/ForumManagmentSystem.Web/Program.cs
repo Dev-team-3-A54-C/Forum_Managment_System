@@ -1,5 +1,6 @@
 using ForumManagmentSystem.Core.Helpers;
 using ForumManagmentSystem.Core.Services;
+using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Data;
 using ForumManagmentSystem.Infrastructure.Repositories;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
