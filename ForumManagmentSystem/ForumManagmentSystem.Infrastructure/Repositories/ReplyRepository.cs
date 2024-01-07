@@ -3,7 +3,6 @@ using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 
 namespace ForumManagmentSystem.Infrastructure.Repositories
