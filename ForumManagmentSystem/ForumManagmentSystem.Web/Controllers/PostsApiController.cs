@@ -36,22 +36,15 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet("{id}")] // api/users/{id}
         public IActionResult GetPost(string id, [FromHeader] string username)
         {
-            
             try
             {
-                /*
-                PostDb post = postService.Get(id);
-                PostResponseDTO postResponseDTO = modelMapper.Map(post);
-                // TODO: Resposne DTO           BeerResponseDto beerResponseDto = modelMapper.Map(beer);
-                
+                PostResponseDTO post = postService.Get(id);
                 return Ok(post);
-                */
             }
             catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
-            throw new NotImplementedException();
         }
 
         // Create: Creates a signle post

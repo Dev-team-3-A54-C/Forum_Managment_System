@@ -46,16 +46,13 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         }
         public bool Delete(Guid id)
         {
-            try
+            PostDb toDelete = GetById(id);
+            _context.Remove(toDelete);
+            if (toDelete.IsDeleted)
             {
-                PostDb toDelete = GetById(id);
-                toDelete.IsDeleted = true;
                 return true;
             }
-            catch(EntityNotFoundException e)
-            {
-                return false;
-            }
+            return false;
         }
         public bool PostExists(string name)
         {
