@@ -8,7 +8,7 @@ namespace ForumManagmentSystem.Core.Services.Contracts
         IEnumerable<TagResponseDTO> GetAll();
         TagResponseDTO GetByName(string name);
         TagResponseDTO Create(TagDTO tag);
-        TagResponseDTO Update(TagDTO tag);
+        TagResponseDTO Update(Guid id, TagDTO tag);
         TagResponseDTO DeleteByName(string name);
     }
 }
