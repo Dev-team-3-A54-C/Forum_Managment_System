@@ -7,7 +7,7 @@ using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 
-namespace ForumManagmentSystem.Core.Services
+namespace ForumManagmentSystem.Core.Services.Contracts
 {
     public interface IPostService
     {

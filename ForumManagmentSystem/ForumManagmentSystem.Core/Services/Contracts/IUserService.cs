@@ -3,7 +3,7 @@ using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.QueryParameters;
 
-namespace ForumManagmentSystem.Core.Services
+namespace ForumManagmentSystem.Core.Services.Contracts
 {
     public interface IUserService
     {

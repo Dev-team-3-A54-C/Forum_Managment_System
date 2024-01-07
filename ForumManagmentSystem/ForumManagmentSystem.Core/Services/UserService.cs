@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using ForumManagmentSystem.Infrastructure.QueryParameters;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using AutoMapper;
+using ForumManagmentSystem.Core.Services.Contracts;
 
 namespace ForumManagmentSystem.Core.Services
 {

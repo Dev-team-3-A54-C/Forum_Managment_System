@@ -3,7 +3,6 @@ using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 
 namespace ForumManagmentSystem.Infrastructure.Repositories
@@ -31,6 +30,14 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
             return tag;
         }
+
+        public async Task<bool> DoesNameExist(string name)
+        {
+            return await context
+                .Tags
+                .FirstOrDefaultAsync(x => x.Name == name) != null;
+        }
+
         public async Task<TagDb> Create(TagDb newTag)
         {
             await context.Tags.AddAsync(newTag);
