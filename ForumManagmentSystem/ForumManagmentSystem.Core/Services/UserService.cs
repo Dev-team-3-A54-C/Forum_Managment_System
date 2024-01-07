@@ -28,10 +28,8 @@ namespace ForumManagmentSystem.Core.Services
             autoMapper = mapper;
         }
 
-        public UserDb CreateUser(string username, string password, UserDTO user)
+        public UserResponseDTO CreateUser(string username, UserDTO user)
         {
-            //TODO: check
-            
             //UserDb userDb = new UserDb();
             //userDb.Username = username;
             //userDb.Password = password;
@@ -40,7 +38,9 @@ namespace ForumManagmentSystem.Core.Services
             //userDb.FirstName = user.FirstName;
             //userDb.LastName = user.LastName;
 
-            return usersRepository.Create(autoMapper.Map<UserDb>(user));
+            //TODO: map to UserResponseDTO
+            UserDb userDb = autoMapper.Map<UserDb>(user); // temporary stuff
+            return autoMapper.Map<UserResponseDTO>(usersRepository.Create(userDb));
         }
 
         public IList<UserResponseDTO> GetAll()
@@ -78,14 +78,16 @@ namespace ForumManagmentSystem.Core.Services
             return response;
         }
 
-        public UserDb Update(Guid id, UserDTO user)
+        public UserResponseDTO Update(Guid id, UserDTO user)
         {
             UserDb temp = usersRepository.GetByName(user.Username);
-            return usersRepository.Update(id, temp);
+            //TODO: map to UserResponseDTO
+            return autoMapper.Map<UserResponseDTO>(usersRepository.Update(id, temp)); //temporary
         }
-        public void Delete(Guid id, UserDb u)
+        public void Delete(Guid id, string username)
         {
-            if(!u.IsAdmin)
+            UserDb user = usersRepository.GetByName(username);
+            if(!user.IsAdmin)
             {
                 throw new UnauthorizedOperationException($"User is not authorized.");
             }

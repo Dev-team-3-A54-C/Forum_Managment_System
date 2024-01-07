@@ -16,18 +16,21 @@ namespace ForumManagmentSystem.Core.Services
             usersRepository = uRepo;
         }
 
-        public PostDb CreatePost(UserDb user, string title, string content)
+        public PostResponseDTO CreatePost(string username, string title, string content)
         {
+            UserDb user = usersRepository.GetByName(username);
             PostDb newPost = new PostDb();
             newPost.Title = title;
             newPost.Content = content;
             newPost.User = user;
+            //TODO: Check if the name is unique
+            //TODO: Use automapper
             return postsRepository.Create(newPost);
         }
 
 
 
-        public PostResponseDTO Get(int id)
+        public PostResponseDTO Get(Guid id)
         {
             PostDb temp = postsRepository.GetById(id);
             return new PostResponseDTO()
@@ -41,7 +44,7 @@ namespace ForumManagmentSystem.Core.Services
 
         public PostResponseDTO Get(string title)
         {
-            PostDb temp = postsRepository.GetByName(title);
+            PostDb temp = postsRepository.GetByTitle(title);
             return new PostResponseDTO()
             {
                 Title = temp.Title,
@@ -65,15 +68,37 @@ namespace ForumManagmentSystem.Core.Services
             return result.ToList();
         }
 
-        public PostDb Update(int postId, UserDTO user, PostDTO newData)
+        public PostResponseDTO Update(Guid postId, string username, PostDTO newData)
         {
-            UserDb u = usersRepository.GetByName(user.Username);
-            PostDb p = postsRepository.GetByName(newData.Title);
+            UserDb u = usersRepository.GetByName(username);
+            PostDb p = postsRepository.GetByTitle(newData.Title);
+            //TODO: map to postResponseDTO
             return postsRepository.Update(postId, p);
         }
-        public void Delete(UserDb user, int postId)
+        public void Delete(string username, Guid postId)
         {
-            postsRepository.Delete(postId); // should delete post from user's posts and from all posts
+            UserDb user = usersRepository.GetByName(username);
+            PostDb post = postsRepository.GetById(postId);
+            if(!user.IsAdmin && !user.MyPosts.Contains(post))
+            {
+                throw new UnauthorizedAccessException($"User {user.Username} is not authorized for this action.");
+            }
+            postsRepository.Delete(postId);
+            user.MyPosts.Remove(post);
+            // should delete post from user's posts and from all posts
+        }
+        public bool AddLike(Guid userID, Guid postID)
+        {
+            UserDb u = usersRepository.GetById(userID);
+            PostDb p = postsRepository.GetById(userID);
+            PostLikesDb postLikesDb = new PostLikesDb();
+            postLikesDb.UserId = userID;
+            postLikesDb.PostId = postID;
+            if(u.LikedPosts.Contains(postLikesDb))
+            {
+                return postsRepository.RemoveLike(postLikesDb);
+            }
+            return postsRepository.AddLike(postLikesDb);
         }
     }
 }

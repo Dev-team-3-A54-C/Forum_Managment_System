@@ -7,12 +7,12 @@ namespace ForumManagmentSystem.Core.Services.Contracts
 {
     public interface IUserService
     {
-        UserDb CreateUser(string username, string password, UserDTO user);
+        UserResponseDTO CreateUser(string username, UserDTO user);
         IList<UserResponseDTO> GetAll();
         UserResponseDTO GetUser(string username);
         UserResponseDTO GetUser(Guid id);
-        UserDb Update(Guid id, UserDTO user);
-        void Delete(Guid id, UserDb user);
+        UserResponseDTO Update(Guid id, UserDTO user);
+        void Delete(Guid id, string username);
         IList<UserResponseDTO> FilterBy(UserQueryParameters usersParams);
 
     }
