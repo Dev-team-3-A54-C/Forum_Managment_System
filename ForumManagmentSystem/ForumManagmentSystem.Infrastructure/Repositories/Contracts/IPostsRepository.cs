@@ -10,12 +10,14 @@ namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
     public interface IPostsRepository
     {
         IList<PostDb> GetAll();
-        PostDb GetById(int id);
-        PostDb GetByName(string name);
+        PostDb GetById(Guid id);
+        PostDb GetByTitle(string title);
         PostDb Create(PostDb newPost); // Register
-        PostDb Update(int id, PostDb post);
-        bool Delete(int id);
+        PostDb Update(Guid id, PostDb post);
+        bool Delete(Guid id);
         bool PostExists(string name);
         int Count();
+        bool AddLike(PostLikesDb postLikes);
+        bool RemoveLike(PostLikesDb postLikes);
     }
 }
