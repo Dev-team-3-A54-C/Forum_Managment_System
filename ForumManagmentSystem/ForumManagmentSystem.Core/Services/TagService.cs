@@ -36,25 +36,35 @@ namespace ForumManagmentSystem.Core.Services
             return mapper.Map<TagResponseDTO>(tagToAdd);
 
         }
-
-        public TagResponseDTO DeleteByName(string name)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<TagResponseDTO> GetAll()
         {
-            throw new NotImplementedException();
+            var tags = tagRepository.GetAll().Result.Select(x => mapper.Map<TagResponseDTO>(x));
+            //TODO check if automapper works properly
+            return tags;
         }
 
         public TagResponseDTO GetByName(string name)
         {
-            throw new NotImplementedException();
+            var tag = tagRepository.GetByName(name).Result;
+            //TODO check if automapper works properly
+            return mapper.Map<TagResponseDTO>(tag);
         }
 
-        public TagResponseDTO Update(TagDTO tag)
+        public TagResponseDTO Update(Guid id, TagDTO tag)
         {
-            throw new NotImplementedException();
+            var newTag = mapper.Map<TagDb>(tag);
+            newTag.Id = id;
+            var updatedTag = tagRepository.Update(newTag).Result;
+
+            return mapper.Map<TagResponseDTO>(updatedTag);
         }
+
+        public TagResponseDTO DeleteByName(string name)
+        {
+            var tag = tagRepository.Delete(name).Result;
+            //TODO check if automapper works properly
+            return mapper.Map<TagResponseDTO>(tag);
+        }
+
     }
 }
