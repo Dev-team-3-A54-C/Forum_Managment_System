@@ -6,9 +6,9 @@ using ForumManagmentSystem.Infrastructure.Data.Models;
 
 namespace ForumManagmentSystem.Core.Helpers.MappingConfig
 {
-    public class PostProfile : Profile
+    public class MapperProfiles : Profile
     {
-        public PostProfile()//(IConfigurationProvider config) : base(config) //just to get the error out
+        public MapperProfiles()//(IConfigurationProvider config) : base(config) //just to get the error out
         {
             //this.CreateMap<PostDb, PostResponseDTO>()
             //    .ForMember(d => d.Likes, p => p.MapFrom(s => s.LikesCount));

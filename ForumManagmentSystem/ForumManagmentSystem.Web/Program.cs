@@ -23,6 +23,8 @@ namespace ForumManagmentSystem.Web
             builder.Services.AddScoped<AuthManager>();
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+            
+
             builder.Services.AddDbContext<FMSContext>(options =>
             {
                 // A connection string for establishing a connection to the locally installed SQL Server.

@@ -38,7 +38,7 @@ namespace ForumManagmentSystem.Core.Services
             //userDb.CreatedOn = DateTime.Now;
             //userDb.FirstName = user.FirstName;
             //userDb.LastName = user.LastName;
-
+            
             //TODO: map to UserResponseDTO
             UserDb userDb = autoMapper.Map<UserDb>(user); // temporary stuff
             return autoMapper.Map<UserResponseDTO>(usersRepository.Create(userDb));

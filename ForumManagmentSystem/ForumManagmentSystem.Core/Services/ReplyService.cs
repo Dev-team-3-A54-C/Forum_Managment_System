@@ -24,6 +24,7 @@ namespace ForumManagmentSystem.Core.Services
             this.userRepository = userRepository;
             this.postsRepository = postsRepository;
             this.mapper = mapper;
+            
         }
         public IEnumerable<ReplyResponseDTO> GetAll()
         {
