@@ -17,7 +17,7 @@ namespace ForumManagmentSystem.Web.Controllers
             throw new NotImplementedException();
         }
         [HttpGet("{id}")]
-        public IActionResult GetTag(Guid id)
+        public IActionResult GetTag(string id)
         {
             throw new NotImplementedException();
         }
@@ -27,12 +27,12 @@ namespace ForumManagmentSystem.Web.Controllers
             throw new NotImplementedException();
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateTag(Guid id, [FromBody] TagDTO tagDTO)
+        public IActionResult UpdateTag(string id, [FromBody] TagDTO tagDTO)
         {
             throw new NotImplementedException();
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteTag(Guid id)
+        public IActionResult DeleteTag(string id)
         {
             throw new NotImplementedException();
         }
