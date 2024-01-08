@@ -7,5 +7,10 @@ namespace ForumManagmentSystem.Core.RequestDTOs
     {
         [Required]
         public string Content { get; set; }
+        [Required]
+        public string PostTitle { get; set; }
+        [Required]
+        public string CreatedBy { get; set; }
+
     }
 }
