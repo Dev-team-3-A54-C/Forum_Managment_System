@@ -14,7 +14,7 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet]
         public IActionResult GetReplies()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException();            
         }
         [HttpGet("{id}")]
         public IActionResult GetReply(string id)
