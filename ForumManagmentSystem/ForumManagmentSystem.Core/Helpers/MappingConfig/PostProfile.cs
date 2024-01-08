@@ -14,7 +14,7 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
             //    .ForMember(d => d.Likes, p => p.MapFrom(s => s.LikesCount));
             //this.CreateMap<ReplyDb, ReplyResponseDTO>()
             //    .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
-            //this.CreateMap<UserDb, UserResponseDTO>();
+            this.CreateMap<UserDb, UserResponseDTO>();
             this.CreateMap<TagDb, TagResponseDTO>();
 
             this.CreateMap<UserDTO, UserDb>();

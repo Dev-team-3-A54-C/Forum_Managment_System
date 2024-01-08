@@ -10,7 +10,7 @@ namespace ForumManagmentSystem.Infrastructure.Data.Models
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
+        public string Password { get; set; }
         public string PhoneNumber { get; set; } 
         public DateTime CreatedOn { get; set; }
         public bool IsAdmin { get; set; }
