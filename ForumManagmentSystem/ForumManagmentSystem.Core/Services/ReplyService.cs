@@ -86,9 +86,9 @@ namespace ForumManagmentSystem.Core.Services
         }
         public ReplyResponseDTO AddLike(AddReplyLikeDTO replyLike)
         {
-            if (!userRepository.UserExists(new Guid(replyLike.UserId)))
+            if (!userRepository.UserExists(replyLike.Username))
             {
-                throw new EntityNotFoundException($"User with id {replyLike.UserId} does not exist.");
+                throw new EntityNotFoundException($"User with id {replyLike.Username} does not exist.");
             }
 
             if (!replyRepository.ReplyExist(new Guid(replyLike.ReplyId)).Result)
@@ -96,7 +96,7 @@ namespace ForumManagmentSystem.Core.Services
                 throw new EntityNotFoundException($"Reply with Id {replyLike.ReplyId} does not exist.");
             }
 
-            var user = userRepository.GetById(new Guid(replyLike.UserId));
+            var user = userRepository.GetByName(replyLike.Username);
 
             if(user.MyLikedReplies.Any(lr => lr.ReplyId.ToString() == replyLike.ReplyId))
             {
