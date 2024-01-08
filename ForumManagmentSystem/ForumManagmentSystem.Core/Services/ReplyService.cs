@@ -113,12 +113,21 @@ namespace ForumManagmentSystem.Core.Services
         }
         public ReplyResponseDTO Update(Guid id, ReplyDTO reply)
         {
-            throw new NotImplementedException();
+            if(!replyRepository.ReplyExist(id).Result)
+            {
+                throw new EntityNotFoundException($"Reply with id {id} does not exist.");
+            }
+
+            var updatedReply = replyRepository.Update(id, mapper.Map<ReplyDb>(reply)).Result;
+
+            return mapper.Map<ReplyResponseDTO>(updatedReply);
         }
 
         public ReplyResponseDTO Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var deletedReply = replyRepository.Delete(id).Result;
+
+            return mapper.Map<ReplyResponseDTO>(deletedReply);
         }
     }
 }
