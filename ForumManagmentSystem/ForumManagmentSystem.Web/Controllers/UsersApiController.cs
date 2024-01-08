@@ -37,35 +37,47 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet("{id}")] // api/users/{id}
         public IActionResult GetUser(string id)
         {
-            throw new NotImplementedException();
-            /*
             try
             {
                 var user = userService.GetUser(id);
-                // TODO: Resposne DTO           BeerResponseDto beerResponseDto = modelMapper.Map(beer);
-
                 return Ok(user);
             }
             catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
-            */
+
         }
 
         // Create (Register): Creates a new user
         [HttpPost("register")] // api/users/register
         public IActionResult CreateNewUser([FromHeader] string username, [FromBody] UserDTO dto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                UserResponseDTO result = userService.CreateUser(username, dto);
+                return Ok(result);
+            }
+            catch(NameDuplicationException ex)
+            {
+                return Conflict(ex.Message);
+            }
         }
 
         // Update: Update their profile
         [HttpPut("{id}")]
         public IActionResult UpdateUser(string id, [FromHeader] string username, [FromBody] UserDTO dto)
         {
-            // Users should not be able to change their username once registered
-            throw new NotImplementedException();
+            // TODO: Users should not be able to change their username once registered
+            try
+            {
+                UserResponseDTO result = userService.Update(new Guid(id), dto);
+                return Ok(result);
+            }
+            catch(EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         /*
@@ -75,13 +87,21 @@ namespace ForumManagmentSystem.Web.Controllers
          * Unblock
          */
 
-        /*
-            // Delete: Deletes user
-            [HttpDelete("{id}")] // api/users/{id}
-            public IActionResult DeleteUser(string id, [FromHeader] string username)
+
+        // Delete: Deletes user
+        [HttpDelete("{id}")] // api/users/{id}
+        public IActionResult DeleteUser(string id, [FromHeader] string username)
+        {
+            try
             {
-                throw new NotImplementedException();
+                userService.Delete(new Guid(id), username);
+                return Ok($"User with id:[{id}] deleted successfully.");
             }
-        */
+            catch(UnauthorizedOperationException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+        }
+
     }
 }

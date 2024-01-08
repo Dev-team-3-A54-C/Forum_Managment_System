@@ -8,6 +8,9 @@ namespace ForumManagmentSystem.Web.Controllers
     [ApiController]
     public class ReplyApiController : ControllerBase
     {
+        //TODO: catch AggregateException because Task<ReplyResponseDTO> throws Aggregate exception
+        //when the TagService throws EntityNotFound. And when returning use:
+        //return BadRequest/NotFound/...(ex.InnerException.Message())
         [HttpGet]
         public IActionResult GetReplies()
         {
