@@ -60,6 +60,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         public UserDb Create(UserDb newUser)
         {
             context.Users.Add(newUser);
+            context.SaveChanges();
             return newUser;
         }
 
@@ -72,13 +73,15 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
             userToUpdate.Email = user.Email;
             userToUpdate.Username = user.Username;
 
+            context.SaveChanges();
             return userToUpdate;
         }
         public bool Delete(Guid id)
         {
             UserDb toDelete = GetById(id);
             context.Remove(toDelete);
-            if(toDelete.IsDeleted)
+            context.SaveChanges();
+            if (toDelete.IsDeleted)
             {
                 return true;
             }

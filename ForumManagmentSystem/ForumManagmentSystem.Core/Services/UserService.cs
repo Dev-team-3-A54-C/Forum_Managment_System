@@ -15,6 +15,7 @@ using ForumManagmentSystem.Infrastructure.QueryParameters;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using AutoMapper;
 using ForumManagmentSystem.Core.Services.Contracts;
+using ForumManagmentSystem.Core.Helpers.MappingConfig;
 
 namespace ForumManagmentSystem.Core.Services
 {
@@ -26,7 +27,11 @@ namespace ForumManagmentSystem.Core.Services
         {
             usersRepository = uRep;
             autoMapper = mapper;
-            
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<PostProfile>();
+            });
+            autoMapper = config.CreateMapper();
         }
 
         public UserResponseDTO CreateUser(string username, UserDTO user)

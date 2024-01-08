@@ -1,3 +1,4 @@
+using AutoMapper;
 using ForumManagmentSystem.Core.Helpers;
 using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Core.Services.Contracts;
@@ -21,10 +22,9 @@ namespace ForumManagmentSystem.Web
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IModelMapper, ModelMapper>();
             builder.Services.AddScoped<AuthManager>();
-            builder.Services.AddAutoMapper(typeof(Program).Assembly);
-
+            builder.Services.AddAutoMapper(typeof(Program));
             
-
+            
             builder.Services.AddDbContext<FMSContext>(options =>
             {
                 // A connection string for establishing a connection to the locally installed SQL Server.

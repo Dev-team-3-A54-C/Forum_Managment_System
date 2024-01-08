@@ -34,6 +34,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         public PostDb Create(PostDb newPost)
         {
             _context.Posts.Add(newPost);
+            _context.SaveChanges();
             return newPost;
         }
         public PostDb Update(Guid id, PostDb post)
@@ -41,6 +42,8 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
             PostDb toUpdate = GetById(id);
             toUpdate.Title = post.Title;
             toUpdate.Content = post.Content;
+
+            _context.SaveChanges();
             return toUpdate;
 
         }
@@ -48,6 +51,8 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         {
             PostDb toDelete = GetById(id);
             _context.Remove(toDelete);
+            _context.SaveChanges();
+
             if (toDelete.IsDeleted)
             {
                 return true;
@@ -65,11 +70,13 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         public bool AddLike(PostLikesDb postlikesDb)
         {
             _context.PostLikes.Add(postlikesDb);
+            _context.SaveChanges();
             return true;
         }
         public bool RemoveLike(PostLikesDb postlikesDB)
         {
             _context.PostLikes.Remove(postlikesDB);
+            _context.SaveChanges();
             return false;
         }
         
