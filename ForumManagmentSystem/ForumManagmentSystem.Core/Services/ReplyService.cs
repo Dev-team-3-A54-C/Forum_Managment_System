@@ -18,7 +18,7 @@ namespace ForumManagmentSystem.Core.Services
         }
         public IEnumerable<ReplyResponseDTO> GetAll()
         {
-            throw new NotImplementedException();
+            var replies = replyRepository.GetAll();
         }
 
         public IEnumerable<ReplyResponseDTO> GetLikedRepliesFromUser(string username)
