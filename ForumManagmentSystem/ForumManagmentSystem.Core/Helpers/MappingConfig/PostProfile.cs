@@ -17,7 +17,7 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
             //this.CreateMap<UserDb, UserResponseDTO>();
             this.CreateMap<TagDb, TagResponseDTO>();
 
-            //this.CreateMap<UserDTO, UserDb>();
+            this.CreateMap<UserDTO, UserDb>();
             //this.CreateMap<PostDTO, PostDb>();
             this.CreateMap<TagDTO, TagDb>();
             //this.CreateMap<ReplyDTO, ReplyDb>();

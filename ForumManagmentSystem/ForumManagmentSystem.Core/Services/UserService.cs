@@ -26,6 +26,7 @@ namespace ForumManagmentSystem.Core.Services
         {
             usersRepository = uRep;
             autoMapper = mapper;
+            
         }
 
         public UserResponseDTO CreateUser(string username, UserDTO user)

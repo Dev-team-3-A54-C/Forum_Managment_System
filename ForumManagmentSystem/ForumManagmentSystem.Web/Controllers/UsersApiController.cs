@@ -39,7 +39,7 @@ namespace ForumManagmentSystem.Web.Controllers
         {
             try
             {
-                var user = userService.GetUser(id);
+                var user = userService.GetUser(new Guid(id));
                 return Ok(user);
             }
             catch (EntityNotFoundException ex)
