@@ -84,9 +84,32 @@ namespace ForumManagmentSystem.Core.Services
 
             return mapper.Map<ReplyResponseDTO>(newReply);
         }
-        public ReplyResponseDTO AddLike(ReplyDTO reply)
+        public ReplyResponseDTO AddLike(AddReplyLikeDTO replyLike)
         {
-            throw new NotImplementedException();
+            if (!userRepository.UserExists(new Guid(replyLike.UserId)))
+            {
+                throw new EntityNotFoundException($"User with id {replyLike.UserId} does not exist.");
+            }
+
+            if (!replyRepository.ReplyExist(new Guid(replyLike.ReplyId)).Result)
+            {
+                throw new EntityNotFoundException($"Reply with Id {replyLike.ReplyId} does not exist.");
+            }
+
+            var user = userRepository.GetById(new Guid(replyLike.UserId));
+
+            if(user.MyLikedReplies.Any(lr => lr.ReplyId.ToString() == replyLike.ReplyId))
+            {
+                replyRepository.RemoveLike(mapper.Map<ReplyLikesDb>(replyLike));
+            }
+            else
+            {
+                replyRepository.AddLike(mapper.Map<ReplyLikesDb>(replyLike));
+            }
+
+            var reply = replyRepository.GetById(new Guid(replyLike.ReplyId));
+            
+            return mapper.Map<ReplyResponseDTO>(reply);
         }
         public ReplyResponseDTO Update(Guid id, ReplyDTO reply)
         {

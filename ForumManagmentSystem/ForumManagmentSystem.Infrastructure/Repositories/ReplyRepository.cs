@@ -23,6 +23,15 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
             return replies;
         }
 
+        public async Task<ReplyDb> GetById(Guid id)
+        {
+            var reply = await context
+                .Replies
+                .FirstOrDefaultAsync(x => x.Id == id) ?? throw new EntityNotFoundException($"Reply with id {id.ToString()} does not exist.");
+
+            return reply;
+        }
+
         public async Task<IEnumerable<ReplyLikesDb>> GetLikedRepliesFromUser(string username)
         {
             var userLikedReplies = await context.ReplyLikes
@@ -126,5 +135,9 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
         }
 
+        public async Task<bool> ReplyExist(Guid id)
+        {
+            return await context.Replies.AnyAsync(r => r.Id == id);
+        }
     }
 }

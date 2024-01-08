@@ -11,7 +11,7 @@ namespace ForumManagmentSystem.Core.Services.Contracts
         IEnumerable<ReplyResponseDTO> GetRepliesFromPost(string postTitle);
         ReplyResponseDTO Create(ReplyDTO reply);
         ReplyResponseDTO Update(Guid id, ReplyDTO reply);
-        ReplyResponseDTO AddLike(ReplyDTO reply);
+        ReplyResponseDTO AddLike(AddReplyLikeDTO reply);
         ReplyResponseDTO Delete(Guid id);
     }
 }
