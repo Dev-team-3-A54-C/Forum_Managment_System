@@ -19,13 +19,20 @@ namespace ForumManagmentSystem.Core.Services
         public PostResponseDTO CreatePost(string username, string title, string content)
         {
             UserDb user = usersRepository.GetByName(username);
-            PostDb newPost = new PostDb();
-            newPost.Title = title;
-            newPost.Content = content;
-            newPost.User = user;
+            PostDb post = new PostDb()
+            {
+                Title = title,
+                Content = content,
+            };
+            postsRepository.Create(post);
             //TODO: Check if the name is unique
             //TODO: Use automapper
-            return postsRepository.Create(newPost);
+            PostResponseDTO result = new PostResponseDTO() //temporary
+            {
+                Title = post.Title,
+                Content = post.Content,
+            };
+            return result;
         }
 
 
@@ -71,9 +78,20 @@ namespace ForumManagmentSystem.Core.Services
         public PostResponseDTO Update(Guid postId, string username, PostDTO newData)
         {
             UserDb u = usersRepository.GetByName(username);
-            PostDb p = postsRepository.GetByTitle(newData.Title);
+            PostDb p = new PostDb() //temporary
+            {
+                Title = newData.Title,
+                Content = newData.Content,
+            };
             //TODO: map to postResponseDTO
-            return postsRepository.Update(postId, p);
+            postsRepository.Update(postId, p);
+
+            PostResponseDTO result = new PostResponseDTO()
+            {
+                Title = p.Title,
+                Content = p.Content
+            };
+            return result;
         }
         public void Delete(string username, Guid postId)
         {
@@ -91,13 +109,16 @@ namespace ForumManagmentSystem.Core.Services
         {
             UserDb u = usersRepository.GetById(userID);
             PostDb p = postsRepository.GetById(userID);
+            
             PostLikesDb postLikesDb = new PostLikesDb();
             postLikesDb.UserId = userID;
             postLikesDb.PostId = postID;
             if(u.LikedPosts.Contains(postLikesDb))
             {
+                p.LikesCount--;
                 return postsRepository.RemoveLike(postLikesDb);
             }
+            p.LikesCount++;
             return postsRepository.AddLike(postLikesDb);
         }
     }

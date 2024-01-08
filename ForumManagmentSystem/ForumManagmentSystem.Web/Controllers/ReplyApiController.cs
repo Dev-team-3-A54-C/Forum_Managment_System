@@ -17,7 +17,7 @@ namespace ForumManagmentSystem.Web.Controllers
             throw new NotImplementedException();            
         }
         [HttpGet("{id}")]
-        public IActionResult GetReply(Guid id)
+        public IActionResult GetReply(string id)
         {
             throw new NotImplementedException();
         }
@@ -27,12 +27,12 @@ namespace ForumManagmentSystem.Web.Controllers
             throw new NotImplementedException();
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateReply(Guid id, [FromBody] ReplyDTO replyDTO)
+        public IActionResult UpdateReply(string id, [FromBody] ReplyDTO replyDTO)
         {
             throw new NotImplementedException();
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteReply(Guid id)
+        public IActionResult DeleteReply(string id)
         {
             throw new NotImplementedException();
         }

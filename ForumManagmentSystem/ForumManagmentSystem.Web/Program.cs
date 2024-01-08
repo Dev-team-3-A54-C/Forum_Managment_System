@@ -21,6 +21,7 @@ namespace ForumManagmentSystem.Web
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IModelMapper, ModelMapper>();
             builder.Services.AddScoped<AuthManager>();
+            builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
             builder.Services.AddDbContext<FMSContext>(options =>
             {
