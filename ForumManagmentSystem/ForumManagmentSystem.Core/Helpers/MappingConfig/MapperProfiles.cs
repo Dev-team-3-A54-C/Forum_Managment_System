@@ -17,7 +17,8 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
             this.CreateMap<UserDb, UserResponseDTO>();
             this.CreateMap<TagDb, TagResponseDTO>();
 
-            this.CreateMap<UserDTO, UserDb>().ReverseMap();
+            this.CreateMap<UserDTO, UserDb>()
+                .ForMember(x => x.CreatedOn, d => d.MapFrom(src => DateTime.Now)).ReverseMap();
             //.ReverceMap() creates the same map profile with switched source and destination
             this.CreateMap<PostDTO, PostDb>();
             this.CreateMap<TagDTO, TagDb>();
