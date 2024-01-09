@@ -1,5 +1,6 @@
 using AutoMapper;
 using ForumManagmentSystem.Core.Helpers;
+using ForumManagmentSystem.Core.Helpers.MappingConfig;
 using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Data;
@@ -18,13 +19,31 @@ namespace ForumManagmentSystem.Web
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //Repositories
             builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+            builder.Services.AddScoped<IPostsRepository, PostRepository>();
+            builder.Services.AddScoped<IReplyRepository, ReplyRepository>();
+            builder.Services.AddScoped<ITagRepository, TagRepository>();
+            //Services
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IModelMapper, ModelMapper>();
+            builder.Services.AddScoped<IPostService, PostService>();
+            builder.Services.AddScoped<IReplyService, ReplyService>();
+            builder.Services.AddScoped<ITagService, TagService>();
+
+            //builder.Services.AddScoped<IModelMapper, ModelMapper>();
             builder.Services.AddScoped<AuthManager>();
+
+            //Solution 1 for AutoMapper
+            //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+            //Solution 2 for AutoMapper
             builder.Services.AddAutoMapper(typeof(Program));
-            
-            
+            AutoMapper.IConfigurationProvider cfg = new MapperConfiguration(cfg => { cfg.AddProfile<MapperProfiles>(); });
+            builder.Services.AddSingleton(cfg);
+
+
+
             builder.Services.AddDbContext<FMSContext>(options =>
             {
                 // A connection string for establishing a connection to the locally installed SQL Server.

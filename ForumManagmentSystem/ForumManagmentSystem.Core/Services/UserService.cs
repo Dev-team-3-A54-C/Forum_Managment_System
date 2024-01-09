@@ -2,15 +2,6 @@
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 using ForumManagmentSystem.Infrastructure.QueryParameters;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using AutoMapper;
@@ -26,12 +17,7 @@ namespace ForumManagmentSystem.Core.Services
         public UserService(IUsersRepository uRep, IMapper mapper)
         {
             usersRepository = uRep;
-            autoMapper = mapper;
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<PostProfile>();
-            });
-            autoMapper = config.CreateMapper();
+            autoMapper = mapper;           
         }
 
         public UserResponseDTO CreateUser(string username, UserDTO user)
