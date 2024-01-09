@@ -1,4 +1,6 @@
-﻿using ForumManagmentSystem.Core.RequestDTOs;
+﻿using ForumManagmentSystem.Core.Helpers;
+using ForumManagmentSystem.Core.RequestDTOs;
+using ForumManagmentSystem.Core.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +10,18 @@ namespace ForumManagmentSystem.Web.Controllers
     [ApiController]
     public class TagApiController : ControllerBase
     {
+        private readonly ITagService tagService;
+        private readonly AuthManager authManager;
+
         //TODO: catch AggregateException because Task<TagResponseDTO> throws Aggregate exception
         //when the TagService throws EntityNotFound. And when returning use:
         //return BadRequest/NotFound/...(ex.InnerException.Message())
+        public TagApiController(ITagService tagService, AuthManager authManager)
+        {
+            this.tagService = tagService;
+            this.authManager = authManager;
+        }
+
         [HttpGet]
         public IActionResult GetTags()
         {
