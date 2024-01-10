@@ -19,6 +19,8 @@ namespace ForumManagmentSystem.Web
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddControllersWithViews();
+            
             //Repositories
             builder.Services.AddScoped<IUsersRepository, UsersRepository>();
             builder.Services.AddScoped<IPostsRepository, PostRepository>();
@@ -59,7 +61,12 @@ namespace ForumManagmentSystem.Web
 
             var app = builder.Build();
 
-            app.MapControllers();
+            // delete:    app.MapControllers();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
 
             app.Run();
         }
