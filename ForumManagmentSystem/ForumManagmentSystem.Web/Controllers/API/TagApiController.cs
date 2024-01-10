@@ -17,6 +17,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
         //TODO: catch AggregateException because Task<TagResponseDTO> throws Aggregate exception
         //when the TagService throws EntityNotFound. And when returning use:
         //return BadRequest/NotFound/...(ex.InnerException.Message())
+        //!!! Create, Update and Delete actions should check if you are ADMIN!!!
         public TagApiController(ITagService tagService, AuthManager authManager)
         {
             this.tagService = tagService;
@@ -31,6 +32,10 @@ namespace ForumManagmentSystem.Web.Controllers.API
                 var tags = tagService.GetAll();
 
                 return Ok(tags);
+            }
+            catch(AggregateException ex)
+            {
+                return BadRequest(ex.InnerException.Message);
             }
             catch (Exception ex)
             {
@@ -50,7 +55,11 @@ namespace ForumManagmentSystem.Web.Controllers.API
             {
                 return NotFound(ex.Message);
             }
-            catch(Exception ex)
+            catch (AggregateException ex)
+            {
+                return NotFound(ex.InnerException.Message);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -68,7 +77,11 @@ namespace ForumManagmentSystem.Web.Controllers.API
             {
                 return Conflict(ex.Message);
             }
-            catch(Exception ex)
+            catch (AggregateException ex)
+            {
+                return Conflict(ex.InnerException.Message);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -85,6 +98,10 @@ namespace ForumManagmentSystem.Web.Controllers.API
             catch (NameDuplicationException ex)
             {
                 return Conflict(ex.Message);
+            }
+            catch (AggregateException ex)
+            {
+                return Conflict(ex.InnerException.Message);
             }
             catch (Exception ex)
             {
@@ -108,7 +125,11 @@ namespace ForumManagmentSystem.Web.Controllers.API
             {
                 return Unauthorized(ex.Message);
             }
-            catch(Exception ex)
+            catch (AggregateException ex)
+            {
+                return BadRequest(ex.InnerException.Message);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -130,6 +151,10 @@ namespace ForumManagmentSystem.Web.Controllers.API
             catch (UnauthorizedOperationException ex)
             {
                 return Unauthorized(ex.Message);
+            }
+            catch (AggregateException ex)
+            {
+                return BadRequest(ex.InnerException.Message);
             }
             catch (Exception ex)
             {
