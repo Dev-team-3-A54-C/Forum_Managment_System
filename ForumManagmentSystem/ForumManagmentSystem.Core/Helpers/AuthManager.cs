@@ -1,30 +1,51 @@
-﻿using ForumManagmentSystem.Core.Services.Contracts;
+﻿using ForumManagmentSystem.Core.ResponseDTOs;
+using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Data.Models;
+using ForumManagmentSystem.Infrastructure.Exceptions;
+using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 
 namespace ForumManagmentSystem.Core.Helpers
 {
     public class AuthManager
     {
-        private readonly IUserService usersService;
+        private readonly IUserService userService;
 
-        public AuthManager(IUserService usersService)
+        //TODO: Need revisiting, it is temporary solution.
+
+
+        public AuthManager(IUserService userService)
         {
-            this.usersService = usersService;
+            this.userService = userService;
         }
 
-        public virtual UserDb TryGetUser(int id)
+        public virtual UserResponseDTO TryGetUser(string username)
         {
-            /*
+
             try
             {
-                return usersService.GetUser(id);
+                return userService.GetUser(username);
             }
             catch (EntityNotFoundException)
             {
                 throw new UnauthorizedOperationException("Invalid id!");
             }
-            */
-            throw new NotImplementedException();
+
+            
+        }
+
+        public virtual UserResponseDTO TryGetUser(Guid id)
+        {
+
+            try
+            {
+                return userService.GetUser(id);
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new UnauthorizedOperationException("Invalid id!");
+            }
+
+
         }
     }
 }
