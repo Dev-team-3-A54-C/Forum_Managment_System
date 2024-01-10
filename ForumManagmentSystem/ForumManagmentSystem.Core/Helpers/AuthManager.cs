@@ -47,5 +47,23 @@ namespace ForumManagmentSystem.Core.Helpers
 
 
         }
+
+        public UserDb CreateUser()
+        {
+            // TODO
+            throw new NotImplementedException();
+        }
+
+        public void Login(string username, string password)
+        {
+            // TODO
+            throw new NotImplementedException();
+        }
+
+        public void Logout()
+        {
+            // TODO
+            throw new NotImplementedException();
+        }
     }
 }

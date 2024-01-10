@@ -137,5 +137,10 @@ namespace ForumManagmentSystem.Core.Services
 
             return mapper.Map<ReplyResponseDTO>(deletedReply);
         }
-    }
+
+		public ReplyResponseDTO Delete(Guid id)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
