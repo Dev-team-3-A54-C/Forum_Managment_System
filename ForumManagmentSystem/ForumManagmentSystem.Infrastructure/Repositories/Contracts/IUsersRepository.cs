@@ -16,7 +16,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
         UserDb GetByName(string name);
         UserDb Create(UserDb newUser); // Register
         UserDb Update(Guid id, UserDb user);
-        bool Delete(Guid id);
+        UserDb Delete(Guid id);
         bool UserExists(string name);
         int Count();
 

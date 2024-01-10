@@ -1,6 +1,7 @@
 ﻿using ForumManagmentSystem.Core.Helpers;
 using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.Services.Contracts;
+using ForumManagmentSystem.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,12 +25,38 @@ namespace ForumManagmentSystem.Web.Controllers.API
         [HttpGet]
         public IActionResult GetReplies()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var replies = replyService.GetAll();
+
+                return Ok(replies);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpGet("{id}")]
         public IActionResult GetReply(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var reply = replyService.Get(new Guid(id));
+
+                return Ok(reply);
+            }
+            catch (EntityNotFoundException ex) 
+            {
+                return NotFound(ex.Message);
+            }
+            catch(AggregateException ex)
+            {
+                return NotFound(ex.InnerException.Message);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPost("")]
         public IActionResult CreateReply([FromBody] ReplyDTO replyDTO)

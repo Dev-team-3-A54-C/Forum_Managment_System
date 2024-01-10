@@ -22,80 +22,52 @@ namespace ForumManagmentSystem.Core.Services
 
         public UserResponseDTO CreateUser(string username, UserDTO user)
         {
-            //UserDb userDb = new UserDb();
-            //userDb.Username = username;
-            //userDb.Password = password;
-            //userDb.Email = user.Email;
-            //userDb.CreatedOn = DateTime.Now;
-            //userDb.FirstName = user.FirstName;
-            //userDb.LastName = user.LastName;
-            
-            //TODO: map to UserResponseDTO
-            UserDb userDb = autoMapper.Map<UserDb>(user); // temporary stuff
+            UserDb userDb = autoMapper.Map<UserDb>(user);
             return autoMapper.Map<UserResponseDTO>(usersRepository.Create(userDb));
         }
 
         public IList<UserResponseDTO> GetAll()
         {
-            //TODO automapper
             return usersRepository.GetAll()
-                .Select(x => new UserResponseDTO()
-                {
-                    Username = x.Username,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName
-                })
+                .Select(u => autoMapper.Map<UserResponseDTO>(u))
                 .ToList();
         }
 
         public UserResponseDTO GetUser(string username)
         {
-            //TODO Automapper
-            UserResponseDTO response = new UserResponseDTO();
-            UserDb user = usersRepository.GetByName(username);
-            response.Username = user.Username;
-            response.FirstName = user.FirstName;
-            response.LastName = user.LastName;
-            return response;
+            return autoMapper.Map<UserResponseDTO>(usersRepository.GetByName(username));
         }
 
         public UserResponseDTO GetUser(Guid id)
         {
-            //TODO: auto mapper
-            UserResponseDTO response = new UserResponseDTO();
-            UserDb user = usersRepository.GetById(id);
-            response.Username = user.Username;
-            response.FirstName = user.FirstName;
-            response.LastName = user.LastName;
-            return response;
+            return autoMapper.Map<UserResponseDTO>(usersRepository.GetById(id));
         }
 
         public UserResponseDTO Update(Guid id, UserDTO user)
         {
-            UserDb temp = usersRepository.GetByName(user.Username);
-            //TODO: map to UserResponseDTO
-            return autoMapper.Map<UserResponseDTO>(usersRepository.Update(id, temp)); //temporary
+            if(user.Username != null)
+            {
+                throw new CannotChangeUsernameException
+                    ("Username cannot be changed once registered.");
+            }
+            return autoMapper.Map<UserResponseDTO>
+                (usersRepository.Update(id, autoMapper.Map<UserDb>(user)));
         }
-        public void Delete(Guid id, string username)
+        public UserResponseDTO Delete(Guid id, string username)
         {
             UserDb user = usersRepository.GetByName(username);
             if(!user.IsAdmin)
             {
                 throw new UnauthorizedOperationException($"User is not authorized.");
             }
-            usersRepository.Delete(id);
+            return autoMapper.Map<UserResponseDTO>(usersRepository.Delete(id));
         }
 
         public IList<UserResponseDTO> FilterBy(UserQueryParameters usersParams)
         {
-            //TODO use automapper
             return usersRepository.FilterBy(usersParams)
-                .Select(x => new UserResponseDTO
-                {
-                    Username = x.Username,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                }).ToList();
+                .Select(x => autoMapper.Map<UserResponseDTO>(x))
+                .ToList(); 
         }
     }
 }

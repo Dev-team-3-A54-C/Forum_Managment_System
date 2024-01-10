@@ -33,6 +33,13 @@ namespace ForumManagmentSystem.Core.Services
             return replies;
         }
 
+        public ReplyResponseDTO Get(Guid id)
+        {
+            var reply = replyRepository.GetById(id);
+
+            return mapper.Map<ReplyResponseDTO>(reply);
+        }
+
         public IEnumerable<ReplyResponseDTO> GetLikedRepliesFromUser(string username)
         {
             if (!userRepository.UserExists(username))
@@ -124,9 +131,9 @@ namespace ForumManagmentSystem.Core.Services
             return mapper.Map<ReplyResponseDTO>(updatedReply);
         }
 
-        public ReplyResponseDTO Delete(Guid id)
+        public ReplyResponseDTO Delete(Guid replyId, string username)
         {
-            var deletedReply = replyRepository.Delete(id).Result;
+            var deletedReply = replyRepository.Delete(replyId).Result;
 
             return mapper.Map<ReplyResponseDTO>(deletedReply);
         }

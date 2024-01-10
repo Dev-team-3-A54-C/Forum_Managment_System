@@ -6,6 +6,7 @@ namespace ForumManagmentSystem.Core.Services.Contracts
     public interface IReplyService
     {
         IEnumerable<ReplyResponseDTO> GetAll();
+        ReplyResponseDTO Get(Guid id);
         IEnumerable<ReplyResponseDTO> GetRepliesMadeByUser(string username);
         IEnumerable<ReplyResponseDTO> GetLikedRepliesFromUser(string username);
         IEnumerable<ReplyResponseDTO> GetRepliesFromPost(string postTitle);

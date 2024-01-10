@@ -1,38 +1,43 @@
-﻿using ForumManagmentSystem.Core.RequestDTOs;
+﻿using AutoMapper;
+using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Data.Models;
+using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
+using System.Linq;
 
 namespace ForumManagmentSystem.Core.Services
 {
     public class PostService : IPostService
     {
+        private const string UNAUTHORIZED_ERROR_MESSAGE = "User {0} is not authorized for this action.";
+
         private readonly IPostsRepository postsRepository;
         private readonly IUsersRepository usersRepository;
-        public PostService(IPostsRepository pRepo, IUsersRepository uRepo)
+        private readonly IMapper autoMapper;
+        public PostService(IPostsRepository pRepo, IUsersRepository uRepo, IMapper mapper)
         {
             postsRepository = pRepo;
             usersRepository = uRepo;
+            autoMapper = mapper;
         }
 
         public PostResponseDTO CreatePost(string username, string title, string content)
         {
-            UserDb user = usersRepository.GetByName(username);
+            if (postsRepository.PostExists(title))
+            {
+                throw new NameDuplicationException($"Post with title: {title} already exists.");
+            }
+            UserDb creator = usersRepository.GetByName(username);
             PostDb post = new PostDb()
             {
                 Title = title,
                 Content = content,
+                User = creator,
+                CreatedOn = DateTime.Now
             };
-            postsRepository.Create(post);
-            //TODO: Check if the name is unique
-            //TODO: Use automapper
-            PostResponseDTO result = new PostResponseDTO() //temporary
-            {
-                Title = post.Title,
-                Content = post.Content,
-            };
-            return result;
+            return autoMapper.Map<PostResponseDTO>(postsRepository.Create(post));
         }
 
 
@@ -40,70 +45,48 @@ namespace ForumManagmentSystem.Core.Services
         public PostResponseDTO Get(Guid id)
         {
             PostDb temp = postsRepository.GetById(id);
-            return new PostResponseDTO()
-            {
-                Title = temp.Title,
-                Content = temp.Content,
-                Likes = temp.LikesCount,
-                CreatedBy = temp.User.Username
-            };
+            return autoMapper.Map<PostResponseDTO>(temp);
         }
 
         public PostResponseDTO Get(string title)
         {
             PostDb temp = postsRepository.GetByTitle(title);
-            return new PostResponseDTO()
-            {
-                Title = temp.Title,
-                Content = temp.Content,
-                Likes = temp.LikesCount,
-                CreatedBy = temp.User.Username
-            };
+            return autoMapper.Map<PostResponseDTO>(temp);
         }
 
         public IList<PostResponseDTO> GetAll()
         {
-            IList<PostResponseDTO> result = postsRepository.GetAll()
-                .Select(x =>  new PostResponseDTO()
-                {
-                    Title = x.Title,
-                    Content = x.Content,
-                    Likes = x.LikesCount,
-                    CreatedBy = x.User.Username
-                })
+            return postsRepository.GetAll()
+                .Select(p => autoMapper.Map<PostResponseDTO>(p))
                 .ToList();
-            return result.ToList();
         }
 
         public PostResponseDTO Update(Guid postId, string username, PostDTO newData)
         {
-            UserDb u = usersRepository.GetByName(username);
-            PostDb p = new PostDb() //temporary
+            UserDb user = usersRepository.GetByName(username);
+            
+            PostDb p = new PostDb()
             {
                 Title = newData.Title,
                 Content = newData.Content,
             };
-            //TODO: map to postResponseDTO
-            postsRepository.Update(postId, p);
-
-            PostResponseDTO result = new PostResponseDTO()
+            if (!user.IsAdmin && !user.MyPosts.Contains(p))
             {
-                Title = p.Title,
-                Content = p.Content
-            };
-            return result;
+                throw new UnauthorizedOperationException
+                    (String.Format(UNAUTHORIZED_ERROR_MESSAGE, user.Username));
+            }
+            return autoMapper.Map<PostResponseDTO>(postsRepository.Update(postId, p));
         }
-        public void Delete(string username, Guid postId)
+        public PostResponseDTO Delete(string username, Guid postId)
         {
             UserDb user = usersRepository.GetByName(username);
             PostDb post = postsRepository.GetById(postId);
             if(!user.IsAdmin && !user.MyPosts.Contains(post))
             {
-                throw new UnauthorizedAccessException($"User {user.Username} is not authorized for this action.");
+                throw new UnauthorizedOperationException
+                    (String.Format(UNAUTHORIZED_ERROR_MESSAGE, user.Username));
             }
-            postsRepository.Delete(postId);
-            user.MyPosts.Remove(post);
-            // should delete post from user's posts and from all posts
+            return autoMapper.Map<PostResponseDTO>(postsRepository.Delete(postId));
         }
         public bool AddLike(Guid userID, Guid postID)
         {

@@ -3,6 +3,7 @@ using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 
 namespace ForumManagmentSystem.Infrastructure.Repositories
@@ -27,6 +28,15 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
             var tag = await context
                 .Tags
                 .FirstOrDefaultAsync(x => x.Name == name) ?? throw new EntityNotFoundException($"Tag with name: {name} does not exist.");
+
+            return tag;
+        }
+
+        public async Task<TagDb> GetById(Guid id)
+        {
+            var tag = await context
+                .Tags
+                .FindAsync(id) ?? throw new EntityNotFoundException($"Tag witn id: {id.ToString()} does not exist.");
 
             return tag;
         }
@@ -69,6 +79,17 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
             return tagForDeletion;
         }
 
+        public async Task<TagDb> Delete(Guid id)
+        {
+            var tagForDeletion = await context
+            .Tags
+            .FindAsync(id) ?? throw new EntityNotFoundException($"Tag with id: {id.ToString()} does not exist.");
 
+            context.Tags.Remove(tagForDeletion);
+
+            await context.SaveChangesAsync();
+
+            return tagForDeletion;
+        }
     }
 }

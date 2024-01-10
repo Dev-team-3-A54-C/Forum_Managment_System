@@ -16,7 +16,7 @@ namespace ForumManagmentSystem.Core.Services.Contracts
         PostResponseDTO Get(Guid id);
         PostResponseDTO Get(string title);
         PostResponseDTO Update(Guid postId, string username, PostDTO newData);
-        void Delete(string username, Guid postId);
+        PostResponseDTO Delete(string username, Guid postId);
         bool AddLike(Guid userID, Guid postID);
 
 

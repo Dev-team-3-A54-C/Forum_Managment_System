@@ -1,6 +1,7 @@
 ﻿using ForumManagmentSystem.Core.Helpers;
 using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.Services.Contracts;
+using ForumManagmentSystem.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
         //TODO: catch AggregateException because Task<TagResponseDTO> throws Aggregate exception
         //when the TagService throws EntityNotFound. And when returning use:
         //return BadRequest/NotFound/...(ex.InnerException.Message())
+        //!!! Create, Update and Delete actions should check if you are ADMIN!!!
         public TagApiController(ITagService tagService, AuthManager authManager)
         {
             this.tagService = tagService;
@@ -23,29 +25,141 @@ namespace ForumManagmentSystem.Web.Controllers.API
         }
 
         [HttpGet]
-        public IActionResult GetTags()
+        public IActionResult GetAllTags()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var tags = tagService.GetAll();
+
+                return Ok(tags);
+            }
+            catch(AggregateException ex)
+            {
+                return BadRequest(ex.InnerException.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpGet("{id}")]
         public IActionResult GetTag(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var tag = tagService.GetById(new Guid(id));
+
+                return Ok(tag);
+            }
+            catch(EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (AggregateException ex)
+            {
+                return NotFound(ex.InnerException.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPost("")]
         public IActionResult CreateTag([FromBody] TagDTO tagDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var newTag = tagService.Create(tagDTO);
+
+                return Ok(newTag);
+            }
+            catch (NameDuplicationException ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch (AggregateException ex)
+            {
+                return Conflict(ex.InnerException.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPut("{id}")]
         public IActionResult UpdateTag(string id, [FromBody] TagDTO tagDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var newTag = tagService.Update(new Guid(id),tagDTO);
+
+                return Ok(newTag);
+            }
+            catch (NameDuplicationException ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch (AggregateException ex)
+            {
+                return Conflict(ex.InnerException.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteTag(string id)
+        public IActionResult DeleteTagWithTitle(string title)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deletedTag = tagService.Delete(title);
+
+                return Ok(deletedTag);
+            }
+            catch(EntityNotFoundException ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch(UnauthorizedOperationException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            catch (AggregateException ex)
+            {
+                return BadRequest(ex.InnerException.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTagWithId(string id)
+        {
+            try
+            {
+                var deletedTag = tagService.Delete(new Guid(id));
+
+                return Ok(deletedTag);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch (UnauthorizedOperationException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            catch (AggregateException ex)
+            {
+                return BadRequest(ex.InnerException.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

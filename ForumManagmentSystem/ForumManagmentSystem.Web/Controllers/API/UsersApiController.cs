@@ -68,7 +68,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
         [HttpPut("{id}")]
         public IActionResult UpdateUser(string id, [FromHeader] string username, [FromBody] UserDTO dto)
         {
-            // TODO: Users should not be able to change their username once registered
+            //Users should not be able to change their username once registered
             try
             {
                 UserResponseDTO result = userService.Update(new Guid(id), dto);

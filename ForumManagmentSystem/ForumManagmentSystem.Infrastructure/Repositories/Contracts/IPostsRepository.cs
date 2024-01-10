@@ -14,7 +14,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
         PostDb GetByTitle(string title);
         PostDb Create(PostDb newPost); // Register
         PostDb Update(Guid id, PostDb post);
-        bool Delete(Guid id);
+        PostDb Delete(Guid id);
         bool PostExists(string name);
         int Count();
         bool AddLike(PostLikesDb postLikes);
