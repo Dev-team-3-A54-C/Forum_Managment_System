@@ -18,8 +18,6 @@ namespace ForumManagmentSystem.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddControllersWithViews();
             
             //Repositories
             builder.Services.AddScoped<IUsersRepository, UsersRepository>();
@@ -44,8 +42,6 @@ namespace ForumManagmentSystem.Web
             AutoMapper.IConfigurationProvider cfg = new MapperConfiguration(cfg => { cfg.AddProfile<MapperProfiles>(); });
             builder.Services.AddSingleton(cfg);
 
-
-
             builder.Services.AddDbContext<FMSContext>(options =>
             {
                 // A connection string for establishing a connection to the locally installed SQL Server.
@@ -57,11 +53,11 @@ namespace ForumManagmentSystem.Web
                 options.EnableSensitiveDataLogging();
             });
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
-
-            // delete:    app.MapControllers();
+            app.UseRouting();
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
