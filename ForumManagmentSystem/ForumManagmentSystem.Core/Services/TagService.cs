@@ -43,6 +43,13 @@ namespace ForumManagmentSystem.Core.Services
             return tags;
         }
 
+        public TagResponseDTO GetById(Guid id)
+        {
+            var tag = tagRepository.GetById(id).Result;
+
+            return mapper.Map<TagResponseDTO>(tag);
+        }
+
         public TagResponseDTO GetByName(string name)
         {
             var tag = tagRepository.GetByName(name).Result;
@@ -54,17 +61,29 @@ namespace ForumManagmentSystem.Core.Services
         {
             var newTag = mapper.Map<TagDb>(tag);
             newTag.Id = id;
+
+            if (tagRepository.DoesNameExist(tag.Name).Result)
+            {
+                throw new NameDuplicationException($"Tag with name {tag.Name} already exist.");
+            }
+
             var updatedTag = tagRepository.Update(newTag).Result;
 
             return mapper.Map<TagResponseDTO>(updatedTag);
         }
 
-        public TagResponseDTO DeleteByName(string name)
+        public TagResponseDTO Delete(string name)
         {
             var tag = tagRepository.Delete(name).Result;
             //TODO check if automapper works properly
             return mapper.Map<TagResponseDTO>(tag);
         }
 
+        public TagResponseDTO Delete(Guid id)
+        {
+            var tag = tagRepository.Delete(id).Result;
+            //TODO check if automapper works properly
+            return mapper.Map<TagResponseDTO>(tag);
+        }
     }
 }

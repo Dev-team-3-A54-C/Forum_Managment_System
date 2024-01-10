@@ -4,7 +4,7 @@ using ForumManagmentSystem.Core.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ForumManagmentSystem.Web.Controllers
+namespace ForumManagmentSystem.Web.Controllers.API
 {
     [Route("api/replies")]
     [ApiController]
@@ -24,14 +24,14 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet]
         public IActionResult GetReplies()
         {
-            throw new NotImplementedException();            
+            throw new NotImplementedException();
         }
         [HttpGet("{id}")]
         public IActionResult GetReply(string id)
         {
             throw new NotImplementedException();
         }
-        [HttpPost("")] 
+        [HttpPost("")]
         public IActionResult CreateReply([FromBody] ReplyDTO replyDTO)
         {
             throw new NotImplementedException();
