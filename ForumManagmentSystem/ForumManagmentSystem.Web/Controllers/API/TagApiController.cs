@@ -4,48 +4,48 @@ using ForumManagmentSystem.Core.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ForumManagmentSystem.Web.Controllers
+namespace ForumManagmentSystem.Web.Controllers.API
 {
-    [Route("api/replies")]
+    [Route("api/tags")]
     [ApiController]
-    public class ReplyApiController : ControllerBase
+    public class TagApiController : ControllerBase
     {
-        private readonly IReplyService replyService;
+        private readonly ITagService tagService;
         private readonly AuthManager authManager;
 
-        //TODO: catch AggregateException because Task<ReplyResponseDTO> throws Aggregate exception
+        //TODO: catch AggregateException because Task<TagResponseDTO> throws Aggregate exception
         //when the TagService throws EntityNotFound. And when returning use:
         //return BadRequest/NotFound/...(ex.InnerException.Message())
-        public ReplyApiController(IReplyService replyService, AuthManager authManager)
+        public TagApiController(ITagService tagService, AuthManager authManager)
         {
-            this.replyService = replyService;
+            this.tagService = tagService;
             this.authManager = authManager;
         }
+
         [HttpGet]
-        public IActionResult GetReplies()
-        {
-            throw new NotImplementedException();            
-        }
-        [HttpGet("{id}")]
-        public IActionResult GetReply(string id)
+        public IActionResult GetTags()
         {
             throw new NotImplementedException();
         }
-        [HttpPost("")] 
-        public IActionResult CreateReply([FromBody] ReplyDTO replyDTO)
+        [HttpGet("{id}")]
+        public IActionResult GetTag(string id)
+        {
+            throw new NotImplementedException();
+        }
+        [HttpPost("")]
+        public IActionResult CreateTag([FromBody] TagDTO tagDTO)
         {
             throw new NotImplementedException();
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateReply(string id, [FromBody] ReplyDTO replyDTO)
+        public IActionResult UpdateTag(string id, [FromBody] TagDTO tagDTO)
         {
             throw new NotImplementedException();
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteReply(string id)
+        public IActionResult DeleteTag(string id)
         {
             throw new NotImplementedException();
         }
-
     }
 }

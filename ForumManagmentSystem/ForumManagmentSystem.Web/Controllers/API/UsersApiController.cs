@@ -6,7 +6,7 @@ using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Infrastructure.QueryParameters;
 using ForumManagmentSystem.Core.Services.Contracts;
 
-namespace ForumManagmentSystem.Web.Controllers
+namespace ForumManagmentSystem.Web.Controllers.API
 {
     [ApiController]
     [Route("api/users")]
@@ -58,7 +58,7 @@ namespace ForumManagmentSystem.Web.Controllers
                 UserResponseDTO result = userService.CreateUser(username, dto);
                 return Ok(result);
             }
-            catch(NameDuplicationException ex)
+            catch (NameDuplicationException ex)
             {
                 return Conflict(ex.Message);
             }
@@ -74,7 +74,7 @@ namespace ForumManagmentSystem.Web.Controllers
                 UserResponseDTO result = userService.Update(new Guid(id), dto);
                 return Ok(result);
             }
-            catch(EntityNotFoundException ex)
+            catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -97,7 +97,7 @@ namespace ForumManagmentSystem.Web.Controllers
                 userService.Delete(new Guid(id), username);
                 return Ok($"User with id:[{id}] deleted successfully.");
             }
-            catch(UnauthorizedOperationException ex)
+            catch (UnauthorizedOperationException ex)
             {
                 return Unauthorized(ex.Message);
             }

@@ -7,7 +7,7 @@ using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.Services.Contracts;
 
-namespace ForumManagmentSystem.Web.Controllers
+namespace ForumManagmentSystem.Web.Controllers.API
 {
     [ApiController]
     [Route("api/posts")]
@@ -23,7 +23,7 @@ namespace ForumManagmentSystem.Web.Controllers
             this.postService = postService;
             this.modelMapper = modelMapper;
             this.authManager = authManager;
-            this.userService = userS;
+            userService = userS;
         }
 
         // Read: Gets all posts
@@ -58,7 +58,7 @@ namespace ForumManagmentSystem.Web.Controllers
                 PostResponseDTO result = postService.CreatePost(username, postDto.Title, postDto.Content);
                 return Ok(result);
             }
-            catch(NameDuplicationException ex)
+            catch (NameDuplicationException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -73,7 +73,7 @@ namespace ForumManagmentSystem.Web.Controllers
                 PostResponseDTO result = postService.Update(new Guid(id), username, postDto);
                 return Ok(result);
             }
-            catch(EntityNotFoundException ex)
+            catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -88,7 +88,7 @@ namespace ForumManagmentSystem.Web.Controllers
                 postService.Delete(username, new Guid(id));
                 return Ok($"Post with id:[{id}] deleted successfully.");
             }
-            catch(UnauthorizedOperationException ex)
+            catch (UnauthorizedOperationException ex)
             {
                 return Unauthorized(ex.Message);
             }
