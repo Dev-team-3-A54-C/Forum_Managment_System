@@ -1,4 +1,6 @@
-﻿using ForumManagmentSystem.Infrastructure.Data.Models;
+﻿using ForumManagmentSystem.Core.ResponseDTOs;
+using ForumManagmentSystem.Core.Services.Contracts;
+using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 
@@ -6,19 +8,22 @@ namespace ForumManagmentSystem.Core.Helpers
 {
     public class AuthManager
     {
-        private readonly IUsersRepository userRepository;
+        private readonly IUserService userService;
 
-        public AuthManager(IUsersRepository userRepository)
+        //TODO: Need revisiting, it is temporary solution.
+
+
+        public AuthManager(IUserService userService)
         {
-            this.userRepository = userRepository;
+            this.userService = userService;
         }
 
-        public virtual UserDb TryGetUser(string username)
+        public virtual UserResponseDTO TryGetUser(string username)
         {
 
             try
             {
-                return userRepository.GetByName(username);
+                return userService.GetUser(username);
             }
             catch (EntityNotFoundException)
             {
@@ -28,12 +33,12 @@ namespace ForumManagmentSystem.Core.Helpers
             
         }
 
-        public virtual UserDb TryGetUser(Guid id)
+        public virtual UserResponseDTO TryGetUser(Guid id)
         {
 
             try
             {
-                return userRepository.GetById(id);
+                return userService.GetUser(id);
             }
             catch (EntityNotFoundException)
             {
