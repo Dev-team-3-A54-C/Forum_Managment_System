@@ -1,30 +1,46 @@
-﻿using ForumManagmentSystem.Core.Services.Contracts;
-using ForumManagmentSystem.Infrastructure.Data.Models;
+﻿using ForumManagmentSystem.Infrastructure.Data.Models;
+using ForumManagmentSystem.Infrastructure.Exceptions;
+using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 
 namespace ForumManagmentSystem.Core.Helpers
 {
     public class AuthManager
     {
-        private readonly IUserService usersService;
+        private readonly IUsersRepository userRepository;
 
-        public AuthManager(IUserService usersService)
+        public AuthManager(IUsersRepository userRepository)
         {
-            this.usersService = usersService;
+            this.userRepository = userRepository;
         }
 
-        public virtual UserDb TryGetUser(int id)
+        public virtual UserDb TryGetUser(string username)
         {
-            /*
+
             try
             {
-                return usersService.GetUser(id);
+                return userRepository.GetByName(username);
             }
             catch (EntityNotFoundException)
             {
                 throw new UnauthorizedOperationException("Invalid id!");
             }
-            */
-            throw new NotImplementedException();
+
+            
+        }
+
+        public virtual UserDb TryGetUser(Guid id)
+        {
+
+            try
+            {
+                return userRepository.GetById(id);
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new UnauthorizedOperationException("Invalid id!");
+            }
+
+
         }
     }
 }
