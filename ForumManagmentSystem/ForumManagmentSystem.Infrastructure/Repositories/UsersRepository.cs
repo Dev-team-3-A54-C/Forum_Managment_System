@@ -76,16 +76,12 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
             context.SaveChanges();
             return userToUpdate;
         }
-        public bool Delete(Guid id)
+        public UserDb Delete(Guid id)
         {
             UserDb toDelete = GetById(id);
             context.Remove(toDelete);
             context.SaveChanges();
-            if (toDelete.IsDeleted)
-            {
-                return true;
-            }
-            return false;
+            return toDelete;
         }
         public bool UserExists(string name)
         {
