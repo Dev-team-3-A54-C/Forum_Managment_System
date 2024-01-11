@@ -30,7 +30,7 @@ namespace ForumManagmentSystem.Web
             builder.Services.AddScoped<IReplyService, ReplyService>();
             builder.Services.AddScoped<ITagService, TagService>();
 
-            //builder.Services.AddScoped<IModelMapper, ModelMapper>();
+            builder.Services.AddScoped<IModelMapper, ModelMapper>();
             builder.Services.AddScoped<AuthManager>();
 
             //Solution 1 for AutoMapper

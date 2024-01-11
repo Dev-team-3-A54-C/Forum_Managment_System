@@ -92,7 +92,7 @@ namespace ForumManagmentSystem.Web.Controllers
                 FirstName = viewModel.FirstName,
                 LastName = viewModel.LastName
             };
-            _ = userService.CreateUser(viewModel.Username, user);
+            _ = userService.CreateUser(user);
 
             return RedirectToAction("Login", "Users");
         }

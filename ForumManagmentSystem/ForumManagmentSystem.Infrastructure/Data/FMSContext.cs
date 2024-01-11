@@ -44,8 +44,13 @@ namespace ForumManagmentSystem.Infrastructure.Data
                 .IsRequired()
                 .HasMaxLength(32);
 
-                e.Property(u => u.Password)
+                e.Property(u => u.PasswordHash)
                 .IsRequired();
+
+                e.Property(u => u.PasswordSalt)
+                .IsRequired();
+                //e.Property(u => u.Password)
+                //.IsRequired();
 
                 e.Property(u => u.PhoneNumber)
                 .IsRequired(false)

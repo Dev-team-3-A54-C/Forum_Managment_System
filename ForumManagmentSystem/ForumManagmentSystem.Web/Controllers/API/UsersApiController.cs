@@ -5,6 +5,12 @@ using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Infrastructure.QueryParameters;
 using ForumManagmentSystem.Core.Services.Contracts;
+using ForumManagmentSystem.Infrastructure.Data.Models;
+using System.Security.Cryptography;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Configuration;
 
 namespace ForumManagmentSystem.Web.Controllers.API
 {
@@ -15,12 +21,17 @@ namespace ForumManagmentSystem.Web.Controllers.API
         private readonly IUserService userService;
         private readonly IModelMapper modelMapper;
         private readonly AuthManager authManager;
+        private readonly IConfiguration configuration;
 
-        public UsersApiController(IUserService userService, IModelMapper modelMapper, AuthManager authManager)
+        public static UserDb user = new UserDb();
+
+        public UsersApiController
+            (IUserService userService, IModelMapper modelMapper, AuthManager authManager, IConfiguration configuration)
         {
             this.userService = userService;
             this.modelMapper = modelMapper;
             this.authManager = authManager;
+            this.configuration = configuration;
         }
 
         // READ All: Get all Users or filter by parameters
@@ -49,18 +60,35 @@ namespace ForumManagmentSystem.Web.Controllers.API
 
         }
 
-        // Create (Register): Creates a new user
-        [HttpPost("register")] // api/users/register
-        public IActionResult CreateNewUser([FromHeader] string username, [FromBody] UserDTO dto)
+        [HttpPost("register")]
+        public async Task<ActionResult<UserDb>> Register([FromBody] UserDTO requestDTO)
         {
             try
             {
-                UserResponseDTO result = userService.CreateUser(username, dto);
-                return Ok(result);
+                UserResponseDTO newUser = userService.CreateUser(requestDTO);
+                return Ok(newUser);
             }
-            catch (NameDuplicationException ex)
+            catch(NameDuplicationException e)
             {
-                return Conflict(ex.Message);
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login([FromBody] UserDTO requestDTO)
+        {
+            try
+            {
+                string token = userService.Login(requestDTO);
+                return Ok(token);
+            }
+            catch(WrongPasswordException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch(EntityNotFoundException e)
+            {
+                return BadRequest(e.Message);
             }
         }
 

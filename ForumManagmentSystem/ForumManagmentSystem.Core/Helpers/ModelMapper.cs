@@ -9,6 +9,7 @@ namespace ForumManagmentSystem.Core.Helpers
         {
             return new UserDb
             {
+                Username = dto.Username,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Email = dto.Email

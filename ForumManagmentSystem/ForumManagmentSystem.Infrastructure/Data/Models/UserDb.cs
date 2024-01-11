@@ -10,7 +10,11 @@ namespace ForumManagmentSystem.Infrastructure.Data.Models
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
-        public string Password { get; set; }
+
+        //public string Password { get; set; }
+        //remove the string Password property. Add byte[] PasswordHash and byte[] PasswordSalt
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         public string PhoneNumber { get; set; } 
         public DateTime CreatedOn { get; set; }
         public bool IsAdmin { get; set; }
