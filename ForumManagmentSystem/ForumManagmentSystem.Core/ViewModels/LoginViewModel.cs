@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ForumManagmentSystem.Infrastructure.Data.Models.ViewModel
+namespace ForumManagmentSystem.Core.ViewModels
 {
     public class LoginViewModel
     {

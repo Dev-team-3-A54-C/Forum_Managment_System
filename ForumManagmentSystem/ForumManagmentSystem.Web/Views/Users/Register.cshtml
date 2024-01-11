@@ -1,8 +1,9 @@
-﻿@{
+﻿@using ForumManagmentSystem.Core.ViewModels
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
 	ViewData["Title"] = "Register";
 }
-
-@* model RegisterViewModel *@
+@model RegisterViewModel
 
 <h2>Register</h2>
 
@@ -35,6 +36,6 @@
 		<input type="text" asp-for="LastName" class="form-control" />
 	</div>
 	<div class="form-group">
-		<a asp-controller="Users" asp-action="Register" class="btn btn-primary">Register</a>
+		<a type="submit" asp-controller="Users" asp-action="Register" class="btn btn-primary">Register</a>
 	</div>
 </form>

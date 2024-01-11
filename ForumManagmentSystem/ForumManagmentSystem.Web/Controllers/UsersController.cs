@@ -1,10 +1,11 @@
-﻿using ForumManagmentSystem.Core.Helpers;
+﻿using AutoMapper;
+using ForumManagmentSystem.Core.Helpers;
 using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Core.Services.Contracts;
+using ForumManagmentSystem.Core.ViewModels;
 using ForumManagmentSystem.Infrastructure.Data.Models;
-using ForumManagmentSystem.Infrastructure.Data.Models.ViewModel;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -14,12 +15,14 @@ namespace ForumManagmentSystem.Web.Controllers
     public class UsersController : Controller
     {
         private readonly AuthManager authManager;
+        private readonly IMapper mapper;
         private readonly IUserService userService;
 
-        public UsersController(IUserService userService, AuthManager authManager)
+        public UsersController(IUserService userService, AuthManager authManager, IMapper mapper)
         {
             this.userService = userService;
             this.authManager = authManager;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -84,15 +87,8 @@ namespace ForumManagmentSystem.Web.Controllers
                 return View(viewModel);
             }
 
-            UserDTO user = new UserDTO()
-            {
-                Username = viewModel.Username,
-                Password = viewModel.Password,
-                Email = viewModel.Email,
-                FirstName = viewModel.FirstName,
-                LastName = viewModel.LastName
-            };
-            _ = userService.CreateUser(user);
+            var userDTO = mapper.Map<UserDTO>(viewModel);
+            _ = userService.CreateUser(userDTO);
 
             return RedirectToAction("Login", "Users");
         }
