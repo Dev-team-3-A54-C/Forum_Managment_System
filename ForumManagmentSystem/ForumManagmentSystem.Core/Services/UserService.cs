@@ -48,6 +48,11 @@ namespace ForumManagmentSystem.Core.Services
                 .ToList();
         }
 
+        public int GetCount()
+        {
+            return usersRepository.Count();
+        }
+
         public UserResponseDTO GetUser(string username)
         {
             return autoMapper.Map<UserResponseDTO>(usersRepository.GetByName(username));

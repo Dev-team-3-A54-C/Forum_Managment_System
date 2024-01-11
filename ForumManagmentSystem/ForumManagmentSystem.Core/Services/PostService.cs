@@ -61,6 +61,21 @@ namespace ForumManagmentSystem.Core.Services
                 .ToList();
         }
 
+        public int GetCount()
+        {
+            return postsRepository.Count();
+        }
+
+        public IList<PostResponseDTO> GetTopCommented()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<PostResponseDTO> GetTopRecent()
+        {
+            throw new NotImplementedException();
+        }
+
         public PostResponseDTO Update(Guid postId, string username, PostDTO newData)
         {
             UserDb user = usersRepository.GetByName(username);

@@ -9,6 +9,7 @@ namespace ForumManagmentSystem.Core.Services.Contracts
     {
         UserResponseDTO CreateUser(UserDTO user);
         IList<UserResponseDTO> GetAll();
+        int GetCount();
         UserResponseDTO GetUser(string username);
         UserResponseDTO GetUser(Guid id);
         UserResponseDTO Update(Guid id, UserDTO user);
