@@ -13,6 +13,6 @@ namespace ForumManagmentSystem.Core.Services.Contracts
         ReplyResponseDTO Create(ReplyDTO reply);
         ReplyResponseDTO Update(Guid id, ReplyDTO reply);
         ReplyResponseDTO AddLike(AddReplyLikeDTO reply);
-        ReplyResponseDTO Delete(Guid id);
+        ReplyResponseDTO Delete(Guid id, string username);
     }
 }
