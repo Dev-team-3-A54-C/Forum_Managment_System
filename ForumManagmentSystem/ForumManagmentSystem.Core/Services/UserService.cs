@@ -53,14 +53,14 @@ namespace ForumManagmentSystem.Core.Services
             return autoMapper.Map<UserResponseDTO>
                 (usersRepository.Update(id, autoMapper.Map<UserDb>(user)));
         }
-        public void Delete(Guid id, string username)
+        public UserResponseDTO Delete(Guid id, string username)
         {
             UserDb user = usersRepository.GetByName(username);
             if(!user.IsAdmin)
             {
                 throw new UnauthorizedOperationException($"User is not authorized.");
             }
-            usersRepository.Delete(id);
+            return autoMapper.Map<UserResponseDTO>(usersRepository.Delete(id));
         }
 
         public IList<UserResponseDTO> FilterBy(UserQueryParameters usersParams)

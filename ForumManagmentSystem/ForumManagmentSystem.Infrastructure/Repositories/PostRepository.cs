@@ -47,17 +47,13 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
             return toUpdate;
 
         }
-        public bool Delete(Guid id)
+        public PostDb Delete(Guid id)
         {
             PostDb toDelete = GetById(id);
             _context.Remove(toDelete);
             _context.SaveChanges();
 
-            if (toDelete.IsDeleted)
-            {
-                return true;
-            }
-            return false;
+            return toDelete;
         }
         public bool PostExists(string name)
         {

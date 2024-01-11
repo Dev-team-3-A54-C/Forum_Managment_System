@@ -77,7 +77,7 @@ namespace ForumManagmentSystem.Core.Services
             }
             return autoMapper.Map<PostResponseDTO>(postsRepository.Update(postId, p));
         }
-        public void Delete(string username, Guid postId)
+        public PostResponseDTO Delete(string username, Guid postId)
         {
             UserDb user = usersRepository.GetByName(username);
             PostDb post = postsRepository.GetById(postId);
@@ -86,9 +86,7 @@ namespace ForumManagmentSystem.Core.Services
                 throw new UnauthorizedOperationException
                     (String.Format(UNAUTHORIZED_ERROR_MESSAGE, user.Username));
             }
-            postsRepository.Delete(postId);
-            user.MyPosts.Remove(post);
-            //TODO: check if savechanges() from postRepo saves the changes to user's posts
+            return autoMapper.Map<PostResponseDTO>(postsRepository.Delete(postId));
         }
         public bool AddLike(Guid userID, Guid postID)
         {
