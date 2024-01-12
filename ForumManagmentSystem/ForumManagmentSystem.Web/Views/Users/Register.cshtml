@@ -1,40 +1,41 @@
-﻿@{
+﻿@using ForumManagmentSystem.Core.ViewModels
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
 	ViewData["Title"] = "Register";
 }
-
-@* model RegisterViewModel *@
+@model RegisterViewModel
 
 <h2>Register</h2>
 
 <form asp-controller="Users" asp-action="Register" method="post">
 	<div class="form-group">
-		<label asp-for="Username"></label>
+		<label asp-for="Username">Username</label>
 		<input type="text" asp-for="Username" class="form-control" />
 		<span asp-validation-for="Username" class="text-danger"></span>
 	</div>
 	<div class="form-group">
-		<label asp-for="Password"></label>
+		<label asp-for="Password">Password</label>
 		<input type="password" asp-for="Password" class="form-control" />
 		<span asp-validation-for="Password" class="text-danger"></span>
 	</div>
 	<div class="form-group">
-		<label asp-for="ConfirmPassword"></label>
+		<label asp-for="ConfirmPassword">Confirm Password</label>
 		<input type="password" asp-for="ConfirmPassword" class="form-control" />
 		<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 	</div>
 	<div class="form-group">
-		<label asp-for="Email"></label>
+		<label asp-for="Email">Email</label>
 		<input type="text" asp-for="Email" class="form-control" />
 	</div>
 	<div class="form-group">
-		<label asp-for="FirstName"></label>
+		<label asp-for="FirstName">First Name</label>
 		<input type="text" asp-for="FirstName" class="form-control" />
 	</div>
 	<div class="form-group">
-		<label asp-for="LastName"></label>
+		<label asp-for="LastName">Last Name</label>
 		<input type="text" asp-for="LastName" class="form-control" />
 	</div>
 	<div class="form-group">
-		<a asp-controller="Users" asp-action="Register" class="btn btn-primary">Register</a>
+		<a type="submit" asp-controller="Users" asp-action="Register" class="btn btn-primary">Register</a>
 	</div>
 </form>

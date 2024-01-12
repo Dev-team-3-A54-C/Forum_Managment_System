@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumManagmentSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(FMSContext))]
-    [Migration("20240110195121_AddedHashedPasswordToUserDb")]
-    partial class AddedHashedPasswordToUserDb
+    [Migration("20240111085944_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

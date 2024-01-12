@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
+using ForumManagmentSystem.Core.ViewModels;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 
 
@@ -23,6 +24,7 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
             this.CreateMap<PostDTO, PostDb>();
             this.CreateMap<TagDTO, TagDb>();
             this.CreateMap<ReplyDTO, ReplyDb>();
+            this.CreateMap<RegisterViewModel, UserDb>();
             //TODO: check if the maps are right
         }
     }
