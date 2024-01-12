@@ -11,11 +11,13 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ForumManagmentSystem.Web.Controllers.API
 {
     [ApiController]
     [Route("api/users")]
+    [Authorize]
     public class UsersApiController : ControllerBase
     {
         private readonly IUserService userService;
@@ -61,6 +63,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<ActionResult<UserDb>> Register([FromBody] UserDTO requestDTO)
         {
             try
@@ -75,6 +78,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult<string>> Login([FromBody] UserDTO requestDTO)
         {
             try

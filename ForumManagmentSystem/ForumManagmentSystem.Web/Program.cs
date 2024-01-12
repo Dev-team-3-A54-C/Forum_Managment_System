@@ -6,10 +6,11 @@ using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Data;
 using ForumManagmentSystem.Infrastructure.Repositories;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
-using ForumManagmentSystem.Web.Controllers;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace ForumManagmentSystem.Web
 {
@@ -42,6 +43,20 @@ namespace ForumManagmentSystem.Web
             AutoMapper.IConfigurationProvider cfg = new MapperConfiguration(cfg => { cfg.AddProfile<MapperProfiles>(); });
             builder.Services.AddSingleton(cfg);
 
+            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
             builder.Services.AddDbContext<FMSContext>(options =>
             {
                 // A connection string for establishing a connection to the locally installed SQL Server.
@@ -58,6 +73,9 @@ namespace ForumManagmentSystem.Web
             var app = builder.Build();
             app.UseRouting();
             app.UseStaticFiles();
+            
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
