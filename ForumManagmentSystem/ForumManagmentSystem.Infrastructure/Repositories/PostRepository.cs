@@ -1,12 +1,8 @@
 ﻿using ForumManagmentSystem.Infrastructure.Data;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ForumManagmentSystem.Infrastructure.Exceptions;
+using Microsoft.EntityFrameworkCore;
 namespace ForumManagmentSystem.Infrastructure.Repositories
 {
     public class PostRepository : IPostsRepository
@@ -30,6 +26,19 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         {
             return _context.Posts.FirstOrDefault(p => p.Title == title) ??
                 throw new EntityNotFoundException($"Post with title:{title} not found.");
+        }
+        public IEnumerable<PostDb> GetTopTenByComments()
+        {
+            return _context.Posts.
+                Include(p => p.Replies)
+                .OrderByDescending(p => p.Replies.Count)
+                .Take(10);
+        }
+        public IEnumerable<PostDb> GetTopTenRecent()
+        {
+            return _context.Posts                
+                .OrderByDescending(p => p.CreatedOn)
+                .Take(10);
         }
         public PostDb Create(PostDb newPost)
         {

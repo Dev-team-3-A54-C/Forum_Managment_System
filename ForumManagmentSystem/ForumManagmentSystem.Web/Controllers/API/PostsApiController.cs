@@ -56,8 +56,8 @@ namespace ForumManagmentSystem.Web.Controllers.API
         [AllowAnonymous]
         public IActionResult GetTop10ByComments()
         {
-            ;
-            return Ok();
+            var posts = postService.GetTopTenByComments();
+            return Ok(posts);
         }
 
         //Read: Gets top ten posts by comments
@@ -65,8 +65,8 @@ namespace ForumManagmentSystem.Web.Controllers.API
         [AllowAnonymous]
         public IActionResult GetTop10Newest()
         {
-            ;
-            return Ok();
+            var posts = postService.GetTopTenRecent();
+            return Ok(posts);
         }
 
         // Create: Creates a signle post
