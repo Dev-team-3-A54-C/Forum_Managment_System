@@ -13,25 +13,34 @@ namespace ForumManagmentSystem.Core.Services
     {
         private readonly ITagRepository tagRepository;
         private readonly IMapper mapper;
+        private readonly IUsersRepository userRepository;
 
-        public TagService(ITagRepository tagRepository, IMapper mapper)
+        public TagService(ITagRepository tagRepository, IMapper mapper, IUsersRepository userRepository)
         {
             this.tagRepository = tagRepository;
             this.mapper = mapper;
+            this.userRepository = userRepository;
         }
 
-        public TagResponseDTO Create(TagDTO tag)
+        public TagResponseDTO Create(Guid userId, TagDTO tag)
         {
+            var user = userRepository.GetById(userId);
+
+            if (!user.IsAdmin)
+            {
+                throw new UnauthorizedOperationException($"User {user.Username} can not create new tags.");
+            }
+
+
             if(tagRepository.DoesNameExist(tag.Name).Result)
             {
                 throw new NameDuplicationException($"Tag with name {tag.Name} already exist.");
             }
 
 
-            //TODO: Check if automapper works properly
             var tagToAdd = mapper.Map<TagDb>(tag);
 
-            tagRepository.Create(tagToAdd);
+            _ = tagRepository.Create(tagToAdd);
 
             return mapper.Map<TagResponseDTO>(tagToAdd);
 
@@ -39,7 +48,7 @@ namespace ForumManagmentSystem.Core.Services
         public IEnumerable<TagResponseDTO> GetAll()
         {
             var tags = tagRepository.GetAll().Result.Select(x => mapper.Map<TagResponseDTO>(x));
-            //TODO check if automapper works properly
+
             return tags;
         }
 
@@ -53,14 +62,21 @@ namespace ForumManagmentSystem.Core.Services
         public TagResponseDTO GetByName(string name)
         {
             var tag = tagRepository.GetByName(name).Result;
-            //TODO check if automapper works properly
+
             return mapper.Map<TagResponseDTO>(tag);
         }
 
-        public TagResponseDTO Update(Guid id, TagDTO tag)
+        public TagResponseDTO Update(Guid userId, Guid tagId, TagDTO tag)
         {
+            var user = userRepository.GetById(userId);
+
+            if (!user.IsAdmin)
+            {
+                throw new UnauthorizedOperationException($"User {user.Username} can not create new tags.");
+            }
+
             var newTag = mapper.Map<TagDb>(tag);
-            newTag.Id = id;
+            newTag.Id = tagId;
 
             if (tagRepository.DoesNameExist(tag.Name).Result)
             {
@@ -72,17 +88,31 @@ namespace ForumManagmentSystem.Core.Services
             return mapper.Map<TagResponseDTO>(updatedTag);
         }
 
-        public TagResponseDTO Delete(string name)
+        public TagResponseDTO Delete(Guid userId, string name)
         {
+            var user = userRepository.GetById(userId);
+
+            if (!user.IsAdmin)
+            {
+                throw new UnauthorizedOperationException($"User {user.Username} can not create new tags.");
+            }
+
             var tag = tagRepository.Delete(name).Result;
-            //TODO check if automapper works properly
+
             return mapper.Map<TagResponseDTO>(tag);
         }
 
-        public TagResponseDTO Delete(Guid id)
+        public TagResponseDTO Delete(Guid userId, Guid tagId)
         {
-            var tag = tagRepository.Delete(id).Result;
-            //TODO check if automapper works properly
+            var user = userRepository.GetById(userId);
+
+            if (!user.IsAdmin)
+            {
+                throw new UnauthorizedOperationException($"User {user.Username} can not create new tags.");
+            }
+
+            var tag = tagRepository.Delete(tagId).Result;
+
             return mapper.Map<TagResponseDTO>(tag);
         }
     }
