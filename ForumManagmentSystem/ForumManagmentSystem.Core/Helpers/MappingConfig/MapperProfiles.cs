@@ -24,7 +24,7 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
             this.CreateMap<PostDTO, PostDb>();
             this.CreateMap<TagDTO, TagDb>();
             this.CreateMap<ReplyDTO, ReplyDb>();
-            this.CreateMap<RegisterViewModel, UserDb>();
+            this.CreateMap<RegisterViewModel, UserDTO>();
             //TODO: check if the maps are right
         }
     }

@@ -22,7 +22,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult About()
+        public IActionResult Contact()
         {
             return View();
         }
