@@ -2,6 +2,7 @@
 using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
 {
     [Route("api/replies")]
     [ApiController]
+    [Authorize]
     public class ReplyApiController : ControllerBase
     {
         private readonly IReplyService replyService;

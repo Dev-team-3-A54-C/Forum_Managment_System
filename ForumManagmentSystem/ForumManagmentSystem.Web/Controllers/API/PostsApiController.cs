@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ForumManagmentSystem.Web.Controllers.API
 {
     [ApiController]
     [Route("api/posts")]
+    [Authorize]
     public class PostsApiController : ControllerBase
     {
         private readonly IPostService postService;

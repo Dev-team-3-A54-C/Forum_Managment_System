@@ -38,8 +38,10 @@ namespace ForumManagmentSystem.Web.Controllers.API
 
         // READ All: Get all Users or filter by parameters
         [HttpGet("")] // api/users/
-        public IActionResult GetUsers([FromQuery] UserQueryParameters filterParameters)
+        public IActionResult GetUsers([FromHeader] string authorization,[FromQuery] UserQueryParameters filterParameters)
         {
+            
+
             IList<UserResponseDTO> users = userService
                 .FilterBy(filterParameters);
 
