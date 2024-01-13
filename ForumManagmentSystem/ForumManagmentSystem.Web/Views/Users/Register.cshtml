@@ -5,37 +5,53 @@
 }
 @model RegisterViewModel
 
-<h2>Register</h2>
+<style>
+	body {
+		background-color: #f8f9fa;
+	}
 
-<form asp-controller="Users" asp-action="Register" method="post">
-	<div class="form-group">
-		<label asp-for="Username">Username</label>
-		<input type="text" asp-for="Username" class="form-control" />
-		<span asp-validation-for="Username" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="Password">Password</label>
-		<input type="password" asp-for="Password" class="form-control" />
-		<span asp-validation-for="Password" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="ConfirmPassword">Confirm Password</label>
-		<input type="password" asp-for="ConfirmPassword" class="form-control" />
-		<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="Email">Email</label>
-		<input type="text" asp-for="Email" class="form-control" />
-	</div>
-	<div class="form-group">
-		<label asp-for="FirstName">First Name</label>
-		<input type="text" asp-for="FirstName" class="form-control" />
-	</div>
-	<div class="form-group">
-		<label asp-for="LastName">Last Name</label>
-		<input type="text" asp-for="LastName" class="form-control" />
-	</div>
-	<div class="form-group">
-		<a type="submit" asp-controller="Users" asp-action="Register" class="btn btn-primary">Register</a>
-	</div>
-</form>
+	.card {
+		border: none;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.form-group label {
+		font-weight: bold;
+	}
+</style>
+
+<section class="page-section">
+	<h2 style="margin-left:50px; margin-bottom:30px;">Sign Up</h2>
+	<form asp-controller="Users" asp-action="Register" method="post" style="max-width: 600px; margin-left:70px">
+		<div class="form-group" style="margin-top: 25px">
+			<label asp-for="Username">Username</label>
+			<input type="text" asp-for="Username" class="form-control" />
+			<span asp-validation-for="Username" class="text-danger"></span>
+		</div>
+		<div class="form-group" style="margin-top: 25px">
+			<label asp-for="Password">Password</label>
+			<input type="password" asp-for="Password" class="form-control" />
+			<span asp-validation-for="Password" class="text-danger"></span>
+		</div>
+		<div class="form-group" style="margin-top: 25px">
+			<label asp-for="ConfirmPassword">Confirm Password</label>
+			<input type="password" asp-for="ConfirmPassword" class="form-control" />
+			<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+		</div>
+		<div class="form-group" style="margin-top: 25px">
+			<label asp-for="Email">Email</label>
+			<input type="text" asp-for="Email" class="form-control" />
+		</div>
+		<div class="form-group" style="margin-top: 25px">
+			<label asp-for="FirstName">First Name</label>
+			<input type="text" asp-for="FirstName" class="form-control" />
+		</div>
+		<div class="form-group" style="margin-top: 25px">
+			<label asp-for="LastName">Last Name</label>
+			<input type="text" asp-for="LastName" class="form-control" />
+		</div>
+		<div class="form-group" style="margin-top: 25px">
+			<button type="submit" asp-controller="Users" asp-action="Register" class="btn btn-primary">Sign Up</button>
+		</div>
+	</form>
+</section>
