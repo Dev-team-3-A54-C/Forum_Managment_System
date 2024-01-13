@@ -79,7 +79,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<string>> Login([FromBody] UserDTO requestDTO)
+        public async Task<ActionResult<string>> Login([FromBody] UserLoginDTO requestDTO)
         {
             try
             {

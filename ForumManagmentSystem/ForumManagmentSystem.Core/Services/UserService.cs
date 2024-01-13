@@ -103,7 +103,7 @@ namespace ForumManagmentSystem.Core.Services
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
-        public string Login(UserDTO userDTO)
+        public string Login(UserLoginDTO userDTO)
         {
             if (!usersRepository.UserExists(userDTO.Username))
             {
