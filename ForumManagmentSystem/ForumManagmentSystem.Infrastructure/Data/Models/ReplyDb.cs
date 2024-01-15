@@ -10,7 +10,7 @@ namespace ForumManagmentSystem.Infrastructure.Data.Models
         public int LikesCount { get; set; }
         public Guid PostId { get; set; }
         public virtual PostDb Post { get; set; }
-        public Guid UserId { get; set; }
+        public Guid CreatedBy { get; set; }
         public virtual UserDb User { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; }

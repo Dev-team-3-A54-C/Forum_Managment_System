@@ -7,6 +7,7 @@ using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ForumManagmentSystem.Web.Controllers.API
 {
@@ -71,11 +72,12 @@ namespace ForumManagmentSystem.Web.Controllers.API
 
         // Create: Creates a signle post
         [HttpPost("")]  // api/posts/id
-        public IActionResult CreatePost([FromHeader] string username, [FromBody] PostDTO postDto)
+        public IActionResult CreatePost([FromBody] PostDTO postDto)
         {
             try
             {
-                PostResponseDTO result = postService.CreatePost(username, postDto.Title, postDto.Content);
+                var username = User.FindFirstValue(ClaimTypes.Name);
+                PostResponseDTO result = postService.CreatePost(username, postDto);
                 return Ok(result);
             }
             catch (NameDuplicationException ex)

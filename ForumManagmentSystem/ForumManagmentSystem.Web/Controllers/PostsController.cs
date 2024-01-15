@@ -53,7 +53,9 @@ namespace ForumManagmentSystem.Web.Controllers
 
             string username = HttpContext.Session.GetString("user");
 
-            postService.CreatePost(username, postViewModel.Title, postViewModel.Content);
+            var post = mapper.Map<PostDTO>(postViewModel);
+
+            postService.CreatePost(username, post);
 
             return RedirectToAction("Index", "Posts");
         }

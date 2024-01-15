@@ -54,7 +54,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     Title = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", maxLength: 8192, nullable: false),
                     LikesCount = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -63,8 +63,8 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Posts_Users_CreatedBy",
+                        column: x => x.CreatedBy,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
@@ -175,15 +175,15 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Posts_CreatedBy",
+                table: "Posts",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_Title",
                 table: "Posts",
                 column: "Title",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserId",
-                table: "Posts",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostTags_TagId",
