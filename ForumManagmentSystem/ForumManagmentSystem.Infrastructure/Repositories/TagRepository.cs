@@ -51,6 +51,9 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         public async Task<TagDb> Create(TagDb newTag)
         {
             await context.Tags.AddAsync(newTag);
+
+            await context.SaveChangesAsync();
+
             return newTag;
         }
 
@@ -74,7 +77,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
             context.Tags.Remove(tagForDeletion);
 
-            await context.SaveChangesAsync();
+            context.SaveChanges();
 
             return tagForDeletion;
         }
@@ -87,7 +90,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
             context.Tags.Remove(tagForDeletion);
 
-            await context.SaveChangesAsync();
+            context.SaveChanges();
 
             return tagForDeletion;
         }

@@ -81,7 +81,7 @@ namespace ForumManagmentSystem.Infrastructure.Data
 
                 e.HasOne(p => p.User)
                 .WithMany(u => u.MyPosts)
-                .HasForeignKey(p => p.UserId)
+                .HasForeignKey(p => p.CreatedBy)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
 
@@ -110,7 +110,7 @@ namespace ForumManagmentSystem.Infrastructure.Data
 
                 e.HasOne(r => r.User)
                 .WithMany(u => u.MyReplies)
-                .HasForeignKey(r => r.UserId)
+                .HasForeignKey(r => r.CreatedBy)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
             });

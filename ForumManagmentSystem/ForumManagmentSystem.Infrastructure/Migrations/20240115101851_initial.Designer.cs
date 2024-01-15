@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumManagmentSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(FMSContext))]
-    [Migration("20240111085944_initial")]
+    [Migration("20240115101851_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         .HasMaxLength(8192)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -52,15 +55,12 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
 
                     b.HasIndex("Title")
                         .IsUnique();
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -237,7 +237,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                 {
                     b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.UserDb", "User")
                         .WithMany("MyPosts")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 

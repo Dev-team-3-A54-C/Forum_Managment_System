@@ -13,7 +13,7 @@ namespace ForumManagmentSystem.Infrastructure.Data.Models
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty; 
         public int LikesCount { get; set; }
-        public Guid UserId { get; set; }
+        public Guid CreatedBy { get; set; }
         public virtual UserDb User { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; }

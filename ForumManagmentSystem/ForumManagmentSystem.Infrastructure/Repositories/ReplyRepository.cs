@@ -129,7 +129,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
             context.Replies.Remove(replyForDeletion);
 
-            await context.SaveChangesAsync();
+            context.SaveChanges();
 
             return replyForDeletion;
 
