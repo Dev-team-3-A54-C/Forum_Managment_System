@@ -42,7 +42,9 @@ namespace ForumManagmentSystem.Web.Controllers
 
             string username = User.Identity.Name;
 
-            postService.CreatePost(username, postViewModel.Title, postViewModel.Content);
+            var post = mapper.Map<PostDTO>(postViewModel);
+
+            postService.CreatePost(username, post);
 
             return RedirectToAction("Login", "Users");
         }

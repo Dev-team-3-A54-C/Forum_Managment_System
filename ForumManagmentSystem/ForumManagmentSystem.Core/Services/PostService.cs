@@ -22,20 +22,23 @@ namespace ForumManagmentSystem.Core.Services
             autoMapper = mapper;
         }
 
-        public PostResponseDTO CreatePost(string username, string title, string content)
+        public PostResponseDTO CreatePost(string username, PostDTO incomingPost)
         {
-            if (postsRepository.PostExists(title))
+            if (postsRepository.PostExists(incomingPost.Title))
             {
-                throw new NameDuplicationException($"Post with title: {title} already exists.");
+                throw new NameDuplicationException($"Post with title: {incomingPost.Title} already exists.");
             }
+
             UserDb creator = usersRepository.GetByName(username);
+
             PostDb post = new PostDb()
             {
-                Title = title,
-                Content = content,
+                Title = incomingPost.Title,
+                Content = incomingPost.Content,
                 User = creator,
                 CreatedOn = DateTime.Now
             };
+
             return autoMapper.Map<PostResponseDTO>(postsRepository.Create(post));
         }
 

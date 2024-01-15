@@ -115,34 +115,34 @@ namespace ForumManagmentSystem.Web.Controllers.API
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("{id}")]
-        public IActionResult DeleteTagWithTitle(string title)
-        {
-            try
-            {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //[HttpDelete("{id}")]
+        //public IActionResult DeleteTagWithTitle(string title)
+        //{
+        //    try
+        //    {
+        //        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var deletedTag = tagService.Delete(new Guid(userId), title);
+        //        var deletedTag = tagService.Delete(new Guid(userId), title);
 
-                return Ok(deletedTag);
-            }
-            catch(EntityNotFoundException ex)
-            {
-                return Conflict(ex.Message);
-            }
-            catch(UnauthorizedOperationException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-            catch (AggregateException ex)
-            {
-                return BadRequest(ex.InnerException.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return Ok(deletedTag);
+        //    }
+        //    catch(EntityNotFoundException ex)
+        //    {
+        //        return Conflict(ex.Message);
+        //    }
+        //    catch(UnauthorizedOperationException ex)
+        //    {
+        //        return Unauthorized(ex.Message);
+        //    }
+        //    catch (AggregateException ex)
+        //    {
+        //        return BadRequest(ex.InnerException.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         [HttpDelete("{id}")]
         public IActionResult DeleteTagWithId(string id)
