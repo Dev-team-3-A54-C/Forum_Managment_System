@@ -15,7 +15,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
 
         public IList<PostDb> GetAll()
         {
-            return _context.Posts.ToList();
+            return _context.Posts.Include(p => p.User).ToList();
         }
         public PostDb GetById(Guid id)
         {
