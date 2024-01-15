@@ -16,8 +16,8 @@ namespace ForumManagmentSystem.Core.Services.Contracts
         UserResponseDTO Delete(Guid id, string username);
         IList<UserResponseDTO> FilterBy(UserQueryParameters usersParams);
         bool UserExists(string username);
-        string Login(UserDTO userDTO);
+        string Login(UserLoginDTO userDTO);
         UserDb GetDbUser(string username);
-        bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
+        bool VerifyPasswordHash(string password, byte[] passwordHash,
     }
 }

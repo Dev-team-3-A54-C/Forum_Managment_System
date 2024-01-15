@@ -5,7 +5,6 @@ using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
-using System.Linq;
 
 namespace ForumManagmentSystem.Core.Services
 {
@@ -64,15 +63,19 @@ namespace ForumManagmentSystem.Core.Services
             return postsRepository.Count();
         }
 
-        public IList<PostResponseDTO> GetTopCommented()
+        public IList<PostResponseDTO> GetTopTenByComments()
         {
-            throw new NotImplementedException();
+            return postsRepository.GetTopTenByComments()
+               .Select(p => autoMapper.Map<PostResponseDTO>(p))
+               .ToList();
         }
 
-        public IList<PostResponseDTO> GetTopRecent()
+        public IList<PostResponseDTO> GetTopTenRecent()
         {
-            throw new NotImplementedException();
-        }
+            return postsRepository.GetTopTenRecent()
+                .Select(p => autoMapper.Map<PostResponseDTO>(p))
+                .ToList();
+        }       
 
         public PostResponseDTO Update(Guid postId, string username, PostDTO newData)
         {
@@ -117,5 +120,6 @@ namespace ForumManagmentSystem.Core.Services
             p.LikesCount++;
             return postsRepository.AddLike(postLikesDb);
         }
+
     }
 }

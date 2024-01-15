@@ -45,6 +45,8 @@ namespace ForumManagmentSystem.Web
 
             builder.Services.AddSwaggerGen();
 
+            //builder.Services.AddHttpContextAccessor();
+
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

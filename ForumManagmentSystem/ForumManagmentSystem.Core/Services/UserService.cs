@@ -108,7 +108,7 @@ namespace ForumManagmentSystem.Core.Services
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
-        public string Login(UserDTO userDTO)
+        public string Login(UserLoginDTO userDTO)
         {
             if (!usersRepository.UserExists(userDTO.Username))
             {
@@ -137,7 +137,8 @@ namespace ForumManagmentSystem.Core.Services
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

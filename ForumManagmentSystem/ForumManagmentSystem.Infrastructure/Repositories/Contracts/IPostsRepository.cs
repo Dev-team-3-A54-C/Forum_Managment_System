@@ -1,9 +1,4 @@
 ﻿using ForumManagmentSystem.Infrastructure.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
 {
@@ -12,6 +7,8 @@ namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
         IList<PostDb> GetAll();
         PostDb GetById(Guid id);
         PostDb GetByTitle(string title);
+        IEnumerable<PostDb> GetTopTenByComments();
+        IEnumerable<PostDb> GetTopTenRecent();
         PostDb Create(PostDb newPost); // Register
         PostDb Update(Guid id, PostDb post);
         PostDb Delete(Guid id);

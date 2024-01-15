@@ -3,11 +3,6 @@ using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.QueryParameters;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 
 namespace ForumManagmentSystem.Infrastructure.Repositories

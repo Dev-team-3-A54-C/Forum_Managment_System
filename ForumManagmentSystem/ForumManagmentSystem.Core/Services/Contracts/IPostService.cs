@@ -13,6 +13,8 @@ namespace ForumManagmentSystem.Core.Services.Contracts
     {
         PostResponseDTO CreatePost(string username, string title, string content);
         IList<PostResponseDTO> GetAll();
+        IList<PostResponseDTO> GetTopTenByComments();
+        IList<PostResponseDTO> GetTopTenRecent();
         int GetCount();
         PostResponseDTO Get(Guid id);
         PostResponseDTO Get(string title);

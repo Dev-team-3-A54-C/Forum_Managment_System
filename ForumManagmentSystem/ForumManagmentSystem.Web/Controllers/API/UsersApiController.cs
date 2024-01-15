@@ -38,10 +38,8 @@ namespace ForumManagmentSystem.Web.Controllers.API
 
         // READ All: Get all Users or filter by parameters
         [HttpGet("")] // api/users/
-        public IActionResult GetUsers([FromHeader] string authorization,[FromQuery] UserQueryParameters filterParameters)
+        public IActionResult GetUsers([FromQuery] UserQueryParameters filterParameters)
         {
-            
-
             IList<UserResponseDTO> users = userService
                 .FilterBy(filterParameters);
 
@@ -81,7 +79,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<string>> Login([FromBody] UserDTO requestDTO)
+        public async Task<ActionResult<string>> Login([FromBody] UserLoginDTO requestDTO)
         {
             try
             {

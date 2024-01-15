@@ -5,6 +5,7 @@ using ForumManagmentSystem.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ForumManagmentSystem.Web.Controllers.API
 {
@@ -71,7 +72,9 @@ namespace ForumManagmentSystem.Web.Controllers.API
         {
             try
             {
-                var newTag = tagService.Create(tagDTO);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var newTag = tagService.Create(new Guid(userId),tagDTO);
 
                 return Ok(newTag);
             }
@@ -93,7 +96,9 @@ namespace ForumManagmentSystem.Web.Controllers.API
         {
             try
             {
-                var newTag = tagService.Update(new Guid(id),tagDTO);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var newTag = tagService.Update(new Guid(userId), new Guid(id),tagDTO);
 
                 return Ok(newTag);
             }
@@ -103,7 +108,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
             }
             catch (AggregateException ex)
             {
-                return Conflict(ex.InnerException.Message);
+                return Conflict(ex?.InnerException?.Message);
             }
             catch (Exception ex)
             {
@@ -115,7 +120,9 @@ namespace ForumManagmentSystem.Web.Controllers.API
         {
             try
             {
-                var deletedTag = tagService.Delete(title);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var deletedTag = tagService.Delete(new Guid(userId), title);
 
                 return Ok(deletedTag);
             }
@@ -142,7 +149,9 @@ namespace ForumManagmentSystem.Web.Controllers.API
         {
             try
             {
-                var deletedTag = tagService.Delete(new Guid(id));
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var deletedTag = tagService.Delete(new Guid(userId), new Guid(id));
 
                 return Ok(deletedTag);
             }
@@ -156,7 +165,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
             }
             catch (AggregateException ex)
             {
-                return BadRequest(ex.InnerException.Message);
+                return BadRequest(ex?.InnerException?.Message);
             }
             catch (Exception ex)
             {

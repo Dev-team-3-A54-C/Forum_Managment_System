@@ -51,6 +51,24 @@ namespace ForumManagmentSystem.Web.Controllers.API
             }
         }
 
+        //Read: Gets top ten posts by comments
+        [HttpGet("Top10PostsByComments")]// api/posts/Top10PostsByComments
+        [AllowAnonymous]
+        public IActionResult GetTop10ByComments()
+        {
+            var posts = postService.GetTopTenByComments();
+            return Ok(posts);
+        }
+
+        //Read: Gets top ten posts by comments
+        [HttpGet("Top10NewestPosts")]// api/posts/Top10NewestPosts
+        [AllowAnonymous]
+        public IActionResult GetTop10Newest()
+        {
+            var posts = postService.GetTopTenRecent();
+            return Ok(posts);
+        }
+
         // Create: Creates a signle post
         [HttpPost("")]  // api/posts/id
         public IActionResult CreatePost([FromHeader] string username, [FromBody] PostDTO postDto)
