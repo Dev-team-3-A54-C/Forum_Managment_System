@@ -68,6 +68,7 @@ namespace ForumManagmentSystem.Web
                 // Configure the application to use the locally installed SQL Server.
                 options.UseSqlServer(connectionString);
                 options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
             });
 
             builder.Services.AddControllersWithViews();
