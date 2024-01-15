@@ -12,7 +12,9 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
         public MapperProfiles()//(IConfigurationProvider config) : base(config) //just to get the error out
         {
             this.CreateMap<PostDb, PostResponseDTO>()
-                .ForMember(d => d.Likes, p => p.MapFrom(s => s.LikesCount));
+                .ForMember(d => d.Likes, p => p.MapFrom(s => s.LikesCount))
+                .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
+            
             this.CreateMap<ReplyDb, ReplyResponseDTO>()
                 .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
             this.CreateMap<UserDb, UserResponseDTO>();
