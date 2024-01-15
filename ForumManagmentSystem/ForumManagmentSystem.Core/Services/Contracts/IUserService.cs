@@ -17,5 +17,7 @@ namespace ForumManagmentSystem.Core.Services.Contracts
         IList<UserResponseDTO> FilterBy(UserQueryParameters usersParams);
         bool UserExists(string username);
         string Login(UserDTO userDTO);
+        UserDb GetDbUser(string username);
+        bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
     }
 }

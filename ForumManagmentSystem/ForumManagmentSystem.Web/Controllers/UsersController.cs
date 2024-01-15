@@ -28,22 +28,23 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            var viewModel = new LoginViewModel();
+            var loginViewModel = new LoginViewModel();
 
-            return View(viewModel);
+            return View(loginViewModel);
         }
 
         [HttpPost]
-        public IActionResult Login(LoginViewModel viewModel)
+        public IActionResult Login(LoginViewModel loginviewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(viewModel);
+                return View(loginviewModel);
             }
 
             try
             {
-                authManager.Login(viewModel.Username, viewModel.Password);
+                var user = authManager.TryGetUser(loginviewModel.Username, loginviewModel.Password);
+                HttpContext.Session.SetString("user", user.Username);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -52,14 +53,14 @@ namespace ForumManagmentSystem.Web.Controllers
                 ModelState.AddModelError("Username", ex.Message);
                 ModelState.AddModelError("Password", ex.Message);
 
-                return View(viewModel);
+                return View(loginviewModel);
             }
         }
 
         [HttpGet]
         public IActionResult Logout()
         {
-            authManager.Logout();
+            HttpContext.Session.Remove("user");
 
             return RedirectToAction("Index", "Home");
         }
@@ -74,6 +75,35 @@ namespace ForumManagmentSystem.Web.Controllers
 
         [HttpPost]
         public IActionResult Register(RegisterViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            if (viewModel.Password != viewModel.ConfirmPassword)
+            {
+                ModelState.AddModelError("ConfirmPassword", "The password and confirmation password do not match.");
+
+                return View(viewModel);
+            }
+
+            var userDTO = mapper.Map<UserDTO>(viewModel);
+            _ = userService.CreateUser(userDTO);
+
+            return RedirectToAction("Login", "Users");
+        }
+
+        [HttpGet]
+        public IActionResult Edit() // Update profile information
+        {
+            var viewModel = new RegisterViewModel();
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(RegisterViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

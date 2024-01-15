@@ -1,6 +1,10 @@
-﻿@{
+﻿@using ForumManagmentSystem.Core.ViewModels
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
 	ViewData["Title"] = "Posts";
 }
+
+@model PostViewModel
 
 <style>
     body {
@@ -18,20 +22,27 @@
 </style>
 
 <section class="page-section" style="margin-left: 160px; margin-right: 160px;">
+
     <h2 style="margin-left:50px; margin-bottom:30px;">Create a New Post</h2>
-    <form asp-controller="Users" asp-action="Login" method="post" style="max-width: 600px; margin-left:70px">
+
+    <form asp-controller="Posts" asp-action="Create" method="post" style="max-width: 600px; margin-left:70px">
+
         <div class="form-group">
             <label asp-for="Title">Title</label>
             <input type="text" asp-for="Title" class="form-control" />
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
+
         <div class="form-group" style="margin-top: 25px">
             <label asp-for="Content">Content</label>
             <textarea type="Content" asp-for="Content" class="form-control" style="width: 160%; height:300px"></textarea>
             <span asp-validation-for="Content" class="text-danger"></span>
         </div>
+
         <div class="form-group" style="margin-top: 25px">
-            <button type="submit" value="Login" class="btn btn-primary">Create Post</button>
+            <button type="submit" value="PostCreation" class="btn btn-primary">Create Post</button>
         </div>
+
     </form>
+
 </section>

@@ -69,9 +69,16 @@ namespace ForumManagmentSystem.Web
             });
 
             builder.Services.AddControllersWithViews();
+			builder.Services.AddSession(options =>
+			{
+				options.IdleTimeout = TimeSpan.FromSeconds(60);
+				options.Cookie.HttpOnly = true;
+				options.Cookie.IsEssential = true;
+			});
 
-            var app = builder.Build();
-            app.UseRouting();
+			var app = builder.Build();
+			app.UseSession();
+			app.UseRouting();
             app.UseStaticFiles();
             
             app.UseAuthentication();

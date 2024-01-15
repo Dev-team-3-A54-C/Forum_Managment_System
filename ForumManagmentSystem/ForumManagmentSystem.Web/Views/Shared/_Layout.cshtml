@@ -1,7 +1,8 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
 @{
     var viewName = ViewContext.RouteData.Values["action"].ToString();
+    var isLogged = Context.Session.Keys.Contains("user");
+    string username = User.Identity.Name;
 }
 
 <!DOCTYPE html>
@@ -43,7 +44,6 @@
     </head>
     </head>
     <body id="page-top">
-
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container px-4 px-lg-5">
@@ -74,12 +74,31 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#portfolio">Develor API</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" asp-area="" asp-controller="Users" asp-action="Register">Sign Up</a>
-                    </li>
+                    @{
+                        if (isLogged)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="" asp-controller="Posts" asp-action="Create">Create Post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="" asp-controller="Users" asp-action="Edit">Edit Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="" asp-controller="Users" asp-action="Logout">Log Out</a>
+                            </li>
+                            
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="" asp-controller="Users" asp-action="Register">Sign Up</a>
+                            </li>
+                        }
+                    }
+                    
                     </ul>
                 </div>
             </div>

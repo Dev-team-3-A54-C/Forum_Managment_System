@@ -40,8 +40,6 @@ namespace ForumManagmentSystem.Core.Services
             return autoMapper.Map<PostResponseDTO>(postsRepository.Create(post));
         }
 
-
-
         public PostResponseDTO Get(Guid id)
         {
             PostDb temp = postsRepository.GetById(id);

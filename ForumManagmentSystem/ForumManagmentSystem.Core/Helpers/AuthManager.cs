@@ -1,14 +1,18 @@
-﻿using ForumManagmentSystem.Core.ResponseDTOs;
+﻿using ForumManagmentSystem.Core.RequestDTOs;
+using ForumManagmentSystem.Core.ResponseDTOs;
+using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
+using System.Text;
 
 namespace ForumManagmentSystem.Core.Helpers
 {
     public class AuthManager
     {
-        private readonly IUserService userService;
+		private const string InvalidCredentialsErrorMessage = "Invalid credentials!";
+		private readonly IUserService userService;
 
         //TODO: Need revisiting, it is temporary solution.
 
@@ -48,22 +52,26 @@ namespace ForumManagmentSystem.Core.Helpers
 
         }
 
-        public UserDb CreateUser()
+        public virtual UserDb TryGetUser(string username, string password)
         {
-            // TODO
-            throw new NotImplementedException();
-        }
 
-        public void Login(string username, string password)
-        {
-            // TODO
-            throw new NotImplementedException();
-        }
+			try
+			{
+				var user = userService.GetDbUser(username);
 
-        public void Logout()
-        {
-            // TODO
-            throw new NotImplementedException();
-        }
+                if (!userService.VerifyPasswordHash(password,
+                user.PasswordHash, user.PasswordSalt))
+                {
+                    throw new WrongPasswordException("Wrong password");
+                }
+
+                return user;
+			}
+			catch (EntityNotFoundException)
+			{
+				throw new UnauthorizedOperationException(InvalidCredentialsErrorMessage);
+			}
+		}
+
     }
 }

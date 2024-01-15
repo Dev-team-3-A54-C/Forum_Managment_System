@@ -58,7 +58,12 @@ namespace ForumManagmentSystem.Core.Services
             return autoMapper.Map<UserResponseDTO>(usersRepository.GetByName(username));
         }
 
-        public UserResponseDTO GetUser(Guid id)
+        public UserDb GetDbUser(string username)
+		{
+            return usersRepository.GetByName(username);
+		}
+
+		public UserResponseDTO GetUser(Guid id)
         {
             return autoMapper.Map<UserResponseDTO>(usersRepository.GetById(id));
         }
@@ -120,7 +125,7 @@ namespace ForumManagmentSystem.Core.Services
             var token = CreateToken(registeredUser);
             return token;
         }
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {
@@ -148,5 +153,6 @@ namespace ForumManagmentSystem.Core.Services
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
+
     }
 }
