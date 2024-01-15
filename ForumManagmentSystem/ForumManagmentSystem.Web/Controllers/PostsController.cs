@@ -19,9 +19,20 @@ namespace ForumManagmentSystem.Web.Controllers
             this.postService = postService;
         }
 
+        [HttpGet]
         public IActionResult Index()
-		{
-			return View();
+        {
+            var viewModel = postService.GetAll();
+
+            return View(viewModel);
+        }
+
+        [HttpGet("Posts/Detail/{title}")]
+        public IActionResult Detail([FromRoute] string title)
+        {
+            var viewModel = postService.Get(title);
+
+            return View(viewModel);
 		}
 
 		[HttpGet]
@@ -40,11 +51,11 @@ namespace ForumManagmentSystem.Web.Controllers
                 return View(postViewModel);
             }
 
-            string username = User.Identity.Name;
+            string username = HttpContext.Session.GetString("user");
 
             postService.CreatePost(username, postViewModel.Title, postViewModel.Content);
 
-            return RedirectToAction("Login", "Users");
+            return RedirectToAction("Index", "Posts");
         }
     }
 }

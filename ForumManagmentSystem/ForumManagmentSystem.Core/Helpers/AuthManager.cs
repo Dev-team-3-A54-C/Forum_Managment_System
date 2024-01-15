@@ -62,7 +62,7 @@ namespace ForumManagmentSystem.Core.Helpers
                 if (!userService.VerifyPasswordHash(password,
                 user.PasswordHash, user.PasswordSalt))
                 {
-                    throw new WrongPasswordException("Wrong password");
+                    throw new WrongPasswordException(InvalidCredentialsErrorMessage);
                 }
 
                 return user;

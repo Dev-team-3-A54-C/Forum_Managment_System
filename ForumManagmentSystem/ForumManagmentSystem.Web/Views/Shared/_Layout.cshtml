@@ -1,8 +1,14 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    var viewName = ViewContext.RouteData.Values["action"].ToString();
+    var actionName = ViewContext.RouteData.Values["action"].ToString();
+    var viewName = ViewContext.View.Path;
     var isLogged = Context.Session.Keys.Contains("user");
-    string username = User.Identity.Name;
+
+    if (isLogged)
+    {
+        string username = Context.Session.GetString("user");
+    }
+    
 }
 
 <!DOCTYPE html>
@@ -41,6 +47,7 @@
         <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="css/responsive.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     </head>
     </head>
     <body id="page-top">
@@ -48,15 +55,21 @@
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container px-4 px-lg-5">
 
-            @if (viewName == "Index")
+            @if (actionName == "Index" && !isLogged)
             {
                 <a class="navbar-brand" href="#page-top">
                     <img src="/Assets/Logo.png" alt="Logo" height="50">
                 </a>
             }
-            else
+            else if (actionName != "Index" && viewName != "Home" && !isLogged)
             {
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="/Assets/Logo.png" alt="Logo" height="50">
+                </a>
+            }
+            else if (isLogged)
+            {
+                <a class="navbar-brand" asp-area="" asp-controller="Posts" asp-action="Index">
                     <img src="/Assets/Logo.png" alt="Logo" height="50">
                 </a>
             }

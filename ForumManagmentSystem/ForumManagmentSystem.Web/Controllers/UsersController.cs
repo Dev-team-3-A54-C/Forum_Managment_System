@@ -46,7 +46,7 @@ namespace ForumManagmentSystem.Web.Controllers
                 var user = authManager.TryGetUser(loginviewModel.Username, loginviewModel.Password);
                 HttpContext.Session.SetString("user", user.Username);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Posts");
             }
             catch (UnauthorizedOperationException ex)
             {

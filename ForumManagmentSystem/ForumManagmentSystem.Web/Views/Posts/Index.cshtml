@@ -1,104 +1,106 @@
-﻿@{
-	ViewData["Title"] = "Posts";
+﻿@using ForumManagmentSystem.Core.ResponseDTOs
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Post";
 }
 
+@model IList<PostResponseDTO>
+
+<style>
+
+    body {
+        background-color: #f8f9fa;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+        max-width: 53%;
+        transition: background-color 0.3s;
+        box-sizing: border-box; /* Include padding and border in the total width */
+        margin-left: 0; /* Ensure the element starts from the left edge */
+        cursor: pointer;
+    }
+
+        li:hover {
+            background-color: #f0f0f0;
+        }
+
+    h5 {
+        margin-bottom: 15px;
+    }
+
+    .post-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .name-group,
+    .date-group,
+    .likes-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .material-symbols-outlined {
+        font-size: 20px;
+        margin-right: 5px;
+    }
+
+    .likes-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex: 1;
+    }
+
+    .post-details .name-group {
+        margin-right: 10px;
+    }
+</style>
+
+
+
 <section class="page-section" style="margin-left: 160px; margin-right: 160px;">
+    <ul>
 
-    <h2 style="margin-bottom:30px;">Title - Very Long</h2>
+        @foreach (var post in Model)
+        {
+            <li>
+                <a asp-controller="Posts" asp-action="Detail" asp-route-title="@post.Title">
+                <h5>@post.Title</h5>
 
-    <div class="container-fluid mt-100">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <div class="media flex-wrap w-100 align-items-center">
-                            
-                            <div class="media-body ml-3">
-                                <a href="javascript:void(0)" data-abc="true">Tom Harry</a>
-                                <p>(OP)</p>
-                                <div class="text-muted small">12.01.2024</div>
-                            </div>  
-                        </div>
+                <div class="post-details">
+                    <div class="name-group">
+                        <span class="material-symbols-outlined">
+                            person
+                        </span>
+                        <span>Name @post.CreatedBy</span>
                     </div>
-                    <div class="card-body">
-                        <p>
-                            For me, getting my business website made was a lot of tech wizardry things. Thankfully i get an ad on Facebook ragarding commence website. I get connected with BBB team. They made my stunning website live in just 3 days.
-                            With the increase demand of online customers. I had to take my business online. BBB Team guided me at each step and enabled me to centralise my work and have control on all aspect of my online business.
-                        </p>
-                        <p>
-                            For me, getting my business website made was a lot of tech wizardry things. Thankfully i get an ad on Facebook ragarding commence website. I get connected with BBB team. They made my stunning website live in just 3 days.
-                            With the increase demand of online customers. I had to take my business online. BBB Team guided me at each step and enabled me to centralise my work and have control on all aspect of my online business.
-                        </p>
+
+                    <div class="date-group">
+                        <span class="material-symbols-outlined">
+                            calendar_month
+                        </span>
+                        <span>@post.CreatedOn.ToString("dd.MM.yy", new System.Globalization.CultureInfo("bg-BG"))</span>
                     </div>
-                    <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
-                        <div class="px-4 pt-3"> <a href="javascript:void(0)" class="text-muted d-inline-flex align-items-center align-middle" data-abc="true"> <i class="fa fa-heart text-danger"></i>&nbsp; <span class="align-middle">445</span> </a> <span class="text-muted d-inline-flex align-items-center align-middle ml-4"> <i class="fa fa-eye text-muted fsize-3"></i>&nbsp; <span class="align-middle">14532</span> </span> </div>
-                        <div class="px-4 pt-3"> <button type="button" class="btn btn-primary"><i class="ion ion-md-create"></i>Reply</button> </div>
+
+                    <div class="likes-group">
+                        <span class="material-symbols-outlined">
+                            thumb_up
+                        </span>
+                        <span>@post.Likes</span>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+                </a>
+            </li>
+        }
+    </ul>
 
-    <div class="container-fluid mt-100">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <div class="media flex-wrap w-100 align-items-center">
-
-                            <div class="media-body ml-3">
-                                <a href="javascript:void(0)" data-abc="true">Tom Harry</a>
-                                <div class="text-muted small">13 days ago</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>
-                            For me, getting my business website made was a lot of tech wizardry things. Thankfully i get an ad on Facebook ragarding commence website. I get connected with BBB team. They made my stunning website live in just 3 days.
-                            With the increase demand of online customers. I had to take my business online. BBB Team guided me at each step and enabled me to centralise my work and have control on all aspect of my online business.
-                        </p>
-                        <p>
-                            For me, getting my business website made was a lot of tech wizardry things. Thankfully i get an ad on Facebook ragarding commence website. I get connected with BBB team. They made my stunning website live in just 3 days.
-                            With the increase demand of online customers. I had to take my business online. BBB Team guided me at each step and enabled me to centralise my work and have control on all aspect of my online business.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid mt-100">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <div class="media flex-wrap w-100 align-items-center">
-
-                            <div class="media-body ml-3">
-                                <a href="javascript:void(0)" data-abc="true">Tom Harry</a>
-                                <div class="text-muted small">13 days ago</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>
-                            For me, getting my business website made was a lot of tech wizardry things. Thankfully i get an ad on Facebook ragarding commence website. I get connected with BBB team. They made my stunning website live in just 3 days.
-                            With the increase demand of online customers. I had to take my business online. BBB Team guided me at each step and enabled me to centralise my work and have control on all aspect of my online business.
-                        </p>
-                        <p>
-                            For me, getting my business website made was a lot of tech wizardry things. Thankfully i get an ad on Facebook ragarding commence website. I get connected with BBB team. They made my stunning website live in just 3 days.
-                            With the increase demand of online customers. I had to take my business online. BBB Team guided me at each step and enabled me to centralise my work and have control on all aspect of my online business.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
-    
-        <button type="button" class="btn btn-primary" style="margin-left:13px; margin-top:30px;">Reply</button>
-    </div>
 </section>
