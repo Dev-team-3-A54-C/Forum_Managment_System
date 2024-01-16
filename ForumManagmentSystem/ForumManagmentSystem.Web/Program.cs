@@ -74,7 +74,7 @@ namespace ForumManagmentSystem.Web
             builder.Services.AddControllersWithViews();
 			builder.Services.AddSession(options =>
 			{
-				options.IdleTimeout = TimeSpan.FromSeconds(60);
+				options.IdleTimeout = TimeSpan.FromHours(2);
 				options.Cookie.HttpOnly = true;
 				options.Cookie.IsEssential = true;
 			});
