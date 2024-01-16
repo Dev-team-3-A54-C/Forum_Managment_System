@@ -88,8 +88,16 @@ namespace ForumManagmentSystem.Core.Services
                 throw new EntityNotFoundException($"Post with title {reply.PostTitle} does not exist.");
             }
 
-            var newReply = replyRepository.Create(mapper.Map<ReplyDb>(reply)).Result;
+            var user = userRepository.GetByName(reply.CreatedBy);
+            var post = postsRepository.GetByTitle(reply.PostTitle);
 
+            reply.CreatedBy = user.Id.ToString();
+
+            var replyDb = mapper.Map<ReplyDb>(reply);
+
+            replyDb.PostId = post.Id;
+
+            var newReply = replyRepository.Create(replyDb).Result;
             return mapper.Map<ReplyResponseDTO>(newReply);
         }
         public ReplyResponseDTO AddLike(AddReplyLikeDTO replyLike)

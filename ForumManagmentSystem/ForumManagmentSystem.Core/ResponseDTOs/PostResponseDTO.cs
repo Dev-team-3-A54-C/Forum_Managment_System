@@ -1,4 +1,6 @@
 ﻿
+using ForumManagmentSystem.Infrastructure.Data.Models;
+
 namespace ForumManagmentSystem.Core.ResponseDTOs
 {
     public class PostResponseDTO
@@ -8,7 +10,7 @@ namespace ForumManagmentSystem.Core.ResponseDTOs
         public int Likes { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
-        public ICollection<PostReplyResponseDTO> Replies { get; set; }
+        public ICollection</*PostReplyResponseDTO*/ReplyDb> Replies { get; set; } = new HashSet<ReplyDb>();
 
         //possibly id for user?
     }

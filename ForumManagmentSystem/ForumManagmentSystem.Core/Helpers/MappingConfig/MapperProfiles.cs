@@ -13,7 +13,8 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
         {
             this.CreateMap<PostDb, PostResponseDTO>()
                 .ForMember(d => d.Likes, p => p.MapFrom(s => s.LikesCount))
-                .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
+                .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username))
+                .ForMember(d => d.Replies, p => p.MapFrom(s => s.Replies));
             
             this.CreateMap<ReplyDb, ReplyResponseDTO>()
                 .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));

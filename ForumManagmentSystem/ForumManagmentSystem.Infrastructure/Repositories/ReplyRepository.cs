@@ -65,6 +65,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         public async Task<ReplyDb> Create(ReplyDb reply)
         {
             await context.Replies.AddAsync(reply);
+            await context.SaveChangesAsync();
             return reply;
         }
         public async Task<ReplyDb> Update(Guid id, ReplyDb newReply)
