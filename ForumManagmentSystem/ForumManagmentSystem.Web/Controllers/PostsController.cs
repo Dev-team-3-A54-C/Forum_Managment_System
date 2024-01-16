@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
-    [Authorize]
     public class PostsController : Controller
 	{
         private readonly IMapper mapper;

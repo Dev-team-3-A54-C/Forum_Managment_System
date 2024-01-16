@@ -13,7 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
-    [Authorize]
     public class UsersController : Controller
     {
         private readonly AuthManager authManager;
