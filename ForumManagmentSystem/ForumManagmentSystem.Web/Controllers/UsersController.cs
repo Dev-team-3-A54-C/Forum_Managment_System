@@ -7,11 +7,13 @@ using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Core.ViewModels;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly AuthManager authManager;
@@ -26,6 +28,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             var loginViewModel = new LoginViewModel();
@@ -34,6 +37,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Login(LoginViewModel loginviewModel)
         {
             if (!ModelState.IsValid)
@@ -66,6 +70,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             var viewModel = new RegisterViewModel();
@@ -74,6 +79,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Register(RegisterViewModel viewModel)
         {
             if (!ModelState.IsValid)

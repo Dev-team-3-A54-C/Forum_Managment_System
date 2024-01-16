@@ -30,6 +30,7 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
 
             this.CreateMap<RegisterViewModel, UserDTO>();
             this.CreateMap<PostViewModel, PostDTO>();
+            this.CreateMap<CreatePostViewModel, PostDTO>();
         }
     }
 }

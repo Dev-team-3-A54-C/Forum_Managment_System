@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
-	public class PostsController : Controller
+    [Authorize]
+    public class PostsController : Controller
 	{
         private readonly IMapper mapper;
         private readonly IPostService postService;
@@ -49,22 +50,22 @@ namespace ForumManagmentSystem.Web.Controllers
 		[HttpGet]
 		public IActionResult Create()
 		{
-            var viewModel = new PostViewModel();
+            var viewModel = new CreatePostViewModel();
 
             return View(viewModel);
 		}
 
         [HttpPost]
-        public IActionResult Create(PostViewModel postViewModel)
+        public IActionResult Create(CreatePostViewModel createPostViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(postViewModel);
+                return View(createPostViewModel);
             }
 
             string username = HttpContext.Session.GetString("user");
 
-            var post = mapper.Map<PostDTO>(postViewModel);
+            var post = mapper.Map<PostDTO>(createPostViewModel);
 
             postService.CreatePost(username, post);
 

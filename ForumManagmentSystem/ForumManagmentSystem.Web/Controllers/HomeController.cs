@@ -1,4 +1,5 @@
 ﻿using ForumManagmentSystem.Core.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumManagmentSystem.Web.Controllers
