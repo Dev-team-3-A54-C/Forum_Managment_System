@@ -19,12 +19,12 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         }
         public PostDb GetById(Guid id)
         {
-            return _context.Posts.Include(p => p.Replies).FirstOrDefault(p => p.Id == id) ??
+            return _context.Posts.Include(p => p.Replies).Include(p => p.User).FirstOrDefault(p => p.Id == id) ??
                 throw new EntityNotFoundException($"Post with id {id} not found.");
         }
         public PostDb GetByTitle(string title)
         {
-            return _context.Posts.Include(p => p.Replies).FirstOrDefault(p => p.Title == title) ??
+            return _context.Posts.Include(p => p.User).Include(p => p.Replies).FirstOrDefault(p => p.Title == title) ??
                 throw new EntityNotFoundException($"Post with title:{title} not found.");
         }
         public IEnumerable<PostDb> GetTopTenByComments()
