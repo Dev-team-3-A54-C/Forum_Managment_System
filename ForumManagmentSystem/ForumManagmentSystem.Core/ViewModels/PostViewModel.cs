@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ForumManagmentSystem.Core.ResponseDTOs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,5 +15,9 @@ namespace ForumManagmentSystem.Core.ViewModels
 
         [Required]
         public string Content { get; set; }
+        public int Likes { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public ICollection<PostReplyResponseDTO> Replies { get; set; }
     }
 }

@@ -1,0 +1,50 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+	ViewData["Title"] = "Error";
+    var isLogged = Context.Session.Keys.Contains("user");
+}
+
+<style>
+
+    body {
+        background-color: #f8f9fa;
+    }
+    .page-section {
+        text-align: center; /* Center content within the section */
+        display: flex; /* Use flexbox for layout */
+        justify-content: center; /* Center items horizontally */
+        align-items: center; /* Center items vertically */
+    }
+
+    .error-container {
+        display: flex; /* Use flexbox for layout */
+        align-items: center; /* Center items vertically */
+    }
+
+    .error-image {
+        margin-right: 20px; /* Adjust the margin between the image and text */
+    }
+
+    .error-text {
+        text-align: left; /* Align text to the left */
+    }
+</style>
+
+<section class="page-section">
+    <div class="error-container">
+        <img src="~/Assets/error.png" height="300px" alt="Error Image" class="error-image">
+        <div class="error-text">
+            <h1 class="primary">SORRY,</h1>
+            <p>we couldn't find the page.</p>
+            @if (isLogged)
+            {
+                <p>Please enter the home page from <a asp-controller="Posts" asp-action="Index">here</a> or try again !</p>
+            }
+            else
+            {
+                <p>Please enter the home page from <a asp-controller="Home" asp-action="Index">here</a> or try again !</p>
+            }
+            
+        </div>
+    </div>
+</section>

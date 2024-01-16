@@ -9,7 +9,6 @@ namespace ForumManagmentSystem.Core.ResponseDTOs
         public string CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
         public ICollection<PostReplyResponseDTO> Replies { get; set; }
-        public 
 
         //possibly id for user?
     }

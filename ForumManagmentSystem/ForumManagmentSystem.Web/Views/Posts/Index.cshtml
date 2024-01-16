@@ -17,6 +17,12 @@
         padding: 0;
     }
 
+    a {
+        text-decoration: none; /* Remove underline */
+        color: inherit; /* Use the default text color */
+        cursor: pointer; /* Change cursor to pointer on hover */
+    }
+
     li {
         border-bottom: 1px solid #ccc;
         padding: 10px;
@@ -81,7 +87,7 @@
                         <span class="material-symbols-outlined">
                             person
                         </span>
-                        <span>Name @post.CreatedBy</span>
+                        <span>@post.CreatedBy</span>
                     </div>
 
                     <div class="date-group">
