@@ -24,7 +24,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         }
         public PostDb GetByTitle(string title)
         {
-            return _context.Posts.Include(p => p.User).Include(p => p.Replies).FirstOrDefault(p => p.Title == title) ??
+            return _context.Posts.Include(p => p.User).Include(p => p.Replies).ThenInclude(r => r.User).FirstOrDefault(p => p.Title == title) ??
                 throw new EntityNotFoundException($"Post with title:{title} not found.");
         }
         public IEnumerable<PostDb> GetTopTenByComments()

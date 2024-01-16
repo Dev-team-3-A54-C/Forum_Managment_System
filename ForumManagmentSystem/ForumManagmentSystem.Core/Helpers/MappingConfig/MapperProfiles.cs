@@ -3,6 +3,7 @@ using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.ViewModels;
 using ForumManagmentSystem.Infrastructure.Data.Models;
+using System.Collections.Generic;
 
 
 namespace ForumManagmentSystem.Core.Helpers.MappingConfig
@@ -13,9 +14,9 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
         {
             this.CreateMap<PostDb, PostResponseDTO>()
                 .ForMember(d => d.Likes, p => p.MapFrom(s => s.LikesCount))
-                .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username))
-                .ForMember(d => d.Replies, p => p.MapFrom(s => s.Replies));
+                .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
             
+            this.CreateMap<ReplyDb, PostReplyResponseDTO>();          
             this.CreateMap<ReplyDb, ReplyResponseDTO>()
                 .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
             this.CreateMap<UserDb, UserResponseDTO>();
