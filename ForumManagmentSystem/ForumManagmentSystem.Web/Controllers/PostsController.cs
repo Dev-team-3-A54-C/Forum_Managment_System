@@ -71,8 +71,8 @@ namespace ForumManagmentSystem.Web.Controllers
             return RedirectToAction("Index", "Posts");
         }
 
-        [HttpGet]
-        public IActionResult Reply([FromRoute] ReplyDTO reply)
+        [HttpPost]
+        public IActionResult Reply(ReplyDTO reply)
         {
             string username = HttpContext.Session.GetString("user");
             reply.CreatedBy = username;
