@@ -1,4 +1,5 @@
 ﻿using ForumManagmentSystem.Core.Services.Contracts;
+using ForumManagmentSystem.Core.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,12 @@ namespace ForumManagmentSystem.Web.Controllers
         {
             ViewBag.userCount = userService.GetCount();
             ViewBag.postCount = postService.GetCount();
-            return View();
+
+
+			ViewBag.topCommented = postService.GetTopTenByComments();
+			ViewBag.topRecent = postService.GetTopTenRecent();
+
+			return View();
         }
 
         [HttpGet]

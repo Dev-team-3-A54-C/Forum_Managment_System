@@ -7,6 +7,7 @@ using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Core.ViewModels;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
+using ForumManagmentSystem.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -26,8 +27,7 @@ namespace ForumManagmentSystem.Web.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
-        [AllowAnonymous]
+		[HttpGet]
         public IActionResult Login()
         {
             var loginViewModel = new LoginViewModel();
@@ -36,7 +36,6 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public IActionResult Login(LoginViewModel loginviewModel)
         {
             if (!ModelState.IsValid)
@@ -48,6 +47,7 @@ namespace ForumManagmentSystem.Web.Controllers
             {
                 var user = authManager.TryGetUser(loginviewModel.Username, loginviewModel.Password);
                 HttpContext.Session.SetString("user", user.Username);
+                HttpContext.Session.SetString("id", user.Id.ToString());
 
                 return RedirectToAction("Index", "Posts");
             }
@@ -61,6 +61,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet]
+        [IsAuthenticatedAttribute]
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("user");
@@ -69,7 +70,6 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult Register()
         {
             var viewModel = new RegisterViewModel();
@@ -78,7 +78,6 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public IActionResult Register(RegisterViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -100,32 +99,36 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet]
+        [IsAuthenticatedAttribute]
         public IActionResult Edit() // Update profile information
         {
-            var viewModel = new RegisterViewModel();
+            string currentUsername = HttpContext.Session.GetString("user");
+            var user = userService.GetUser(currentUsername);
+
+            var viewModel = new EditProfileViewModel();
+            viewModel.Username = user.Username;
+            viewModel.FirstName = user.FirstName;
+            viewModel.LastName = user.LastName;
+            viewModel.Email = user.Email;
 
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(RegisterViewModel viewModel)
+        [IsAuthenticatedAttribute]
+        public IActionResult Edit(EditProfileViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(viewModel);
             }
 
-            if (viewModel.Password != viewModel.ConfirmPassword)
-            {
-                ModelState.AddModelError("ConfirmPassword", "The password and confirmation password do not match.");
+            var userId = HttpContext.Session.GetString("id");
 
-                return View(viewModel);
-            }
+            var userDTO = mapper.Map<EditUserDTO>(viewModel);
+            _ = userService.Update(new Guid(userId), userDTO);
 
-            var userDTO = mapper.Map<UserDTO>(viewModel);
-            _ = userService.CreateUser(userDTO);
-
-            return RedirectToAction("Login", "Users");
+            return RedirectToAction("Index", "Posts");
         }
     }
 }

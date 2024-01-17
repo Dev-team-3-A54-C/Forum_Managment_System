@@ -1,4 +1,5 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using ForumManagmentSystem.Core.ResponseDTOs
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
 	ViewData["Title"] = "Home";
 }
@@ -134,8 +135,17 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-lg-8 col-xl-6 text-center">
                 <h2 class="mt-0">Top 10 Most Commented Posts of All Time:</h2>
+                @foreach (var post in @ViewBag.topCommented as IList<PostResponseDTO>)
+                {
+                    <p>@post.Title</p>
+                }
+                    
                 <hr class="divider" />
                 <h2 class="mt-0">Top 10 Most Recent Posts of All Time:</h2>
+                @foreach (var post in @ViewBag.topRecent as IList<PostResponseDTO>)
+                {
+                    <p>@post.Title</p>
+                }
                 
                 @*<p class="text-muted mb-5">Ready to start your next project with us? Send us a messages and we will get back to you as soon as possible!</p> *@
             </div>

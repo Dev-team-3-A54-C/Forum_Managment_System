@@ -4,7 +4,7 @@
 	ViewData["Title"] = "Edit Profile";
 }
 
-@model RegisterViewModel
+@model EditProfileViewModel
 
 <style>
 	body {
@@ -19,24 +19,24 @@
 	.form-group label {
 		font-weight: bold;
 	}
+
+	#userInput {
+		padding: 10px;
+		border: 1px solid #ccc;
+		background-color: #f0f0f0;
+		color: #999;
+		cursor: not-allowed;
+		pointer-events: none;
+		user-select: none
+	}
 </style>
 
 <section class="page-section">
-	<h2 style="margin-left:50px; margin-bottom:30px;">Sign Up</h2>
-	<form asp-controller="Users" asp-action="Register" method="post" style="max-width: 600px; margin-left:70px">
+	<h2 style="margin-left:50px; margin-bottom:30px;">Edit Profile</h2>
+	<form asp-controller="Users" asp-action="Edit" method="post" style="max-width: 600px; margin-left:70px">
 		<div class="form-group" style="margin-top: 25px">
 			<label asp-for="Username">Username</label>
-			<input type="Username" asp-for="Username" class="form-control" value="Username" disabled />
-		</div>
-		<div class="form-group" style="margin-top: 25px">
-			<label asp-for="Password">Password</label>
-			<input type="password" asp-for="Password" class="form-control" />
-			<span asp-validation-for="Password" class="text-danger"></span>
-		</div>
-		<div class="form-group" style="margin-top: 25px">
-			<label asp-for="ConfirmPassword">Confirm Password</label>
-			<input type="password" asp-for="ConfirmPassword" class="form-control" />
-			<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+			<input type="text" asp-for="Username" class="form-control" readonly id="userInput" />
 		</div>
 		<div class="form-group" style="margin-top: 25px">
 			<label asp-for="Email">Email</label>
@@ -51,7 +51,7 @@
 			<input type="text" asp-for="LastName" class="form-control" />
 		</div>
 		<div class="form-group" style="margin-top: 25px">
-			<button type="submit" asp-controller="Users" asp-action="Register" class="btn btn-primary">Sign Up</button>
+			<button type="submit" class="btn btn-primary">Update Profile</button>
 		</div>
 	</form>
 </section>

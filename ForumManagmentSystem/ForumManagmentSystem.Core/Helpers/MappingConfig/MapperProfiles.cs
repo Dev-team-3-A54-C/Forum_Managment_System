@@ -16,8 +16,9 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
                 .ForMember(d => d.Likes, p => p.MapFrom(s => s.LikesCount))
                 .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
             
-            this.CreateMap<ReplyDb, PostReplyResponseDTO>();          
-            this.CreateMap<ReplyDb, ReplyResponseDTO>()
+            this.CreateMap<ReplyDb, PostReplyResponseDTO>()
+                .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
+			this.CreateMap<ReplyDb, ReplyResponseDTO>()
                 .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
             this.CreateMap<UserDb, UserResponseDTO>();
             this.CreateMap<TagDb, TagResponseDTO>();
@@ -32,6 +33,8 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
             this.CreateMap<RegisterViewModel, UserDTO>();
             this.CreateMap<PostViewModel, PostDTO>();
             this.CreateMap<CreatePostViewModel, PostDTO>();
+            this.CreateMap<EditProfileViewModel, EditUserDTO>();
+            this.CreateMap<EditUserDTO, UserDb>();
         }
     }
 }

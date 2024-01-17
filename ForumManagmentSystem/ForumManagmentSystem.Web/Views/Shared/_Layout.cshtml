@@ -11,6 +11,27 @@
 
 }
 
+<style>
+    /* Custom styles for the navbar */
+    #mainNav {
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        #mainNav.navbar-dark .navbar-brand,
+        #mainNav.navbar-dark .navbar-nav .nav-link {
+            color: #fff; /* Set the default text color */
+        }
+
+        #mainNav.navbar-light.scrolled .navbar-brand,
+        #mainNav.navbar-light.scrolled .navbar-nav .nav-link {
+            color: #000; /* Set the text color when scrolling */
+        }
+
+        #mainNav.navbar-light.scrolled {
+            background-color: #fff; /* Set the background color when scrolling */
+        }
+</style>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +51,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/CSS/styles.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-btVYU6MKLOsa5D9BO4JYszQ3gUA/PO1t74uqOQf+DMfYD1eZmWq81tYFOJIZZEXb" crossorigin="anonymous">
+
+    <!-- Bootstrap JS bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-EHYLpDzdu1RZB/cz3kzQFRusRnDy2WNHUJty0nq4aFZUI6S4D6HAsf2v/V7ayaaD" crossorigin="anonymous"></script>
 
     <head>
         <meta charset="utf-8">
@@ -74,7 +100,10 @@
                 </a>
             }
 
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
 
@@ -87,19 +116,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#portfolio">Develor API</a>
                     </li>
+
                     @{
                         if (isLogged)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link active" asp-area="" asp-controller="Posts" asp-action="Create">Create Post</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Profile
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Posts" asp-action="Create">Create Post</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Edit">Edit Profile</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Logout">Log Out</a>
+                                </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" asp-area="" asp-controller="Users" asp-action="Edit">Edit Profile</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" asp-area="" asp-controller="Users" asp-action="Logout">Log Out</a>
-                            </li>
-
                         }
                         else
                         {
@@ -111,11 +141,12 @@
                             </li>
                         }
                     }
-
                 </ul>
             </div>
         </div>
     </nav>
+
+
 
     <div>
         @RenderBody()
@@ -123,7 +154,7 @@
 
     <!-- Footer-->
     <footer class="py-5" style="background: #EFEFEF">
-        <div class="container px-4 px-lg-5"><div class="small text-center text-muted">Copyright &copy; 2024 - The Bulgarian Travel Company</div></div>
+        <div class="container px-4 px-lg-5"><div class="small text-center text-muted">Copyright &copy; 2024 - The Bulgarian Tourism Company</div></div>
     </footer>
 
     <!-- Bootstrap core JS-->
@@ -142,5 +173,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/scripts.js"></script>
+
+    <script>
+        // Add a script to handle the scroll event
+        document.addEventListener("DOMContentLoaded", function () {
+            var navbar = document.getElementById("mainNav");
+
+            window.addEventListener("scroll", function () {
+                if (window.scrollY > 0) {
+                    navbar.classList.add("scrolled");
+                } else {
+                    navbar.classList.remove("scrolled");
+                }
+            });
+        });
+    </script>
 </body>
 </html>

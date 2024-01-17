@@ -98,7 +98,7 @@ namespace ForumManagmentSystem.Web.Controllers.API
 
         // Update: Update their profile
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(string id, [FromHeader] string username, [FromBody] UserDTO dto)
+        public IActionResult UpdateUser(string id, [FromHeader] string username, [FromBody] EditUserDTO dto)
         {
             //Users should not be able to change their username once registered
             try

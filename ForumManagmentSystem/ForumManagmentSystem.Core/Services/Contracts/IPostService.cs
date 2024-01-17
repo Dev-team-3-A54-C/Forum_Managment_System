@@ -7,6 +7,7 @@ namespace ForumManagmentSystem.Core.Services.Contracts
     {
         PostResponseDTO CreatePost(string username, PostDTO incomingPost);
         IList<PostResponseDTO> GetAll();
+        IList<PostResponseDTO> GetAllFromUser(string username);
         IList<PostResponseDTO> GetTopTenByComments();
         IList<PostResponseDTO> GetTopTenRecent();
         int GetCount();

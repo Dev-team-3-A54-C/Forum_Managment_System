@@ -1,0 +1,125 @@
+﻿@using ForumManagmentSystem.Core.ResponseDTOs
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Profile Overview";
+    string currentUser = Context.Session.GetString("user");
+}
+@model IList<PostResponseDTO>
+
+<style>
+
+    body {
+        background-color: #f8f9fa;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none; /* Remove underline */
+        color: inherit; /* Use the default text color */
+        cursor: pointer; /* Change cursor to pointer on hover */
+    }
+
+    li {
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+        max-width: 53%;
+        transition: background-color 0.3s;
+        box-sizing: border-box; /* Include padding and border in the total width */
+        margin-left: 0; /* Ensure the element starts from the left edge */
+        cursor: pointer;
+    }
+
+        li:hover {
+            background-color: #f0f0f0;
+        }
+
+    h5 {
+        margin-bottom: 15px;
+    }
+
+    .post-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .name-group,
+    .date-group,
+    .likes-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .material-symbols-outlined {
+        font-size: 20px;
+        margin-right: 5px;
+    }
+
+    .likes-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex: 1;
+    }
+
+    .post-details .name-group {
+        margin-right: 10px;
+    }
+</style>
+
+
+
+<section class="page-section" style="margin-left: 160px; margin-right: 160px;">
+
+    @if (currentUser == @Model.LastOrDefault()?.CreatedBy)
+    {
+        <h2 style="margin-left:50px; margin-bottom:30px;">Your Posts</h2>
+    }
+    else
+    {
+        <h2 style="margin-left:50px; margin-bottom:30px;">@Model.LastOrDefault()?.CreatedBy's Posts</h2>
+    }
+
+    
+
+    <ul style="margin-left:60px">
+
+        @foreach (var post in Model)
+        {
+            <li>
+                <a asp-controller="Posts" asp-action="Detail" asp-route-title="@post.Title">
+                    <h5>@post.Title</h5>
+
+                    <div class="post-details">
+                        <div class="name-group">
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+                            <span>@post.CreatedBy</span>
+                        </div>
+
+                        <div class="date-group">
+                            <span class="material-symbols-outlined">
+                                calendar_month
+                            </span>
+                            <span>@post.CreatedOn.ToString("dd.MM.yy", new System.Globalization.CultureInfo("bg-BG"))</span>
+                        </div>
+
+                        <div class="likes-group">
+                            <span class="material-symbols-outlined">
+                                thumb_up
+                            </span>
+                            <span>@post.Likes</span>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+
+</section>
+

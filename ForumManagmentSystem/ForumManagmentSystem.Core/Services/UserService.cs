@@ -68,14 +68,9 @@ namespace ForumManagmentSystem.Core.Services
             return autoMapper.Map<UserResponseDTO>(usersRepository.GetById(id));
         }
 
-        public UserResponseDTO Update(Guid id, UserDTO user)
+        public UserResponseDTO Update(Guid id, EditUserDTO user)
         {
-            if(user.Username != null)
-            {
-                throw new CannotChangeUsernameException
-                    ("Username cannot be changed once registered.");
-            }
-            
+
             return autoMapper.Map<UserResponseDTO>
                 (usersRepository.Update(id, autoMapper.Map<UserDb>(user)));
         }

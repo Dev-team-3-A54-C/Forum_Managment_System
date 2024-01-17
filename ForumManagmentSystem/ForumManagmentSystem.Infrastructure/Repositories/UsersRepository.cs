@@ -66,7 +66,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
             userToUpdate.FirstName = user.FirstName;
             userToUpdate.LastName = user.LastName;
             userToUpdate.Email = user.Email;
-            userToUpdate.Username = user.Username;
+            userToUpdate.PhoneNumber = user.PhoneNumber;
 
             context.SaveChanges();
             return userToUpdate;

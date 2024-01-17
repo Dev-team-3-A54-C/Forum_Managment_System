@@ -61,6 +61,14 @@ namespace ForumManagmentSystem.Core.Services
                 .ToList();
         }
 
+        public IList<PostResponseDTO> GetAllFromUser(string username)
+        {
+            return postsRepository.GetAll()
+                .Where(p => p.User.Username == username)
+                .Select(p => autoMapper.Map<PostResponseDTO>(p))
+                .ToList();
+        }
+
         public int GetCount()
         {
             return postsRepository.Count();
