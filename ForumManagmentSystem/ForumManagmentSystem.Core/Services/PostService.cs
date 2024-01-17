@@ -118,12 +118,12 @@ namespace ForumManagmentSystem.Core.Services
         public bool AddLike(Guid userID, Guid postID)
         {
             UserDb u = usersRepository.GetById(userID);
-            PostDb p = postsRepository.GetById(userID);
+            PostDb p = postsRepository.GetById(postID);
 
             PostLikesDb postLikesDb = new PostLikesDb();
             postLikesDb.UserId = userID;
             postLikesDb.PostId = postID;
-            if (u.LikedPosts.Contains(postLikesDb))
+            if (u.LikedPosts.Any(p => p.PostId == postID))
             {
                 p.LikesCount--;
                 return postsRepository.RemoveLike(postLikesDb);

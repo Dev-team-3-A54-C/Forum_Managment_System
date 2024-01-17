@@ -64,7 +64,8 @@
                     <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
                         <div class="px-4 pt-3 d-flex align-items-center">
                             <form asp-controller="Posts" asp-action="AddLiketoPost">
-                                <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like" value="@Model.Post.ID">
+                                <input name="postID" type="hidden" style="display: none;" value="@Model.Post.ID">
+                                <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
                                     <span class="material-symbols-outlined">
                                         thumb_up
                                     </span>
