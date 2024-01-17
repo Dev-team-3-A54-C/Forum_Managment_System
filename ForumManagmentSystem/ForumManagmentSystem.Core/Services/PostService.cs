@@ -119,11 +119,11 @@ namespace ForumManagmentSystem.Core.Services
         {
             UserDb u = usersRepository.GetById(userID);
             PostDb p = postsRepository.GetById(userID);
-            
+
             PostLikesDb postLikesDb = new PostLikesDb();
             postLikesDb.UserId = userID;
             postLikesDb.PostId = postID;
-            if(u.LikedPosts.Contains(postLikesDb))
+            if (u.LikedPosts.Contains(postLikesDb))
             {
                 p.LikesCount--;
                 return postsRepository.RemoveLike(postLikesDb);

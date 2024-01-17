@@ -80,30 +80,37 @@
         {
             <li>
                 <a asp-controller="Posts" asp-action="Detail" asp-route-title="@post.Title">
-                <h5>@post.Title</h5>
+                    <h5>@post.Title</h5>
 
-                <div class="post-details">
-                    <div class="name-group">
-                        <span class="material-symbols-outlined">
-                            person
-                        </span>
-                        <span>@post.CreatedBy</span>
-                    </div>
+                    <div class="post-details">
+                        <div class="name-group">
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+                            <span>@post.CreatedBy</span>
+                        </div>
 
-                    <div class="date-group">
-                        <span class="material-symbols-outlined">
-                            calendar_month
-                        </span>
-                        <span>@post.CreatedOn.ToString("dd.MM.yy", new System.Globalization.CultureInfo("bg-BG"))</span>
-                    </div>
+                        <div class="date-group">
+                            <span class="material-symbols-outlined">
+                                calendar_month
+                            </span>
+                            <span>@post.CreatedOn.ToString("dd.MM.yy", new System.Globalization.CultureInfo("bg-BG"))</span>
+                        </div>
 
-                    <div class="likes-group">
-                        <span class="material-symbols-outlined">
-                            thumb_up
-                        </span>
-                        <span>@post.Likes</span>
+                        <div class="likes-group">
+                            <span class="material-symbols-outlined">
+                                thumb_up
+                            </span>
+                            <span>@post.Likes</span>
+                        </div>
+
+                        <div>
+                            <span class="material-symbols-outlined">
+                                comment
+                            </span>
+                            <span>@post.Replies.Count</span>
+                        </div>
                     </div>
-                </div>
                 </a>
             </li>
         }

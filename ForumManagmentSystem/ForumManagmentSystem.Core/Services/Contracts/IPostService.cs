@@ -1,5 +1,6 @@
 ﻿using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.ResponseDTOs;
+using ForumManagmentSystem.Infrastructure.Data.Models;
 
 namespace ForumManagmentSystem.Core.Services.Contracts
 {
@@ -14,9 +15,7 @@ namespace ForumManagmentSystem.Core.Services.Contracts
         PostResponseDTO Get(Guid id);
         PostResponseDTO Get(string title);
         PostResponseDTO Update(Guid postId, string username, PostDTO newData);
-        PostResponseDTO Delete(string username, Guid postId);
+        PostResponseDTO Delete(string username, Guid postID);
         bool AddLike(Guid userID, Guid postID);
-
-
     }
 }

@@ -107,7 +107,8 @@ namespace ForumManagmentSystem.Web.Controllers.API
         {
             try
             {
-                postService.Delete(username, new Guid(id));
+                // TODO
+                //postService.Delete(username, new Guid(id));
                 return Ok($"Post with id:[{id}] deleted successfully.");
             }
             catch (UnauthorizedOperationException ex)

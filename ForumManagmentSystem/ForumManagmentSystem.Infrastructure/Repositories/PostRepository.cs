@@ -59,7 +59,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         public PostDb Delete(Guid id)
         {
             PostDb toDelete = GetById(id);
-            _context.Remove(toDelete);
+            _context.Posts.Remove(toDelete);
             _context.SaveChanges();
 
             return toDelete;

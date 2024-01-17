@@ -4,6 +4,7 @@ using ForumManagmentSystem.Core.ResponseDTOs;
 using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Core.ViewModels;
+using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -35,24 +36,8 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet("Posts/Users/{createdBy}")]
         public IActionResult Overview([FromRoute] string createdBy)
         {
-            /*
-            string currentUsername = HttpContext.Session.GetString("user");
-
-            if (createdBy == currentUsername)
-            {
-                var viewModel = postService.GetAllFromUser(currentUsername);
-                return View(viewModel);
-            }
-            */
-
             var posts = postService.GetAllFromUser(createdBy);
             return View(posts);
-        }
-
-        [HttpGet]
-        public IActionResult OwnPosts()
-        {
-            return View();
         }
 
         [HttpGet("Posts/Detail/{title}")]
@@ -107,7 +92,39 @@ namespace ForumManagmentSystem.Web.Controllers
             reply.CreatedBy = username;
 
             replyService.Create(reply);
-            return RedirectToAction("Detail", "Posts");
+            return RedirectToAction("Detail", "Posts", new { title = reply.PostTitle });
+        }
+
+        [HttpPost]
+        public IActionResult AddLiketoPost(string postID)
+        {
+            var userID = HttpContext.Session.GetString("id");
+            postService.AddLike(new Guid(userID), new Guid(postID));
+
+            var post = postService.Get(new Guid(postID));
+
+            return RedirectToAction("Detail", "Posts", new { post.Title });
+        }
+
+        [HttpGet("Posts/{title}")]
+        public IActionResult AddLiketoReply([FromRoute] string title)
+        {
+
+            var username = HttpContext.Session.GetString("user");
+            var replytDTO = new AddReplyLikeDTO();
+            replytDTO.Username = username;
+           // replytDTO.ReplyId = 
+
+            //replyService.AddLike(replytDTO);
+            return RedirectToAction("Detail", "Posts", new { title });
+        }
+
+        [HttpGet("Posts/Delete/{postID}")]
+        public IActionResult Delete([FromRoute] string postID)
+        {
+            var username = HttpContext.Session.GetString("user");
+            postService.Delete(username, new Guid(postID));
+            return RedirectToAction("Index", "Posts");
         }
     }
 }
