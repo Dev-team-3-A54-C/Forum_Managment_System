@@ -106,13 +106,13 @@ namespace ForumManagmentSystem.Infrastructure.Data
                 .WithMany(p => p.Replies)
                 .HasForeignKey(p => p.PostId)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
                 e.HasOne(r => r.User)
                 .WithMany(u => u.MyReplies)
                 .HasForeignKey(r => r.CreatedBy)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<ReplyDb>().HasQueryFilter(e => e.IsDeleted == false);
