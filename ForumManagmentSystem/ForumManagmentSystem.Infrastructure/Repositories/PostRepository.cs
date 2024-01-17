@@ -80,8 +80,18 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         }
         public bool RemoveLike(PostLikesDb postlikesDB)
         {
-            _context.PostLikes.Remove(postlikesDB);
-            _context.SaveChanges();
+
+            var existingLike = _context.PostLikes
+                .FirstOrDefault(pl => pl.PostId == postlikesDB.PostId && pl.UserId == postlikesDB.UserId);
+
+            if (existingLike != null)
+            {
+                _context.PostLikes.Remove(existingLike);
+                _context.SaveChanges();
+                return true;
+            }
+            //_context.PostLikes.Remove(postlikesDB);
+            //_context.SaveChanges();
             return false;
         }
         
