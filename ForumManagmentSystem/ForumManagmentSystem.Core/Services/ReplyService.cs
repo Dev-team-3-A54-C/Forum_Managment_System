@@ -96,6 +96,7 @@ namespace ForumManagmentSystem.Core.Services
             var replyDb = mapper.Map<ReplyDb>(reply);
 
             replyDb.PostId = post.Id;
+            replyDb.CreatedOn = DateTime.Now;
 
             var newReply = replyRepository.Create(replyDb).Result;
             return mapper.Map<ReplyResponseDTO>(newReply);
