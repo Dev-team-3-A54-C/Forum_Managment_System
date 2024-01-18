@@ -58,6 +58,12 @@ namespace ForumManagmentSystem.Web.Controllers
 
                 return View(loginviewModel);
             }
+            catch(WrongPasswordException ex)
+            {
+                ModelState.AddModelError("Username", ex.Message);
+                ModelState.AddModelError("Password", ex.Message);
+                return View(loginviewModel);
+            }
         }
 
         [HttpGet]

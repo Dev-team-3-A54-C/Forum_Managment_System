@@ -9,6 +9,7 @@ using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
@@ -106,7 +107,19 @@ namespace ForumManagmentSystem.Web.Controllers
         [IsAuthenticatedAttribute]
         public IActionResult Edit(PostDetailViewModel viewModel)
         {
-            return View(viewModel);
+            string username = HttpContext.Session.GetString("user");
+
+            var postID = postService.Get(viewModel.Post.Title).ID;
+
+            var postDTO = new PostResponseDTO();
+            postDTO.Title = viewModel.Post.Title;
+            postDTO.Content = viewModel.Post.Content;
+
+            var post = mapper.Map<PostDTO>(postDTO);
+
+            postService.Update(new Guid(postID),username, post);
+
+            return RedirectToAction("Index", "Posts");
         }
 
         [HttpPost]
@@ -134,14 +147,12 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpPost]
         public IActionResult AddLiketoReply(string replyID)
         {
-            var username = HttpContext.Session.GetString("user");
-            var replyDTO = new AddReplyLikeDTO();
-            replyDTO.ReplyId = replyID;
-            replyDTO.Username = username;
+            var userId = HttpContext.Session.GetString("id");
+            //var replyDTO = new AddReplyLikeDTO();
+            //replyDTO.ReplyId = replyID;
+            //replyDTO.Username = username;
 
-            var userID = HttpContext.Session.GetString("id");
-
-            replyService.AddLike(new Guid(userID),new Guid(replyID));
+            replyService.AddLike(new Guid(userId), new Guid(replyID));
 
             //var post = postService.Get();
 

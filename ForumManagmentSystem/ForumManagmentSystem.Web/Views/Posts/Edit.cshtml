@@ -27,21 +27,29 @@
     <h2 style="margin-left:30px; margin-bottom:30px;">Edit Post:</h2>
     <h2 style="margin-left:50px; margin-bottom:30px;">@Model.Post.Title</h2>
 
-    <form asp-controller="Posts" asp-action="Create" method="post" style="max-width: 600px; margin-left: 70px" id="postForm">
+    <form method="post" asp-controller="Posts" asp-action="Edit" style="max-width: 600px; margin-left: 70px" id="postForm">
+
+        <input type="text" asp-for="@Model.Post.Title" type="hidden" style="display: none;">
 
         <div class="form-group" style="margin-top: 25px">
-            <label asp-for="Post.Content">Content</label>
-            <textarea asp-for="Post.Content" class="form-control" style="width: 160%; height: 300px" maxlength="8192" id="contentInput" oninput="updateCounter('contentInput', 'contentCounter', 32, 8192)"></textarea>
-            <div style="margin-top:10px;" id="contentCounter" class="text-muted">Characters: 0/8192</div>
-            <span asp-validation-for="Post.Content" class="text-danger"></span>
+            <label asp-for="@Model.Post.Content">Content</label>
+            <textarea asp-for="@Model.Post.Content" class="form-control" style="width: 172%; height: 300px" maxlength="8192" id="contentInput" oninput="updateCounter('contentInput', 'contentCounter', 32, 8192)"></textarea>
+            <div style="margin-top:10px;" id="contentCounter" class="text-muted" title="Miimum Characters:32">Characters: 0/8192</div>
+            <span asp-validation-for="@Model.Post.Content" class="text-danger"></span>
         </div>
 
-        <div class="form-group" style="margin-top: 25px">
-            <button type="button" value="PostCreation" class="btn btn-primary" onclick="validateAndSubmit()">Create Post</button>
+        <div class="form-group" style="margin-top: 25px;">
+            <a asp-controller="Posts" asp-action="Detail" asp-route-title="@Model.Post.Title" type="button" value="EditPost" class="btn">Cancel</a>
+            <button type="submit" value="@Model" class="btn btn-primary">Save</button>
         </div>
 
 
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Call the updateCounter function once to initialize the character counter
+                updateCounter('contentInput', 'contentCounter', 32, 8192);
+            });
+
             // Function to update character counters
             function updateCounter(inputId, counterId, minChars, maxChars) {
                 const input = document.getElementById(inputId);
@@ -52,8 +60,8 @@
                 counter.textContent = `Characters: ${currentChars}/${maxChars}`;
 
                 // Change text color to red if the limit is exceeded or below the minimum length
-                if (remainingChars <= 0 || currentChars < minChars) {
-                    counter.style.color = 'red';
+                if (remainingChars < 0 || currentChars < minChars) {
+                    counter.style.color = "FF0000";
                 } else {
                     counter.style.color = '';
                 }
@@ -74,12 +82,13 @@
             }
         </script>
 
+
     </form>
 
     @*  Reply   *@
     @if (Model.Post.Replies.Count == 0)
     {
-        <p class="container-fluid mt-100" style="margin-top: 30px; margin-bottom: 30px;">There are still no replies. Be the first one to reply!</p>
+        <p class="container-fluid mt-100" style="margin-top: 30px; margin-bottom: 30px;">There are still no replies!</p>
     }
     else
     {
