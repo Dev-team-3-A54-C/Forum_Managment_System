@@ -124,7 +124,7 @@ namespace ForumManagmentSystem.Core.Services
                 replyRepository.AddLike(mapper.Map<ReplyLikesDb>(replyLike));
             }
 
-            var reply = replyRepository.GetById(new Guid(replyLike.ReplyId));
+            var reply = replyRepository.GetById(new Guid(replyLike.ReplyId)).Result;
             
             return mapper.Map<ReplyResponseDTO>(reply);
         }
