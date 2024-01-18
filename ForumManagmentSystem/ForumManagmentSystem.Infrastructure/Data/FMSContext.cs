@@ -1,5 +1,6 @@
 ﻿using ForumManagmentSystem.Infrastructure.Data.Interceptors;
 using ForumManagmentSystem.Infrastructure.Data.Models;
+using ForumManagmentSystem.Infrastructure.Initializer.Generators;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -188,6 +189,10 @@ namespace ForumManagmentSystem.Infrastructure.Data
                 .HasForeignKey(rl => rl.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
+
+            //Data seeding
+            builder.Entity<TagDb>().HasData(TagGenerator.CreateTags());
+
         }
     }
 }
