@@ -82,18 +82,21 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         }
         public async Task<ReplyDb> AddLike(ReplyLikesDb replyLike)
         {
-            await context.ReplyLikes.AddAsync(replyLike);
 
             var reply = await context
                 .Replies
-                .FirstOrDefaultAsync(r => r.Id == replyLike.ReplyId) ?? throw new EntityNotFoundException($"Reply with Id: {replyLike.ReplyId} does not exist.");
+                .FindAsync(replyLike.ReplyId) ?? throw new EntityNotFoundException($"Reply with Id: {replyLike.ReplyId} does not exist.");
 
-            reply.LikesCount++;
 
             var user = await context
                 .Users
-                .FirstOrDefaultAsync(u => u.Id == replyLike.UserId) ?? throw new EntityNotFoundException($"User with Id: {replyLike.UserId} does not exist.");
+                .FindAsync(replyLike.UserId) ?? throw new EntityNotFoundException($"User with Id: {replyLike.UserId} does not exist.");
 
+            replyLike.User = user;
+            replyLike.Reply = reply;
+            reply.LikesCount++;
+
+            context.ReplyLikes.Add(replyLike);
             user.MyLikedReplies.Add(replyLike);
 
             await context.SaveChangesAsync();

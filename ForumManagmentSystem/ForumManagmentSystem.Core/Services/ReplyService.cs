@@ -101,30 +101,25 @@ namespace ForumManagmentSystem.Core.Services
             var newReply = replyRepository.Create(replyDb).Result;
             return mapper.Map<ReplyResponseDTO>(newReply);
         }
-        public ReplyResponseDTO AddLike(AddReplyLikeDTO replyLike)
+        public ReplyResponseDTO AddLike(Guid userId, Guid replyId)
         {
-            if (!userRepository.UserExists(replyLike.Username))
-            {
-                throw new EntityNotFoundException($"User with id {replyLike.Username} does not exist.");
-            }
+            var replyLike = new ReplyLikesDb();
+            replyLike.UserId = userId;
+            replyLike.ReplyId = replyId;
 
-            if (!replyRepository.ReplyExist(new Guid(replyLike.ReplyId)).Result)
-            {
-                throw new EntityNotFoundException($"Reply with Id {replyLike.ReplyId} does not exist.");
-            }
 
-            var user = userRepository.GetByName(replyLike.Username);
-
-            if(user.MyLikedReplies.Any(lr => lr.ReplyId.ToString() == replyLike.ReplyId))
+            var user = userRepository.GetById(userId);
+            
+            if(user.MyLikedReplies.Any(lr => lr.ReplyId.ToString() == replyId.ToString()))
             {
-                replyRepository.RemoveLike(mapper.Map<ReplyLikesDb>(replyLike));
+                _ = replyRepository.RemoveLike(replyLike).Result;
             }
             else
             {
-                replyRepository.AddLike(mapper.Map<ReplyLikesDb>(replyLike));
+                _ = replyRepository.AddLike(replyLike).Result;
             }
 
-            var reply = replyRepository.GetById(new Guid(replyLike.ReplyId)).Result;
+            var reply = replyRepository.GetById(replyId).Result;
             
             return mapper.Map<ReplyResponseDTO>(reply);
         }
