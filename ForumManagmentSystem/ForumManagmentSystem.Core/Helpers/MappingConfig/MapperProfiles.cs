@@ -35,6 +35,7 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
             this.CreateMap<CreatePostViewModel, PostDTO>();
             this.CreateMap<EditProfileViewModel, EditUserDTO>();
             this.CreateMap<EditUserDTO, UserDb>();
+            this.CreateMap<AddReplyLikeDTO, ReplyLikesDb>();
         }
     }
 }
