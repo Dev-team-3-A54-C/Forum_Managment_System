@@ -115,7 +115,9 @@ namespace ForumManagmentSystem.Web.Controllers
             replyDTO.ReplyId = replyID;
             replyDTO.Username = username;
 
-            replyService.AddLike(replyDTO);
+            var userID = HttpContext.Session.GetString("id");
+
+            replyService.AddLike(new Guid(userID),new Guid(replyID));
 
             //var post = postService.Get();
 
