@@ -192,7 +192,7 @@ namespace ForumManagmentSystem.Infrastructure.Data
 
             //Data seeding
             builder.Entity<TagDb>().HasData(TagGenerator.CreateTags());
-
+            builder.Entity<UserDb>().HasData(UserGenerator.CreateUsers());
         }
     }
 }
