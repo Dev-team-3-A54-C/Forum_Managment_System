@@ -9,8 +9,8 @@
 
 <style>
     body {
-		background-color: #f8f9fa;
-	}
+        background-color: #f8f9fa;
+    }
 
     .card {
         box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
@@ -22,81 +22,66 @@
     }
 </style>
 
-
 <section class="page-section" style="margin-left: 160px; margin-right: 160px;">
 
-    <h2 style="margin-bottom:30px;">@Model.Post.Title</h2>
+    <h2 style="margin-left:50px; margin-bottom:30px;">Edit Post - @Model.Post.Title</h2>
 
-    @*Original Post*@
-    <div class="container-fluid mt-100">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <div class="media flex-wrap w-100 align-items-center">
-                            <div class="media-body ml-3">
-                                <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@Model.Post.CreatedBy" data-abc="true">@Model.Post.CreatedBy</a> <span>(OP)</span>
-                                <div class="text-muted small">
-                                    @Model.Post.CreatedOn.ToString("dd.MM.yyyy, HH:mm", new System.Globalization.CultureInfo("bg-BG"))
-                                </div>
-                            </div>
-                        </div>
-                        @if (currentUser == @Model.Post.CreatedBy)
-                        {
-                            <form asp-controller="Posts" asp-action="Edit">
-                                <input name="Post" type="hidden" style="display: none;" value="@Model">
-                                <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
-                                    <span class="material-symbols-outlined">
-                                        edit
-                                    </span>
-                                </button>
-                            </form>
+    <form asp-controller="Posts" asp-action="Create" method="post" style="max-width: 600px; margin-left: 70px" id="postForm">
 
-                            <div class="ml-auto">
-                                <a asp-controller="Posts" asp-action="Delete" asp-route-postID="@Model.Post.ID" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Delete">
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-                                </a>
-                            </div>
-                        }
-                    </div>
-                    <div class="card-body">
-                        @Model.Post.Content
-                    </div>
-                    <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
-                        <div class="px-4 pt-3 d-flex align-items-center">
-                            <form asp-controller="Posts" asp-action="AddLiketoPost">
-                                <input name="postID" type="hidden" style="display: none;" value="@Model.Post.ID">
-                                <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
-                                    <span class="material-symbols-outlined">
-                                        thumb_up
-                                    </span>
-                                </button>
-                            </form>
-
-                            <span class="ml-5">@Model.Post.Likes</span>
-                        </div>
-
-                        <div class="px-4 pt-3">
-                            <a type="button" class="btn btn-primary" href="#replayForm">
-                                <i class="ion ion-md-create"></i>Reply
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="form-group" style="margin-top: 25px">
+            <label asp-for="Post.Content">Content</label>
+            <textarea asp-for="Post.Content" class="form-control" style="width: 160%; height: 300px" maxlength="8192" id="contentInput" oninput="updateCounter('contentInput', 'contentCounter', 32, 8192)"></textarea>
+            <div style="margin-top:10px;" id="contentCounter" class="text-muted">Characters: 0/8192</div>
+            <span asp-validation-for="Post.Content" class="text-danger"></span>
         </div>
-    </div>
+
+        <div class="form-group" style="margin-top: 25px">
+            <button type="button" value="PostCreation" class="btn btn-primary" onclick="validateAndSubmit()">Create Post</button>
+        </div>
 
 
+        <script>
+            // Function to update character counters
+            function updateCounter(inputId, counterId, minChars, maxChars) {
+                const input = document.getElementById(inputId);
+                const counter = document.getElementById(counterId);
+                const currentChars = input.value.length;
+                const remainingChars = maxChars - currentChars;
+
+                counter.textContent = `Characters: ${currentChars}/${maxChars}`;
+
+                // Change text color to red if the limit is exceeded or below the minimum length
+                if (remainingChars <= 0 || currentChars < minChars) {
+                    counter.style.color = 'red';
+                } else {
+                    counter.style.color = '';
+                }
+            }
+
+            function validateAndSubmit() {
+                // Check minimum length conditions
+                const titleInput = document.getElementById('titleInput');
+                const contentInput = document.getElementById('contentInput');
+
+                if (titleInput.value.length < 16 || contentInput.value.length < 32) {
+                    alert('Minimum length not reached. Please fill in all required fields.');
+                    return;
+                }
+
+                // If conditions are met, submit the form
+                document.getElementById('postForm').submit();
+            }
+        </script>
+
+    </form>
+
+    @*  Reply   *@
     @if (Model.Post.Replies.Count == 0)
     {
         <p class="container-fluid mt-100" style="margin-top: 30px; margin-bottom: 30px;">There are still no replies. Be the first one to reply!</p>
     }
     else
     {
-        @*  Reply   *@
         @foreach (var replay in Model.Post.Replies)
         {
             <div class="container-fluid mt-100">
@@ -114,14 +99,11 @@
                                 </div>
                                 @if (currentUser == replay.CreatedBy)
                                 {
-                                    <form asp-controller="Posts" asp-action="TODO">
-                                        <input name="PostID" type="hidden" style="display: none;" value="@replay.ID">
-                                        <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
-                                            <span class="material-symbols-outlined">
-                                                edit
-                                            </span>
-                                        </button>
-                                    </form>
+                                    <div style="margin-left:600px;">
+                                        <span class="material-symbols-outlined ml-auto">
+                                            edit
+                                        </span>
+                                    </div>
 
                                     <div class="ml-auto">
                                         <a type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Delete">
@@ -172,6 +154,4 @@
         <input asp-for="Reply.PostTitle" style="display: none;" value="@Model.Post.Title" />
 
     </form>
-
-    
 </section>

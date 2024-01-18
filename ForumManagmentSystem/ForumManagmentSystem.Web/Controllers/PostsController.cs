@@ -84,6 +84,21 @@ namespace ForumManagmentSystem.Web.Controllers
             return RedirectToAction("Index", "Posts");
         }
 
+        [HttpGet]
+        [IsAuthenticatedAttribute]
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [IsAuthenticatedAttribute]
+        public IActionResult Edit(PostDetailViewModel viewModel)
+        {
+            return View(viewModel);
+        }
+
+
         [HttpPost]
         [IsAuthenticatedAttribute]
         public IActionResult Reply(ReplyDTO reply)
@@ -109,7 +124,6 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpPost]
         public IActionResult AddLiketoReply(string replyID)
         {
-
             var username = HttpContext.Session.GetString("user");
             var replyDTO = new AddReplyLikeDTO();
             replyDTO.ReplyId = replyID;
