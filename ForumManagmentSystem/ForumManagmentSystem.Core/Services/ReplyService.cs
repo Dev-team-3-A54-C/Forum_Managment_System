@@ -112,11 +112,11 @@ namespace ForumManagmentSystem.Core.Services
             
             if(user.MyLikedReplies.Any(lr => lr.ReplyId.ToString() == replyId.ToString()))
             {
-                replyRepository.RemoveLike(replyLike);
+                _ = replyRepository.RemoveLike(replyLike).Result;
             }
             else
             {
-                replyRepository.AddLike(replyLike);
+                _ = replyRepository.AddLike(replyLike).Result;
             }
 
             var reply = replyRepository.GetById(replyId).Result;

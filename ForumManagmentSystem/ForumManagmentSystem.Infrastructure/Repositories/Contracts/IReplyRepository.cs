@@ -11,7 +11,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
         Task<IEnumerable<ReplyDb>> GetRepliesFromPost(string postTitle);
         Task<ReplyDb> Create(ReplyDb reply);
         Task<ReplyDb> Update(Guid id, ReplyDb newReply);
-        ReplyDb AddLike(ReplyLikesDb replyLike);
+        Task<ReplyDb> AddLike(ReplyLikesDb replyLike);
         Task<ReplyDb> RemoveLike(ReplyLikesDb replyLike);
         Task<ReplyDb> Delete(Guid id);
         Task<bool> ReplyExist(Guid id);
