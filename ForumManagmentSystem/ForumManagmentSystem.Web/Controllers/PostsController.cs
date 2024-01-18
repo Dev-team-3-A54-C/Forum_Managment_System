@@ -84,11 +84,22 @@ namespace ForumManagmentSystem.Web.Controllers
             return RedirectToAction("Index", "Posts");
         }
 
-        [HttpGet]
+        [HttpGet("Posts/Edit/{title}")]
         [IsAuthenticatedAttribute]
-        public IActionResult Edit()
+        public IActionResult Edit([FromRoute] string title)
         {
-            return View();
+            try
+            {
+                var postResponse = postService.Get(title);
+                var viewModel = new PostDetailViewModel();
+                viewModel.Post = postResponse;
+
+                return View(viewModel);
+            }
+            catch (EntityNotFoundException)
+            {
+                return View("Error");
+            }
         }
 
         [HttpPost]
@@ -97,7 +108,6 @@ namespace ForumManagmentSystem.Web.Controllers
         {
             return View(viewModel);
         }
-
 
         [HttpPost]
         [IsAuthenticatedAttribute]

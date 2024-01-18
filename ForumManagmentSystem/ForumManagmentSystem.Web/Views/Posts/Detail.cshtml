@@ -9,8 +9,8 @@
 
 <style>
     body {
-		background-color: #f8f9fa;
-	}
+        background-color: #f8f9fa;
+    }
 
     .card {
         box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
@@ -43,14 +43,15 @@
                         </div>
                         @if (currentUser == @Model.Post.CreatedBy)
                         {
-                            <form asp-controller="Posts" asp-action="Edit">
-                                <input name="Post" type="hidden" style="display: none;" value="@Model">
-                                <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
-                                    <span class="material-symbols-outlined">
-                                        edit
-                                    </span>
-                                </button>
-                            </form>
+                            <a asp-controller="Posts" asp-action="Edit" asp-route-title="@Model.Post.Title" title="Like">
+                                <span class="material-symbols-outlined">
+                                    edit
+                                </span>
+                            </a>
+                            @* <input name="Post" type="hidden" style="display: none;" value="">
+                            <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
+                                
+                            </button> *@
 
                             <div class="ml-auto">
                                 <a asp-controller="Posts" asp-action="Delete" asp-route-postID="@Model.Post.ID" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Delete">
@@ -173,5 +174,5 @@
 
     </form>
 
-    
+
 </section>

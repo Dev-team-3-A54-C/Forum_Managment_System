@@ -1,7 +1,7 @@
 ﻿@using ForumManagmentSystem.Core.ViewModels
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Post - Details";
+    ViewData["Title"] = "Post - Edit";
     string currentUser = Context.Session.GetString("user");
 }
 
@@ -24,7 +24,8 @@
 
 <section class="page-section" style="margin-left: 160px; margin-right: 160px;">
 
-    <h2 style="margin-left:50px; margin-bottom:30px;">Edit Post - @Model.Post.Title</h2>
+    <h2 style="margin-left:30px; margin-bottom:30px;">Edit Post:</h2>
+    <h2 style="margin-left:50px; margin-bottom:30px;">@Model.Post.Title</h2>
 
     <form asp-controller="Posts" asp-action="Create" method="post" style="max-width: 600px; margin-left: 70px" id="postForm">
 
@@ -97,36 +98,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if (currentUser == replay.CreatedBy)
-                                {
-                                    <div style="margin-left:600px;">
-                                        <span class="material-symbols-outlined ml-auto">
-                                            edit
-                                        </span>
-                                    </div>
-
-                                    <div class="ml-auto">
-                                        <a type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Delete">
-                                            <span class="material-symbols-outlined">
-                                                delete
-                                            </span>
-                                        </a>
-                                    </div>
-                                }
                             </div>
                             <div class="card-body">
                                 @replay.Content
                             </div>
                             <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
                                 <div class="px-4 pt-3 d-flex align-items-center">
-                                    <form asp-controller="Posts" asp-action="AddLiketoReply">
-                                        <input name="replyID" type="hidden" style="display: none;" value="@replay.ID">
-                                        <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
-                                            <span class="material-symbols-outlined">
-                                                thumb_up
-                                            </span>
-                                        </button>
-                                    </form>
+                                    <span style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
+                                        <span class="material-symbols-outlined">
+                                            thumb_up
+                                        </span>
+                                    </span>
                                     <span class="ml-5">@replay.LikesCount</span>
                                 </div>
                             </div>
@@ -138,20 +120,4 @@
 
 
     }
-
-    <form asp-controller="Posts" asp-action="Reply" method="post" style="max-width: 600px; margin-left:70px" id="replayForm">
-
-        <div class="form-group" style="margin-top: 25px">
-            <label asp-for="Reply.Content">Replay</label>
-            <textarea type="Content" asp-for="Reply.Content" class="form-control" style="width: 160%; height:300px"></textarea>
-            <span asp-validation-for="Reply.Content" class="text-danger"></span>
-        </div>
-
-        <div class="form-group" style="margin-top: 25px">
-            <button type="submit" value="PostCreation" class="btn btn-primary">Reply</button>
-        </div>
-
-        <input asp-for="Reply.PostTitle" style="display: none;" value="@Model.Post.Title" />
-
-    </form>
 </section>
