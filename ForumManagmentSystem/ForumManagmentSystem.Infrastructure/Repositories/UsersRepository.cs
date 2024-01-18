@@ -43,7 +43,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         }
         public UserDb GetById(Guid id)
         {
-            return context.Users.Include(u => u.LikedPosts).FirstOrDefault(u => u.Id == id) ??
+            return context.Users.Include(u => u.LikedPosts).Include(u => u.MyLikedReplies).FirstOrDefault(u => u.Id == id) ??
                 throw new EntityNotFoundException($"User with id:{id} not found.");
         }
 
