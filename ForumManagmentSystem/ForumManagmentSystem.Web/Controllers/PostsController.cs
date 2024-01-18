@@ -106,17 +106,21 @@ namespace ForumManagmentSystem.Web.Controllers
             return RedirectToAction("Detail", "Posts", new { post.Title });
         }
 
-        [HttpGet("Posts/{title}")]
-        public IActionResult AddLiketoReply([FromRoute] string title)
+        [HttpPost]
+        public IActionResult AddLiketoReply(string replyID)
         {
 
             var username = HttpContext.Session.GetString("user");
-            var replytDTO = new AddReplyLikeDTO();
-            replytDTO.Username = username;
-           // replytDTO.ReplyId = 
+            var replyDTO = new AddReplyLikeDTO();
+            replyDTO.ReplyId = replyID;
+            replyDTO.Username = username;
 
-            //replyService.AddLike(replytDTO);
-            return RedirectToAction("Detail", "Posts", new { title });
+            replyService.AddLike(replyDTO);
+
+            //var post = postService.Get();
+
+            //return RedirectToAction("Detail", "Posts", new { post.Title });
+            return RedirectToAction("Detail", "Posts");
         }
 
         [HttpGet("Posts/Delete/{postID}")]
