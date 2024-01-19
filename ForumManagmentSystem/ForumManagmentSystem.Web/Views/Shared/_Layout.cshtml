@@ -3,12 +3,7 @@
     var actionName = ViewContext.RouteData.Values["action"].ToString();
     var viewName = ViewContext.View.Path;
     var isLogged = Context.Session.Keys.Contains("user");
-
-    if (isLogged)
-    {
-        string username = Context.Session.GetString("user");
-    }
-
+    string username = Context.Session.GetString("user");
 }
 
 <style>
@@ -124,7 +119,7 @@
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#portfolio">Develor API</a>
+                        <a class="nav-link" href="http://localhost:5178/swagger">Develor API</a>
                     </li>
 
                     @{
@@ -136,6 +131,7 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a class="dropdown-item" asp-controller="Posts" asp-action="Create">Create Post</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@username">My Posts</a></li>
                                     <li><a class="dropdown-item" asp-controller="Users" asp-action="Edit">Edit Profile</a></li>
                                     <li><a class="dropdown-item" asp-controller="Users" asp-action="Logout">Log Out</a></li>
                                 </ul>

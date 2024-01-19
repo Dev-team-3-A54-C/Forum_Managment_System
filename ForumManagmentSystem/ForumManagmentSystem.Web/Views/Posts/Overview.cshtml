@@ -23,7 +23,7 @@
         cursor: pointer; /* Change cursor to pointer on hover */
     }
 
-    li {
+    #list {
         border-bottom: 1px solid #ccc;
         padding: 10px;
         max-width: 53%;
@@ -83,7 +83,7 @@
 
 
 
-<section class="page-section" style="margin-left: 160px; margin-right: 160px;">
+<section class="page-section" style="margin-left: 160px; margin-right: 160px; margin-top:30px;">
 
     @if (currentUser == @Model.LastOrDefault()?.CreatedBy)
     {
@@ -106,7 +106,7 @@
 
         @foreach (var post in Model)
         {
-            <li>
+            <li id="list">
                 <a asp-controller="Posts" asp-action="Detail" asp-route-title="@post.Title">
                     <h5>@post.Title</h5>
 

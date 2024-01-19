@@ -51,7 +51,7 @@ namespace ForumManagmentSystem.Web.Controllers
 
 
                 // TODO
-                HttpContext.Session.SetString("id", user.Id.ToString());
+                HttpContext.Session.SetString("", user.Id.ToString());
 
                 return RedirectToAction("Index", "Posts");
             }
