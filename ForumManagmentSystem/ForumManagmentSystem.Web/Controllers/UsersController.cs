@@ -49,6 +49,10 @@ namespace ForumManagmentSystem.Web.Controllers
                 HttpContext.Session.SetString("user", user.Username);
                 HttpContext.Session.SetString("id", user.Id.ToString());
 
+
+                // TODO
+                HttpContext.Session.SetString("id", user.Id.ToString());
+
                 return RedirectToAction("Index", "Posts");
             }
             catch (UnauthorizedOperationException ex)
@@ -71,6 +75,7 @@ namespace ForumManagmentSystem.Web.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("user");
+            HttpContext.Session.Remove("id");
 
             return RedirectToAction("Index", "Home");
         }

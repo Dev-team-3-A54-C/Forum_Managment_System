@@ -23,7 +23,7 @@
         cursor: pointer; /* Change cursor to pointer on hover */
     }
 
-    li {
+    #list {
         border-bottom: 1px solid #ccc;
         padding: 10px;
         max-width: 53%;
@@ -33,9 +33,9 @@
         cursor: pointer;
     }
 
-        li:hover {
-            background-color: #f0f0f0;
-        }
+    li:hover {
+        background-color: #f0f0f0;
+    }
 
     h5 {
         margin-bottom: 15px;
@@ -69,6 +69,16 @@
     .post-details .name-group {
         margin-right: 10px;
     }
+
+    #mainNav {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        background-color: #fff;
+    }
+
+        #mainNav .navbar-nav .nav-item .nav-link {
+            color: black;
+            padding: 0 1rem;
+        }
 </style>
 
 
@@ -79,7 +89,7 @@
 
         @foreach (var post in Model)
         {
-            <li>
+            <li id="list">
                 <a asp-controller="Posts" asp-action="Detail" asp-route-title="@post.Title">
                     <h5>@post.Title</h5>
 
