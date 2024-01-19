@@ -18,6 +18,7 @@ namespace ForumManagmentSystem.Core.Services.Contracts
         bool UserExists(string username);
         string Login(UserLoginDTO userDTO);
         UserDb GetDbUser(string username);
+        bool IsCurrentUserAdmin(string currUsername);
         bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
     }
 }
