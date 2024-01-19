@@ -68,6 +68,11 @@ namespace ForumManagmentSystem.Core.Services
             return autoMapper.Map<UserResponseDTO>(usersRepository.GetById(id));
         }
 
+        public bool IsCurrentUserAdmin(string currUsername)
+        {
+            return usersRepository.GetByName(currUsername).IsAdmin;
+        }
+
         public UserResponseDTO Update(Guid id, EditUserDTO user)
         {
 
