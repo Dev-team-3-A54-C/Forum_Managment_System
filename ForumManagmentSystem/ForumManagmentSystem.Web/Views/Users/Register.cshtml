@@ -1,57 +1,67 @@
 ﻿@using ForumManagmentSystem.Core.ViewModels
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-	ViewData["Title"] = "Sign Up";
+    ViewData["Title"] = "Sign Up";
 }
 @model RegisterViewModel
 
 <style>
-	body {
-		background-color: #f8f9fa;
-	}
+    body {
+        background-color: #f8f9fa;
+    }
 
-	.card {
-		border: none;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	}
+    .card {
+        border: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-	.form-group label {
-		font-weight: bold;
-	}
+    .form-group label {
+        font-weight: bold;
+    }
+
+    #mainNav {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        background-color: #fff;
+    }
+
+    #mainNav .navbar-nav .nav-item .nav-link {
+        color: black;
+        padding: 0 1rem;
+    }
 </style>
 
 <section class="page-section">
-	<h2 style="margin-left:50px; margin-bottom:30px;">Sign Up</h2>
-	<form asp-controller="Users" asp-action="Register" method="post" style="max-width: 600px; margin-left:70px">
-		<div class="form-group" style="margin-top: 25px">
-			<label asp-for="Username">Username</label>
-			<input type="text" asp-for="Username" class="form-control" />
-			<span asp-validation-for="Username" class="text-danger"></span>
-		</div>
-		<div class="form-group" style="margin-top: 25px">
-			<label asp-for="Password">Password</label>
-			<input type="password" asp-for="Password" class="form-control" />
-			<span asp-validation-for="Password" class="text-danger"></span>
-		</div>
-		<div class="form-group" style="margin-top: 25px">
-			<label asp-for="ConfirmPassword">Confirm Password</label>
-			<input type="password" asp-for="ConfirmPassword" class="form-control" />
-			<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-		</div>
-		<div class="form-group" style="margin-top: 25px">
-			<label asp-for="Email">Email</label>
-			<input type="text" asp-for="Email" class="form-control" />
-		</div>
-		<div class="form-group" style="margin-top: 25px">
-			<label asp-for="FirstName">First Name</label>
-			<input type="text" asp-for="FirstName" class="form-control" />
-		</div>
-		<div class="form-group" style="margin-top: 25px">
-			<label asp-for="LastName">Last Name</label>
-			<input type="text" asp-for="LastName" class="form-control" />
-		</div>
-		<div class="form-group" style="margin-top: 25px">
-			<button type="submit" class="btn btn-primary">Sign Up</button>
-		</div>
-	</form>
+    <h2 style="margin-left:50px; margin-bottom:30px;">Sign Up</h2>
+    <form asp-controller="Users" asp-action="Register" method="post" style="max-width: 600px; margin-left:70px">
+        <div class="form-group" style="margin-top: 25px">
+            <label asp-for="Username">Username</label>
+            <input type="text" asp-for="Username" class="form-control" />
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+        <div class="form-group" style="margin-top: 25px">
+            <label asp-for="Password">Password</label>
+            <input type="password" asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group" style="margin-top: 25px">
+            <label asp-for="ConfirmPassword">Confirm Password</label>
+            <input type="password" asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="form-group" style="margin-top: 25px">
+            <label asp-for="Email">Email</label>
+            <input type="text" asp-for="Email" class="form-control" />
+        </div>
+        <div class="form-group" style="margin-top: 25px">
+            <label asp-for="FirstName">First Name</label>
+            <input type="text" asp-for="FirstName" class="form-control" />
+        </div>
+        <div class="form-group" style="margin-top: 25px">
+            <label asp-for="LastName">Last Name</label>
+            <input type="text" asp-for="LastName" class="form-control" />
+        </div>
+        <div class="form-group" style="margin-top: 25px">
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </div>
+    </form>
 </section>

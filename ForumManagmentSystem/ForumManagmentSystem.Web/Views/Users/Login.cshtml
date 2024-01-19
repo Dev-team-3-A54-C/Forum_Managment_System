@@ -19,12 +19,22 @@
 	.form-group label {
 		font-weight: bold;
 	}
+
+	#mainNav{
+		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+		background-color: #fff;
+	}
+	#mainNav .navbar-nav .nav-item .nav-link {
+		color: black;
+		padding: 0 1rem;
+
+	}
 </style>
 
 
 <section class="page-section">
 	<h2 style="margin-left:50px; margin-bottom:30px;">Sign in</h2>
-	<form asp-controller="Users" asp-action="Login" method="post" style="max-width: 600px; margin-left:70px">
+	<form asp-controller="Users" asp-action="Login" method="post" style="max-width: 600px; margin-left:70px; margin-bottom:30px;">
 		<div class="form-group">
 			<label asp-for="Username">Username</label>
 			<input type="text" asp-for="Username" class="form-control" placeholder="Username" />
@@ -40,8 +50,9 @@
 		</div>
 	</form>
 
-	<span>New around here?
-		<a style="margin-left:70px; color:orange" class="dropdown-item" asp-controller="Users" asp-action="Register">Sign up</a>
+	<span style="margin-left:70px;">
+		New around here ?
+		<a style="margin-left:5px;" class="primary" asp-controller="Users" asp-action="Register">Sign up</a>
 	</span>
 	
 </section>
