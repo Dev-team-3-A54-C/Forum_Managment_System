@@ -193,6 +193,11 @@ namespace ForumManagmentSystem.Infrastructure.Data
             //Data seeding
             builder.Entity<TagDb>().HasData(TagGenerator.CreateTags());
             builder.Entity<UserDb>().HasData(UserGenerator.CreateUsers());
+            builder.Entity<PostDb>().HasData(PostGenerator.CreatePosts());
+            builder.Entity<ReplyDb>().HasData(ReplyGenerator.CreateReplies());
+            builder.Entity<PostLikesDb>().HasData(PostLikesGenerator.CreateLikes());
+            builder.Entity<ReplyLikesDb>().HasData(ReplyLikesGenerator.CreateLikes());
+            builder.Entity<PostTagsDb>().HasData(PostTagsGenerator.CreatePostTags());
         }
     }
 }

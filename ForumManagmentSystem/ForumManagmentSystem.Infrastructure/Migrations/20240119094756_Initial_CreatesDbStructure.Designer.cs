@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumManagmentSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(FMSContext))]
-    [Migration("20240117165209_ReplyCascadeDeletion")]
-    partial class ReplyCascadeDeletion
+    [Migration("20240119094756_Initial_CreatesDbStructure")]
+    partial class Initial_CreatesDbStructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -287,7 +287,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.UserDb", "User")
                         .WithMany("MyReplies")
                         .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ForumManagmentSystem.Infrastructure.Data.Models.PostDb", "Post")
