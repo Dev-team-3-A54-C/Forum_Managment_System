@@ -21,11 +21,10 @@ namespace ForumManagmentSystem.Web.Controllers
             ViewBag.userCount = userService.GetCount();
             ViewBag.postCount = postService.GetCount();
 
-
 			ViewBag.topCommented = postService.GetTopTenByComments();
 			ViewBag.topRecent = postService.GetTopTenRecent();
 
-			return View();
+            return View();
         }
 
         [HttpGet]

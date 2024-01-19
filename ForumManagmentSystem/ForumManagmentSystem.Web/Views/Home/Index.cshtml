@@ -4,6 +4,51 @@
 	ViewData["Title"] = "Home";
 }
 
+<style>
+    .custom-portfolio-box {
+        display: block;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .custom-portfolio-box img {
+            width: 100%; /* Make the image fill the container */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        .custom-portfolio-box .portfolio-box-caption {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background: rgba(244, 98, 58, 0.9); /* Orange background color */
+            color: #fff; /* Text color */
+            padding: 10px;
+            box-sizing: border-box;
+            opacity: 0; /* Hide initially */
+            transition: opacity 0.3s;
+        }
+
+        .custom-portfolio-box:hover .portfolio-box-caption {
+            opacity: 1; /* Show on hover */
+        }
+
+        .custom-portfolio-box .portfolio-box-caption .project-category,
+        .custom-portfolio-box .portfolio-box-caption .project-name {
+            font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+
+        .custom-portfolio-box .portfolio-box-caption .project-category {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .custom-portfolio-box .portfolio-box-caption .project-name {
+            font-size: 1.2rem;
+        }
+</style>
+
 <!-- Masthead-->
 <header class="masthead">
     <div class="container px-4 px-lg-5 h-100">
@@ -73,62 +118,63 @@
     <div class="container-fluid p-0">
         <div class="row g-0">
             <div class="col-lg-4 col-sm-6">
-                <a class="portfolio-box" href="assets/img/portfolio/fullsize/1.jpg" title="Project Name">
-                    <img class="img-fluid" src="/Assets/Image1.png" alt="..." />
+                <a asp-controller="Users" asp-action="Login" class="custom-portfolio-box" title="Belogradchik">
+                    <img class="img-fluid" src="/Assets/Image1.png" alt="Belogradchik" />
                     <div class="portfolio-box-caption">
-                        <div class="project-category text-white-50">Category</div>
-                        <div class="project-name">Project Name</div>
+                        <div class="project-category text-white-50">Post</div>
+                        <div class="project-name">Belogradchik</div>
                     </div>
                 </a>
             </div>
             <div class="col-lg-4 col-sm-6">
-                <a class="portfolio-box" href="assets/img/portfolio/fullsize/2.jpg" title="Project Name">
-                    <img class="img-fluid" src="/Assets/Image2.png" alt="..." />
+                <a asp-controller="Users" asp-action="Login" class="custom-portfolio-box" title="Koprivshtitsa">
+                    <img class="img-fluid" src="/Assets/Image2.png" alt="Koprivshtitsa" />
                     <div class="portfolio-box-caption">
-                        <div class="project-category text-white-50">Category</div>
-                        <div class="project-name">Project Name</div>
+                        <div class="project-category text-white-50">Post</div>
+                        <div class="project-name">Koprivshtitsa</div>
                     </div>
                 </a>
             </div>
             <div class="col-lg-4 col-sm-6">
-                <a class="portfolio-box" href="assets/img/portfolio/fullsize/3.jpg" title="Project Name">
-                    <img class="img-fluid" src="/Assets/Image3.png" alt="..." />
+                <a asp-controller="Users" asp-action="Login" class="custom-portfolio-box" title="Plovdiv">
+                    <img class="img-fluid" src="/Assets/Image3.png" alt="Plovdiv" />
                     <div class="portfolio-box-caption">
-                        <div class="project-category text-white-50">Category</div>
-                        <div class="project-name">Project Name</div>
+                        <div class="project-category text-white-50">Post</div>
+                        <div class="project-name">Plovdiv</div>
                     </div>
                 </a>
             </div>
             <div class="col-lg-4 col-sm-6">
-                <a class="portfolio-box" href="assets/img/portfolio/fullsize/4.jpg" title="Project Name">
-                    <img class="img-fluid" src="/Assets/Image4.png" alt="..." />
+                <a asp-controller="Users" asp-action="Login" class="custom-portfolio-box" title="Nesebar">
+                    <img class="img-fluid" src="/Assets/Image4.png" alt="Nesebar" />
                     <div class="portfolio-box-caption">
-                        <div class="project-category text-white-50">Category</div>
-                        <div class="project-name">Project Name</div>
+                        <div class="project-category text-white-50">Post</div>
+                        <div class="project-name">Nesebar</div>
                     </div>
                 </a>
             </div>
             <div class="col-lg-4 col-sm-6">
-                <a class="portfolio-box" href="assets/img/portfolio/fullsize/5.jpg" title="Project Name">
-                    <img class="img-fluid" src="/Assets/Image5.png" alt="..." />
+                <a asp-controller="Users" asp-action="Login" class="custom-portfolio-box" title="Rila Monastery">
+                    <img class="img-fluid" src="/Assets/Image5.png" alt="Rila Monastery" />
                     <div class="portfolio-box-caption">
-                        <div class="project-category text-white-50">Category</div>
-                        <div class="project-name">Project Name</div>
+                        <div class="project-category text-white-50">Post</div>
+                        <div class="project-name">Rila Monastery</div>
                     </div>
                 </a>
             </div>
             <div class="col-lg-4 col-sm-6">
-                <a class="portfolio-box" href="assets/img/portfolio/fullsize/6.jpg" title="Project Name">
-                    <img class="img-fluid" src="/Assets/Image6.png" alt="..." />
-                    <div class="portfolio-box-caption p-3">
-                        <div class="project-category text-white-50">Category</div>
-                        <div class="project-name">Project Name</div>
+                <a asp-controller="Users" asp-action="Login" class="custom-portfolio-box" title="Seven Rila Lakes">
+                    <img class="img-fluid" src="/Assets/Image6.png" alt="Seven Rila Lakes" />
+                    <div class="portfolio-box-caption">
+                        <div class="project-category text-white-50">Post</div>
+                        <div class="project-name">Seven Rila Lakes</div>
                     </div>
                 </a>
             </div>
         </div>
     </div>
 </div>
+
 <!-- Contact-->
 <section class="page-section" id="contact">
     <div class="container px-4 px-lg-5">
