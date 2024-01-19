@@ -7,7 +7,6 @@
 @model IList<PostResponseDTO>
 
 <style>
-
     body {
         background-color: #f8f9fa;
     }
@@ -18,40 +17,40 @@
     }
 
     a {
-        text-decoration: none; /* Remove underline */
-        color: inherit; /* Use the default text color */
-        cursor: pointer; /* Change cursor to pointer on hover */
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
     }
 
     #list {
         border-bottom: 1px solid #ccc;
-        padding: 10px;
+        padding: 0px;
         max-width: 53%;
         transition: background-color 0.3s;
-        box-sizing: border-box; /* Include padding and border in the total width */
-        margin-left: 0; /* Ensure the element starts from the left edge */
+        box-sizing: border-box;
+        margin-left: 0;
         cursor: pointer;
     }
 
-        li:hover {
-            background-color: #f0f0f0;
-        }
+    li:hover {
+        background-color: #f0f0f0;
+    }
 
     h5 {
         margin-bottom: 15px;
+        display: inline;
     }
 
     .post-details {
         display: flex;
+        align-items: flex-start; /* Align items to the start of the container */
         justify-content: space-between;
-        align-items: center;
+        font-size: 14px;
     }
 
-    .name-group,
-    .date-group,
-    .likes-group {
-        display: flex;
-        align-items: center;
+    .name-group {
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 
     .material-symbols-outlined {
@@ -59,15 +58,36 @@
         margin-right: 5px;
     }
 
-    .likes-group {
-        display: flex;
+    .user-group {
         align-items: center;
-        justify-content: flex-end;
-        flex: 1;
+        display: flex;
     }
 
-    .post-details .name-group {
-        margin-right: 10px;
+    .likes-and-comments {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 20px; /* Adjust the margin-left as needed */
+        margin-right: 10px; /* Adjust the margin-left as needed */
+        margin-top: -20px;
+    }
+
+    .date-group {
+        margin-top: 2px; /* Adjust the margin-top for separation */
+        align-items: center;
+        display: flex;
+    }
+
+    .comment-group {
+        display: flex;
+        align-items: flex-end;
+        margin-top: 50px; /* Adjust the margin-top as needed */
+    }
+
+    .likes-group {
+        display: flex;
+        align-items: flex-end;
+        margin-top: 5px; /* Adjust the margin-top as needed */
     }
 
     #mainNav {
@@ -79,9 +99,16 @@
             color: black;
             padding: 0 1rem;
         }
+
+        #mainNav .navbar-nav .nav-item:hover {
+            background-color: rgba(0,0,0,0);
+        }
+
+        #mainNav .navbar-nav .nav-item .nav-link:hover {
+            color: #f4623a;
+        }
+
 </style>
-
-
 
 <section class="page-section" style="margin-left: 160px; margin-right: 160px; margin-top:30px;">
 
@@ -100,10 +127,9 @@
             <h2 style="margin-left:50px; margin-bottom:30px;">@Model.LastOrDefault()?.CreatedBy's Posts</h2>
         }
 
-    } 
+    }
 
-    <ul style="margin-left:60px">
-
+    <ul style="margin-left: 70px;">
         @foreach (var post in Model)
         {
             <li id="list">
@@ -112,30 +138,39 @@
 
                     <div class="post-details">
                         <div class="name-group">
-                            <span class="material-symbols-outlined">
-                                person
-                            </span>
-                            <span>@post.CreatedBy</span>
+                            
+
+
+                            <!-- Date is now part of the name-group and below the user -->
+                            <div class="date-group">
+                                <span class="material-symbols-outlined">
+                                    calendar_month
+                                </span>
+                                <span>@post.CreatedOn.ToString("dd.MM.yy", new System.Globalization.CultureInfo("bg-BG"))</span>
+                            </div>
                         </div>
 
-                        <div class="date-group">
-                            <span class="material-symbols-outlined">
-                                calendar_month
-                            </span>
-                            <span>@post.CreatedOn.ToString("dd.MM.yy", new System.Globalization.CultureInfo("bg-BG"))</span>
-                        </div>
+                        <div class="likes-and-comments">
+                            <!-- Comments Section -->
+                            <div class="comments-group">
+                                <span class="material-symbols-outlined" style="margin-right:8px">
+                                    comment
+                                </span>
+                                <span>@post.Replies.Count</span>
+                            </div>
 
-                        <div class="likes-group">
-                            <span class="material-symbols-outlined">
-                                thumb_up
-                            </span>
-                            <span>@post.Likes</span>
+                            <!-- Likes Section -->
+                            <div class="likes-group" style="margin-top:10px">
+                                <span class="material-symbols-outlined" style="margin-right:10px">
+                                    thumb_up
+                                </span>
+                                <span>@post.Likes</span>
+                            </div>
                         </div>
                     </div>
                 </a>
             </li>
         }
     </ul>
-
 </section>
 
