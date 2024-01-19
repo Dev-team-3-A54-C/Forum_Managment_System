@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
 namespace ForumManagmentSystem.Web
@@ -44,9 +45,17 @@ namespace ForumManagmentSystem.Web
             builder.Services.AddSingleton(cfg);
 
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(c =>
+            builder.Services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
 
             //builder.Services.AddHttpContextAccessor();
