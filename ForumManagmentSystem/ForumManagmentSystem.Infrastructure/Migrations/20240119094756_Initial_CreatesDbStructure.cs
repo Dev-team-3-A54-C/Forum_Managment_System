@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ForumManagmentSystem.Infrastructure.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial_CreatesDbStructure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -125,7 +125,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     Content = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
                     LikesCount = table.Column<int>(type: "int", nullable: false),
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -137,12 +137,14 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         name: "FK_Replies_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Replies_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Replies_Users_CreatedBy",
+                        column: x => x.CreatedBy,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,14 +193,14 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                 column: "TagId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Replies_CreatedBy",
+                table: "Replies",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Replies_PostId",
                 table: "Replies",
                 column: "PostId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Replies_UserId",
-                table: "Replies",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReplyLikes_UserId",

@@ -6,6 +6,12 @@ namespace ForumManagmentSystem.Infrastructure.Initializer.Generators
     {
         internal static IList<UserDb> CreateUsers() 
         {
+            var ids = new string[]
+            {
+                "E806AD30-83CB-4BBE-A350-AE52C1F9BF73",
+                "3522894C-0F15-4F9E-B379-AB644F4E918E",
+                "B87B9540-C07F-4CE6-905D-41E2F33A6A95"
+            };
             var usernames = new string[]
             {
                 "test1",
@@ -138,13 +144,14 @@ namespace ForumManagmentSystem.Infrastructure.Initializer.Generators
             for (int i = 0; i < 3; i++)
             {
                 var newUser = new UserDb();
-                newUser.Id = Guid.NewGuid();
+                newUser.Id = new Guid(ids[i]);
                 newUser.Username = usernames[i];
                 newUser.FirstName = firstnames[i];
                 newUser.LastName = lastnames[i];
                 newUser.PasswordHash = passwordHashes[i];
                 newUser.PasswordSalt = saltHashes[i];
                 newUser.Email = emails[i];
+                newUser.CreatedOn = DateTime.Now;
 
                 if(newUser.Username == "admin")
                 {

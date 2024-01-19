@@ -61,6 +61,38 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Posts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366"),
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras suscipit justo vitae quam gravida feugiat.",
+                            CreatedBy = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8782),
+                            IsDeleted = false,
+                            LikesCount = 2,
+                            Title = "Lorem ipsum dolor sit amet."
+                        },
+                        new
+                        {
+                            Id = new Guid("e3010802-149f-4457-bd0d-e9db557836cc"),
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae tortor vitae orci posuere bibendum. Morbi ornare a felis in.",
+                            CreatedBy = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8787),
+                            IsDeleted = false,
+                            LikesCount = 1,
+                            Title = "Lorem ipsum dolor sit amet, consectetur."
+                        },
+                        new
+                        {
+                            Id = new Guid("1f3d1fbd-7fda-4970-b87f-3c2f921e973a"),
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et sollicitudin purus, in commodo lectus. Suspendisse nibh est, facilisis eget.",
+                            CreatedBy = new Guid("b87b9540-c07f-4ce6-905d-41e2f33a6a95"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8790),
+                            IsDeleted = false,
+                            LikesCount = 0,
+                            Title = "Vestibulum vitae est sed diam."
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostLikesDb", b =>
@@ -76,6 +108,23 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("PostLikes");
+
+                    b.HasData(
+                        new
+                        {
+                            PostId = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366"),
+                            UserId = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73")
+                        },
+                        new
+                        {
+                            PostId = new Guid("e3010802-149f-4457-bd0d-e9db557836cc"),
+                            UserId = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e")
+                        },
+                        new
+                        {
+                            PostId = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366"),
+                            UserId = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e")
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostTagsDb", b =>
@@ -91,6 +140,23 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("PostTags");
+
+                    b.HasData(
+                        new
+                        {
+                            PostId = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366"),
+                            TagId = new Guid("bb86bd18-e65d-44b1-adb5-bd07c686070a")
+                        },
+                        new
+                        {
+                            PostId = new Guid("e3010802-149f-4457-bd0d-e9db557836cc"),
+                            TagId = new Guid("bb86bd18-e65d-44b1-adb5-bd07c686070a")
+                        },
+                        new
+                        {
+                            PostId = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366"),
+                            TagId = new Guid("48a0c91a-7224-47a0-a9b4-0982413cc6ef")
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.ReplyDb", b =>
@@ -129,6 +195,38 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("Replies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("370a8faa-e834-43d6-9a34-a78be008d768"),
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit.",
+                            CreatedBy = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8827),
+                            IsDeleted = false,
+                            LikesCount = 2,
+                            PostId = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366")
+                        },
+                        new
+                        {
+                            Id = new Guid("81560736-d320-40d6-98e0-2223268c36c6"),
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mattis turpis quis urna congue, finibus dignissim dolor vestibulum. Nullam aliquet.",
+                            CreatedBy = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8837),
+                            IsDeleted = false,
+                            LikesCount = 1,
+                            PostId = new Guid("e3010802-149f-4457-bd0d-e9db557836cc")
+                        },
+                        new
+                        {
+                            Id = new Guid("36bf0e5f-d891-4ce5-9a75-83ae737ddc58"),
+                            Content = "Nam ipsum est, vulputate non leo sed, gravida gravida est. Vivamus pharetra porta dolor, ac pharetra dolor lacinia quis. Donec ut vestibulum mauris. Praesent ornare a lorem vel ultrices. Pellentesque.",
+                            CreatedBy = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8840),
+                            IsDeleted = false,
+                            LikesCount = 0,
+                            PostId = new Guid("e3010802-149f-4457-bd0d-e9db557836cc")
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.ReplyLikesDb", b =>
@@ -144,6 +242,23 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ReplyLikes");
+
+                    b.HasData(
+                        new
+                        {
+                            ReplyId = new Guid("370a8faa-e834-43d6-9a34-a78be008d768"),
+                            UserId = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73")
+                        },
+                        new
+                        {
+                            ReplyId = new Guid("81560736-d320-40d6-98e0-2223268c36c6"),
+                            UserId = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e")
+                        },
+                        new
+                        {
+                            ReplyId = new Guid("370a8faa-e834-43d6-9a34-a78be008d768"),
+                            UserId = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e")
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.TagDb", b =>
@@ -170,109 +285,109 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("aa809d98-011f-4a99-bc16-f3ed28a11087"),
+                            Id = new Guid("bb86bd18-e65d-44b1-adb5-bd07c686070a"),
                             IsDeleted = false,
                             Name = "funny"
                         },
                         new
                         {
-                            Id = new Guid("3821394b-e2d1-4c76-9794-5b1ced0167ac"),
+                            Id = new Guid("d63cf14e-e897-499a-85fd-9bacef405f82"),
                             IsDeleted = false,
                             Name = "event"
                         },
                         new
                         {
-                            Id = new Guid("d2cf4e8f-d6e5-4896-bb28-f085c19cd2fb"),
+                            Id = new Guid("48a0c91a-7224-47a0-a9b4-0982413cc6ef"),
                             IsDeleted = false,
                             Name = "charity"
                         },
                         new
                         {
-                            Id = new Guid("f1515d9b-447a-4272-ab46-8b60e98635dc"),
+                            Id = new Guid("fa187072-6a28-4606-b096-9fbafd8029c7"),
                             IsDeleted = false,
                             Name = "tournament"
                         },
                         new
                         {
-                            Id = new Guid("5c291373-f99c-46dc-ad5b-cf65dab10e4a"),
+                            Id = new Guid("ab05d812-3753-4025-9ddd-46ca0bd92aa5"),
                             IsDeleted = false,
                             Name = "science"
                         },
                         new
                         {
-                            Id = new Guid("c2a2243e-41e6-4709-be4b-0b13bc90304f"),
+                            Id = new Guid("6dca0270-56f0-4cde-9e44-9b5f0a94abe5"),
                             IsDeleted = false,
                             Name = "economy"
                         },
                         new
                         {
-                            Id = new Guid("d06b7c90-3f47-4863-8fbd-0dccdff99a82"),
+                            Id = new Guid("98ac7668-59a5-4f8f-8c49-5641f8bf1781"),
                             IsDeleted = false,
                             Name = "investment"
                         },
                         new
                         {
-                            Id = new Guid("633b87a9-07de-4b61-a299-26772df39620"),
+                            Id = new Guid("d92347d5-e8f5-4dc2-838b-d86a74769564"),
                             IsDeleted = false,
                             Name = "Sofiq"
                         },
                         new
                         {
-                            Id = new Guid("15c2084c-0066-4066-88c1-6a04cb5f3fdb"),
+                            Id = new Guid("c1863b7b-10c7-4cb3-b93c-7655ea299aac"),
                             IsDeleted = false,
                             Name = "Plovdiv"
                         },
                         new
                         {
-                            Id = new Guid("f65fd854-b94e-4a33-908a-1a16047810bb"),
+                            Id = new Guid("9864ada2-3acf-493b-bb25-25a8b684b9a9"),
                             IsDeleted = false,
                             Name = "Varna"
                         },
                         new
                         {
-                            Id = new Guid("fb71c371-18a4-4282-b830-4822ba3a423f"),
+                            Id = new Guid("e4aa0e54-fa05-4757-a084-df0a989c5fa5"),
                             IsDeleted = false,
                             Name = "Burgas"
                         },
                         new
                         {
-                            Id = new Guid("27083416-5d6f-424c-bdc8-28d403db5319"),
+                            Id = new Guid("2c12083b-b69b-4d0f-a181-0469e915a2a2"),
                             IsDeleted = false,
                             Name = "Bulgaria"
                         },
                         new
                         {
-                            Id = new Guid("70821498-d479-4abd-85d0-272aaca771a1"),
+                            Id = new Guid("9088ef78-e55f-4476-b91b-8c93bfbcf92f"),
                             IsDeleted = false,
                             Name = "Europe"
                         },
                         new
                         {
-                            Id = new Guid("47ccafb1-ad6f-4ee8-b887-70b750f8b5c3"),
+                            Id = new Guid("04b58ca9-5a97-45d5-ba89-17600af91ceb"),
                             IsDeleted = false,
                             Name = "Asia"
                         },
                         new
                         {
-                            Id = new Guid("ca7db341-5a3d-4ae0-9267-badfbf38fdc8"),
+                            Id = new Guid("9fb0f687-c6ff-4ccc-b712-5b28ee566ab5"),
                             IsDeleted = false,
                             Name = "Africa"
                         },
                         new
                         {
-                            Id = new Guid("985e2478-e0f8-4c19-9584-36582a768c88"),
+                            Id = new Guid("6d2a98bd-6f14-4415-9cf1-51ece05c5d0d"),
                             IsDeleted = false,
                             Name = "Australia"
                         },
                         new
                         {
-                            Id = new Guid("e01a3224-4aa9-4078-9d10-d1f766012533"),
+                            Id = new Guid("f6188a63-2a5c-4e78-b733-7d4716f84a41"),
                             IsDeleted = false,
                             Name = "North America"
                         },
                         new
                         {
-                            Id = new Guid("a96d1c49-c671-4eda-9631-bf7391bb7a77"),
+                            Id = new Guid("1e4da066-7d20-4f76-be37-1b0f3754a9d1"),
                             IsDeleted = false,
                             Name = "South America"
                         });
@@ -344,7 +459,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73"),
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8716),
                             Email = "test1@mail.com",
                             FirstName = "test1A",
                             IsAdmin = false,
@@ -358,7 +473,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e"),
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8749),
                             Email = "tes2@mail.com",
                             FirstName = "test2A",
                             IsAdmin = false,
@@ -372,7 +487,7 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("b87b9540-c07f-4ce6-905d-41e2f33a6a95"),
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8752),
                             Email = "admin@mail.com",
                             FirstName = "admin1A",
                             IsAdmin = true,

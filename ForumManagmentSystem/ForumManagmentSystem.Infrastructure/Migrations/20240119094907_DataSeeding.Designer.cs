@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumManagmentSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(FMSContext))]
-    [Migration("20240118094321_TagsSeeding")]
-    partial class TagsSeeding
+    [Migration("20240119094907_DataSeeding")]
+    partial class DataSeeding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,6 +63,38 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Posts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366"),
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras suscipit justo vitae quam gravida feugiat.",
+                            CreatedBy = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8782),
+                            IsDeleted = false,
+                            LikesCount = 2,
+                            Title = "Lorem ipsum dolor sit amet."
+                        },
+                        new
+                        {
+                            Id = new Guid("e3010802-149f-4457-bd0d-e9db557836cc"),
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae tortor vitae orci posuere bibendum. Morbi ornare a felis in.",
+                            CreatedBy = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8787),
+                            IsDeleted = false,
+                            LikesCount = 1,
+                            Title = "Lorem ipsum dolor sit amet, consectetur."
+                        },
+                        new
+                        {
+                            Id = new Guid("1f3d1fbd-7fda-4970-b87f-3c2f921e973a"),
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et sollicitudin purus, in commodo lectus. Suspendisse nibh est, facilisis eget.",
+                            CreatedBy = new Guid("b87b9540-c07f-4ce6-905d-41e2f33a6a95"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8790),
+                            IsDeleted = false,
+                            LikesCount = 0,
+                            Title = "Vestibulum vitae est sed diam."
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostLikesDb", b =>
@@ -78,6 +110,23 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("PostLikes");
+
+                    b.HasData(
+                        new
+                        {
+                            PostId = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366"),
+                            UserId = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73")
+                        },
+                        new
+                        {
+                            PostId = new Guid("e3010802-149f-4457-bd0d-e9db557836cc"),
+                            UserId = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e")
+                        },
+                        new
+                        {
+                            PostId = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366"),
+                            UserId = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e")
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostTagsDb", b =>
@@ -93,6 +142,23 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("PostTags");
+
+                    b.HasData(
+                        new
+                        {
+                            PostId = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366"),
+                            TagId = new Guid("bb86bd18-e65d-44b1-adb5-bd07c686070a")
+                        },
+                        new
+                        {
+                            PostId = new Guid("e3010802-149f-4457-bd0d-e9db557836cc"),
+                            TagId = new Guid("bb86bd18-e65d-44b1-adb5-bd07c686070a")
+                        },
+                        new
+                        {
+                            PostId = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366"),
+                            TagId = new Guid("48a0c91a-7224-47a0-a9b4-0982413cc6ef")
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.ReplyDb", b =>
@@ -131,6 +197,38 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("Replies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("370a8faa-e834-43d6-9a34-a78be008d768"),
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit.",
+                            CreatedBy = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8827),
+                            IsDeleted = false,
+                            LikesCount = 2,
+                            PostId = new Guid("044e86a6-fc9f-4677-98a5-bbfe475c9366")
+                        },
+                        new
+                        {
+                            Id = new Guid("81560736-d320-40d6-98e0-2223268c36c6"),
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mattis turpis quis urna congue, finibus dignissim dolor vestibulum. Nullam aliquet.",
+                            CreatedBy = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8837),
+                            IsDeleted = false,
+                            LikesCount = 1,
+                            PostId = new Guid("e3010802-149f-4457-bd0d-e9db557836cc")
+                        },
+                        new
+                        {
+                            Id = new Guid("36bf0e5f-d891-4ce5-9a75-83ae737ddc58"),
+                            Content = "Nam ipsum est, vulputate non leo sed, gravida gravida est. Vivamus pharetra porta dolor, ac pharetra dolor lacinia quis. Donec ut vestibulum mauris. Praesent ornare a lorem vel ultrices. Pellentesque.",
+                            CreatedBy = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8840),
+                            IsDeleted = false,
+                            LikesCount = 0,
+                            PostId = new Guid("e3010802-149f-4457-bd0d-e9db557836cc")
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.ReplyLikesDb", b =>
@@ -146,6 +244,23 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ReplyLikes");
+
+                    b.HasData(
+                        new
+                        {
+                            ReplyId = new Guid("370a8faa-e834-43d6-9a34-a78be008d768"),
+                            UserId = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73")
+                        },
+                        new
+                        {
+                            ReplyId = new Guid("81560736-d320-40d6-98e0-2223268c36c6"),
+                            UserId = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e")
+                        },
+                        new
+                        {
+                            ReplyId = new Guid("370a8faa-e834-43d6-9a34-a78be008d768"),
+                            UserId = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e")
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.TagDb", b =>
@@ -172,109 +287,109 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("986d165f-a9c5-4abf-830b-fde784f545b9"),
+                            Id = new Guid("bb86bd18-e65d-44b1-adb5-bd07c686070a"),
                             IsDeleted = false,
                             Name = "funny"
                         },
                         new
                         {
-                            Id = new Guid("abdd7631-267f-49fe-8a82-31dbebeb9c5c"),
+                            Id = new Guid("d63cf14e-e897-499a-85fd-9bacef405f82"),
                             IsDeleted = false,
                             Name = "event"
                         },
                         new
                         {
-                            Id = new Guid("7f23da9b-aae3-4ee2-988f-1a7372aa4a14"),
+                            Id = new Guid("48a0c91a-7224-47a0-a9b4-0982413cc6ef"),
                             IsDeleted = false,
                             Name = "charity"
                         },
                         new
                         {
-                            Id = new Guid("ebd7ac77-4a23-464e-a267-d34a1dafc64b"),
+                            Id = new Guid("fa187072-6a28-4606-b096-9fbafd8029c7"),
                             IsDeleted = false,
                             Name = "tournament"
                         },
                         new
                         {
-                            Id = new Guid("35fa1269-4cde-4b32-bec5-f16aacfe7f07"),
+                            Id = new Guid("ab05d812-3753-4025-9ddd-46ca0bd92aa5"),
                             IsDeleted = false,
                             Name = "science"
                         },
                         new
                         {
-                            Id = new Guid("55f948a1-6462-44fb-ac09-3041b04e4190"),
+                            Id = new Guid("6dca0270-56f0-4cde-9e44-9b5f0a94abe5"),
                             IsDeleted = false,
                             Name = "economy"
                         },
                         new
                         {
-                            Id = new Guid("6e204671-fd9b-4aff-9dc7-436541f29ddf"),
+                            Id = new Guid("98ac7668-59a5-4f8f-8c49-5641f8bf1781"),
                             IsDeleted = false,
                             Name = "investment"
                         },
                         new
                         {
-                            Id = new Guid("c1bfffb1-c805-415b-8475-066f441612b6"),
+                            Id = new Guid("d92347d5-e8f5-4dc2-838b-d86a74769564"),
                             IsDeleted = false,
                             Name = "Sofiq"
                         },
                         new
                         {
-                            Id = new Guid("a70902a5-61d8-4fa8-b328-37ba83cf3ca9"),
+                            Id = new Guid("c1863b7b-10c7-4cb3-b93c-7655ea299aac"),
                             IsDeleted = false,
                             Name = "Plovdiv"
                         },
                         new
                         {
-                            Id = new Guid("7a99a9c4-f215-4b26-9f98-c43f0242a801"),
+                            Id = new Guid("9864ada2-3acf-493b-bb25-25a8b684b9a9"),
                             IsDeleted = false,
                             Name = "Varna"
                         },
                         new
                         {
-                            Id = new Guid("979d02a1-8173-448c-8f73-81b80e925de0"),
+                            Id = new Guid("e4aa0e54-fa05-4757-a084-df0a989c5fa5"),
                             IsDeleted = false,
                             Name = "Burgas"
                         },
                         new
                         {
-                            Id = new Guid("0ef06111-3294-4bd2-bf9a-1c7eba2c4e89"),
+                            Id = new Guid("2c12083b-b69b-4d0f-a181-0469e915a2a2"),
                             IsDeleted = false,
                             Name = "Bulgaria"
                         },
                         new
                         {
-                            Id = new Guid("1b4418e8-8670-4bba-b21a-0f7c840ec869"),
+                            Id = new Guid("9088ef78-e55f-4476-b91b-8c93bfbcf92f"),
                             IsDeleted = false,
                             Name = "Europe"
                         },
                         new
                         {
-                            Id = new Guid("3bb0450c-97ca-4160-b184-26f8267f4e3e"),
+                            Id = new Guid("04b58ca9-5a97-45d5-ba89-17600af91ceb"),
                             IsDeleted = false,
                             Name = "Asia"
                         },
                         new
                         {
-                            Id = new Guid("59cf6f09-a87b-4724-b6f9-0b1c10e57257"),
+                            Id = new Guid("9fb0f687-c6ff-4ccc-b712-5b28ee566ab5"),
                             IsDeleted = false,
                             Name = "Africa"
                         },
                         new
                         {
-                            Id = new Guid("264596ae-0cee-497e-ad53-f2c79edff147"),
+                            Id = new Guid("6d2a98bd-6f14-4415-9cf1-51ece05c5d0d"),
                             IsDeleted = false,
                             Name = "Australia"
                         },
                         new
                         {
-                            Id = new Guid("eea20146-e6cf-4113-ab48-78b6261c0d2b"),
+                            Id = new Guid("f6188a63-2a5c-4e78-b733-7d4716f84a41"),
                             IsDeleted = false,
                             Name = "North America"
                         },
                         new
                         {
-                            Id = new Guid("0a02dfc6-0df5-4603-896c-28a72fc83d8d"),
+                            Id = new Guid("1e4da066-7d20-4f76-be37-1b0f3754a9d1"),
                             IsDeleted = false,
                             Name = "South America"
                         });
@@ -341,6 +456,50 @@ namespace ForumManagmentSystem.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e806ad30-83cb-4bbe-a350-ae52c1f9bf73"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8716),
+                            Email = "test1@mail.com",
+                            FirstName = "test1A",
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            LastName = "test1B",
+                            PasswordHash = new byte[] { 176, 106, 231, 100, 108, 29, 115, 161, 14, 148, 23, 30, 182, 158, 247, 123, 201, 10, 65, 203, 194, 13, 241, 178, 112, 17, 20, 234, 84, 22, 78, 173, 189, 179, 19, 170, 218, 107, 94, 188, 99, 222, 178, 144, 2, 42, 112, 59, 65, 153, 167, 161, 78, 38, 210, 238, 154, 190, 85, 226, 161, 100, 131, 44 },
+                            PasswordSalt = new byte[] { 150, 226, 213, 246, 103, 226, 64, 200, 233, 86, 209, 89, 127, 33, 123, 161, 86, 253, 227, 236, 3, 195, 5, 152, 141, 197, 135, 78, 163, 232, 142, 18, 176, 185, 243, 46, 84, 25, 48, 214, 189, 77, 151, 95, 147, 42, 252, 161, 140, 194, 214, 25, 230, 195, 31, 64, 118, 183, 152, 35, 184, 220, 74, 149, 152, 189, 63, 46, 242, 6, 17, 6, 64, 131, 216, 114, 72, 190, 152, 177, 86, 252, 181, 188, 124, 222, 122, 42, 246, 207, 55, 245, 55, 3, 73, 124, 232, 200, 251, 167, 80, 86, 27, 153, 181, 58, 182, 90, 169, 111, 211, 212, 61, 62, 107, 5, 180, 87, 46, 178, 247, 9, 31, 78, 200, 19, 177, 87 },
+                            Username = "test1"
+                        },
+                        new
+                        {
+                            Id = new Guid("3522894c-0f15-4f9e-b379-ab644f4e918e"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8749),
+                            Email = "tes2@mail.com",
+                            FirstName = "test2A",
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            LastName = "test2B",
+                            PasswordHash = new byte[] { 165, 196, 217, 130, 173, 225, 82, 58, 64, 96, 126, 243, 81, 198, 152, 7, 239, 105, 101, 244, 37, 212, 243, 220, 45, 85, 136, 31, 149, 218, 147, 156, 131, 200, 141, 191, 78, 163, 10, 102, 213, 167, 132, 32, 206, 143, 91, 103, 230, 176, 97, 52, 252, 232, 236, 1, 65, 228, 140, 96, 110, 48, 245, 29 },
+                            PasswordSalt = new byte[] { 46, 78, 60, 63, 212, 204, 100, 222, 52, 81, 27, 53, 207, 179, 178, 138, 219, 242, 62, 101, 24, 50, 134, 14, 117, 221, 2, 114, 111, 25, 175, 186, 206, 226, 115, 203, 226, 10, 53, 14, 241, 202, 163, 43, 96, 133, 235, 93, 215, 212, 143, 247, 105, 99, 1, 145, 96, 198, 180, 196, 126, 64, 8, 4, 150, 174, 191, 71, 205, 138, 116, 193, 165, 49, 105, 68, 111, 39, 88, 245, 170, 2, 150, 45, 73, 138, 28, 66, 16, 164, 138, 11, 221, 108, 165, 25, 80, 155, 194, 139, 119, 215, 151, 108, 156, 129, 22, 73, 208, 61, 109, 153, 123, 38, 127, 84, 221, 42, 210, 93, 103, 20, 45, 251, 219, 80, 90, 12 },
+                            Username = "test2"
+                        },
+                        new
+                        {
+                            Id = new Guid("b87b9540-c07f-4ce6-905d-41e2f33a6a95"),
+                            CreatedOn = new DateTime(2024, 1, 19, 11, 49, 7, 587, DateTimeKind.Local).AddTicks(8752),
+                            Email = "admin@mail.com",
+                            FirstName = "admin1A",
+                            IsAdmin = true,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            LastName = "admin1B",
+                            PasswordHash = new byte[] { 100, 174, 69, 49, 244, 40, 75, 242, 75, 190, 7, 50, 191, 21, 210, 51, 175, 89, 167, 216, 73, 209, 117, 127, 139, 6, 180, 213, 120, 123, 133, 100, 188, 7, 2, 113, 119, 171, 30, 108, 70, 31, 89, 21, 19, 74, 54, 168, 215, 248, 61, 25, 88, 232, 12, 142, 33, 133, 48, 181, 98, 99, 28, 12 },
+                            PasswordSalt = new byte[] { 43, 56, 56, 111, 186, 118, 3, 172, 167, 56, 181, 194, 18, 120, 38, 44, 137, 72, 218, 163, 59, 187, 112, 33, 97, 84, 98, 154, 97, 235, 245, 32, 84, 45, 125, 196, 21, 83, 244, 137, 213, 139, 121, 57, 94, 1, 246, 221, 12, 23, 215, 214, 55, 71, 95, 63, 80, 125, 227, 215, 222, 181, 230, 236, 115, 100, 176, 93, 123, 253, 250, 164, 139, 9, 44, 103, 183, 94, 206, 158, 143, 89, 195, 79, 216, 67, 113, 158, 40, 113, 128, 113, 134, 82, 255, 141, 63, 144, 198, 189, 93, 213, 143, 48, 75, 0, 205, 196, 250, 159, 165, 251, 43, 148, 33, 154, 107, 114, 204, 180, 14, 17, 75, 195, 74, 155, 208, 6 },
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("ForumManagmentSystem.Infrastructure.Data.Models.PostDb", b =>
