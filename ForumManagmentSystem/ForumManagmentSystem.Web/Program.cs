@@ -43,7 +43,11 @@ namespace ForumManagmentSystem.Web
             AutoMapper.IConfigurationProvider cfg = new MapperConfiguration(cfg => { cfg.AddProfile<MapperProfiles>(); });
             builder.Services.AddSingleton(cfg);
 
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+            });
 
             //builder.Services.AddHttpContextAccessor();
 
@@ -83,7 +87,13 @@ namespace ForumManagmentSystem.Web
 			app.UseSession();
 			app.UseRouting();
             app.UseStaticFiles();
-            
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
+            });
+
             app.UseAuthentication();
             app.UseAuthorization();
 
