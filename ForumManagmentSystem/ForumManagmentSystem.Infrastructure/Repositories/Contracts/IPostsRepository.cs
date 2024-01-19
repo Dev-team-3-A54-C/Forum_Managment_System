@@ -5,6 +5,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories.Contracts
     public interface IPostsRepository
     {
         IList<PostDb> GetAll();
+        IEnumerable<PostDb> GetAllLikedByUser(string username);
         PostDb GetById(Guid id);
         PostDb GetByTitle(string title);
         IEnumerable<PostDb> GetTopTenByComments();

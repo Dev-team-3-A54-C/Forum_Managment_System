@@ -69,6 +69,13 @@ namespace ForumManagmentSystem.Core.Services
                 .ToList();
         }
 
+        public IList<PostResponseDTO> GetAllLikedByUser(string username)
+        {
+            return postsRepository.GetAllLikedByUser(username)
+                .Select(p => autoMapper.Map<PostResponseDTO>(p))
+                .ToList();
+        }
+
         public int GetCount()
         {
             return postsRepository.Count();
