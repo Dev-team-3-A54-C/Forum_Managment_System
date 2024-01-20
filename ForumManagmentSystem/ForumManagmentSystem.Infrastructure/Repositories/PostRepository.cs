@@ -18,14 +18,18 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
             return _context.Posts.Include(p => p.User).Include(p => p.Replies).ToList();
         }
 
-        public IEnumerable<PostDb> GetAllLikedByUser(string username)
+        public IEnumerable<PostLikesDb> GetAllLikedByUser(string username)
         {
-            return _context.PostLikes
+            var data = _context.PostLikes
                 .Include(pl => pl.User)
                 .Include(pl => pl.Post)
-                .Select(pl => pl.Post)
-                .Where(pl=> pl.User.Username == username)
+                .ThenInclude(p => p.Replies)
+                .ThenInclude(r => r.User)
+                //.Select(pl => pl.Post)
+                .Where(pl => pl.User.Username == username)
                 .ToList();
+
+            return data;
         }
         public PostDb GetById(Guid id)
         {
