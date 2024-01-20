@@ -61,7 +61,8 @@ namespace ForumManagmentSystem.Web.Controllers
 
                 var likedPostsByUser = postService.GetAllLikedByUser(currentUser);
 
-                ViewBag.likedByUser = false;
+                if (ViewBag.likedByUser == null)
+                    ViewBag.likedByUser = false;
 
                 foreach (var likedPost in likedPostsByUser)
                 {

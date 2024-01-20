@@ -99,6 +99,10 @@
 
                             @if (ViewBag.likedByUser)
                             {
+@*                                 if (ViewBag.likedByUser)
+                                {
+                                    
+                                } *@
                                 <form asp-controller="Posts" asp-action="AddLiketoPost">
                                     <input name="postID" type="hidden" style="display: none;" value="@Model.Post.ID">
                                     <button class="btn" style="margin-right: 5px; color: black;" data-toggle="tooltip" data-placement="top" title="Unlike">
