@@ -23,6 +23,14 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
                 .ForMember(d => d.PostTitle, p => p.MapFrom(s => s.Post.Title));
             this.CreateMap<UserDb, UserResponseDTO>();
             this.CreateMap<TagDb, TagResponseDTO>();
+            this.CreateMap<PostLikesDb, PostResponseDTO>()
+                .ForMember(d => d.ID, p => p.MapFrom(s => s.Post.Id))
+                .ForMember(d => d.Title, p => p.MapFrom(s => s.Post.Title))
+                .ForMember(d => d.Content, p => p.MapFrom(s => s.Post.Content))
+                .ForMember(d => d.Likes, p => p.MapFrom(s => s.Post.LikesCount))
+                .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.Post.CreatedBy))
+                .ForMember(d => d.CreatedOn, p => p.MapFrom(s => s.Post.CreatedOn))
+                .ForMember(d => d.Replies, p => p.MapFrom(s => s.Post.Replies));
 
             this.CreateMap<UserDTO, UserDb>()
                 .ForMember(x => x.CreatedOn, d => d.MapFrom(src => DateTime.Now)).ReverseMap();
