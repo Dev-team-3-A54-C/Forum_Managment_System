@@ -79,7 +79,11 @@ namespace ForumManagmentSystem.Core.Services
             return autoMapper.Map<UserResponseDTO>
                 (usersRepository.Update(id, autoMapper.Map<UserDb>(user)));
         }
-        public UserResponseDTO Delete(Guid id, string username) // id of user to delete, username of amdin
+        public UserResponseDTO Block(Guid id)
+        {
+            return autoMapper.Map<UserResponseDTO>(usersRepository.Block(id));
+        }
+        public UserResponseDTO Delete(Guid id, string username)
         {
             UserDb user = usersRepository.GetByName(username);
             if(!user.IsAdmin)
