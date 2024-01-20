@@ -18,12 +18,14 @@ namespace ForumManagmentSystem.Web.Controllers
         private readonly IMapper mapper;
         private readonly IPostService postService;
         private readonly IReplyService replyService;
+        private readonly IUserService userService;
 
-        public PostsController(IMapper mapper, IPostService postService, IReplyService replyService)
+        public PostsController(IMapper mapper, IPostService postService, IReplyService replyService, IUserService userService)
         {
             this.mapper = mapper;
             this.postService = postService;
             this.replyService = replyService;
+            this.userService = userService;
         }
 
 		[HttpGet]
@@ -37,6 +39,8 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet("Posts/Users/{createdBy}")]
         public IActionResult Overview([FromRoute] string createdBy)
         {
+            string currentUser = HttpContext.Session.GetString("user");
+            ViewBag.currentUser = userService.GetDbUser(currentUser);
             var posts = postService.GetAllFromUser(createdBy);
             return View(posts);
         }
@@ -47,9 +51,12 @@ namespace ForumManagmentSystem.Web.Controllers
         {
             try
             {
-				var postResponse = postService.Get(title);
+                var postResponse = postService.Get(title);
                 var viewModel = new PostDetailViewModel();
                 viewModel.Post = postResponse;
+
+                string currentUser = HttpContext.Session.GetString("user");
+                ViewBag.currentUser = userService.GetDbUser(currentUser);
 
                 return View(viewModel);
 			}catch(EntityNotFoundException)
@@ -119,7 +126,37 @@ namespace ForumManagmentSystem.Web.Controllers
 
             postService.Update(new Guid(postID),username, post);
 
-            return RedirectToAction("Index", "Posts");
+            return RedirectToAction("Detail", "Posts", new { title = post.Title });
+        }
+
+        [HttpGet("Posts/Reply/Edit/{id}")]
+        [IsAuthenticatedAttribute]
+        public IActionResult EditReply([FromRoute] string id)
+        {
+            try
+            {
+                var replyResponseDTO = replyService.Get(new Guid(id));
+                var replyDTO = mapper.Map<ReplyDTO>(replyResponseDTO);
+
+                var post = postService.Get(replyDTO.PostTitle);
+
+                var viewModel = new PostDetailViewModel();
+                viewModel.Reply = replyDTO;
+                viewModel.Post = post;
+
+                return View(viewModel);
+            }
+            catch(EntityNotFoundException)
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        [IsAuthenticatedAttribute]
+        public IActionResult EditReply(int TODO)
+        {
+            throw new NotImplementedException();
         }
 
         [HttpPost]

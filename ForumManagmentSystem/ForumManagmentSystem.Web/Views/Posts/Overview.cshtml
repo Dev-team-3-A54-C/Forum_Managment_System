@@ -1,4 +1,5 @@
 ﻿@using ForumManagmentSystem.Core.ResponseDTOs
+@using ForumManagmentSystem.Infrastructure.Data.Models
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Profile Overview";
@@ -127,6 +128,17 @@
             <h2 style="margin-left:50px; margin-bottom:30px;">@Model.LastOrDefault()?.CreatedBy's Posts</h2>
         }
 
+        @if (ViewBag.currentUser != null && ((UserDb)ViewBag.currentUser).IsAdmin)
+        {
+            // TODO
+            <form method="post" asp-controller="Users" asp-action="BlockUser">
+                <input type="hidden" name="userToDelete" value="@Model.LastOrDefault()?.CreatedBy" />
+                <button type="submit" class="material-symbols-outlined" style="margin-left: 70px; margin-bottom:20px;" title="Block User" role="button">
+                    block
+                </button>
+            </form>
+        }
+
     }
 
     <ul style="margin-left: 70px;">
@@ -139,8 +151,6 @@
                     <div class="post-details">
                         <div class="name-group">
                             
-
-
                             <!-- Date is now part of the name-group and below the user -->
                             <div class="date-group">
                                 <span class="material-symbols-outlined">
