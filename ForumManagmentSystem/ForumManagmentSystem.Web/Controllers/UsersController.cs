@@ -30,6 +30,9 @@ namespace ForumManagmentSystem.Web.Controllers
 		[HttpGet]
         public IActionResult Login()
         {
+            var user = userService.GetDbUser("admin");
+            //user.
+
             var loginViewModel = new LoginViewModel();
 
             return View(loginViewModel);
@@ -51,7 +54,7 @@ namespace ForumManagmentSystem.Web.Controllers
 
 
                 // TODO
-                HttpContext.Session.SetString("", user.Id.ToString());
+                //HttpContext.Session.SetString("", user.Id.ToString());
 
                 return RedirectToAction("Index", "Posts");
             }
