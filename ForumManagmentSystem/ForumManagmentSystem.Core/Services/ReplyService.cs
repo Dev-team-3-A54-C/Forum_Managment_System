@@ -35,7 +35,7 @@ namespace ForumManagmentSystem.Core.Services
 
         public ReplyResponseDTO Get(Guid id)
         {
-            var reply = replyRepository.GetById(id);
+            var reply = replyRepository.GetById(id).Result;
 
             return mapper.Map<ReplyResponseDTO>(reply);
         }

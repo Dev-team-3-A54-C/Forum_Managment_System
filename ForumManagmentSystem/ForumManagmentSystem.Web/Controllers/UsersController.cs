@@ -116,14 +116,16 @@ namespace ForumManagmentSystem.Web.Controllers
         [IsAuthenticatedAttribute]
         public IActionResult Edit() // Update profile information
         {
-            string currentUsername = HttpContext.Session.GetString("user");
-            var user = userService.GetUser(currentUsername);
+            string currentUser = HttpContext.Session.GetString("user");
+            var user = userService.GetUser(currentUser);
+            ViewBag.currentUser = userService.GetDbUser(currentUser);
 
             var viewModel = new EditProfileViewModel();
             viewModel.Username = user.Username;
             viewModel.FirstName = user.FirstName;
             viewModel.LastName = user.LastName;
             viewModel.Email = user.Email;
+            viewModel.PhoneNumber = user.PhoneNumber;
 
             return View(viewModel);
         }
@@ -142,6 +144,16 @@ namespace ForumManagmentSystem.Web.Controllers
             var userDTO = mapper.Map<EditUserDTO>(viewModel);
             _ = userService.Update(new Guid(userId), userDTO);
 
+            return RedirectToAction("Index", "Posts");
+        }
+
+        [HttpPost]
+        [IsAuthenticatedAttribute]
+        public IActionResult BlockUser(string userToDelete)
+        {
+            var admin = HttpContext.Session.GetString("user");
+            var user = userService.GetDbUser(userToDelete);
+            userService.Delete(user.Id, admin);
             return RedirectToAction("Index", "Posts");
         }
     }

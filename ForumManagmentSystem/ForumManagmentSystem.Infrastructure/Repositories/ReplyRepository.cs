@@ -27,6 +27,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         {
             var reply = await context
                 .Replies
+                .Include(r => r.Post)
                 .FirstOrDefaultAsync(x => x.Id == id) ?? throw new EntityNotFoundException($"Reply with id {id.ToString()} does not exist.");
 
             return reply;
