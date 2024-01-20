@@ -151,9 +151,9 @@ namespace ForumManagmentSystem.Web.Controllers
         [IsAuthenticatedAttribute]
         public IActionResult BlockUser(string userToDelete)
         {
-            var admin = HttpContext.Session.GetString("user");
+            var username = HttpContext.Session.GetString("user");
             var user = userService.GetDbUser(userToDelete);
-            userService.Delete(user.Id, admin);
+            userService.Block(user.Id);
             return RedirectToAction("Index", "Posts");
         }
     }
