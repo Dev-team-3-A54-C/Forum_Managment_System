@@ -153,7 +153,7 @@ namespace ForumManagmentSystem.Web.Controllers
         {
             var username = HttpContext.Session.GetString("user");
             var user = userService.GetDbUser(userToDelete);
-            userService.Block(user.Id);
+            userService.Block(user.Id, username);
             return RedirectToAction("Index", "Posts");
         }
     }

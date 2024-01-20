@@ -71,10 +71,9 @@ namespace ForumManagmentSystem.Core.Services
 
         public IList<PostResponseDTO> GetAllLikedByUser(string username)
         {
-            //return postsRepository.GetAllLikedByUser(username)
-            //    .Select(p => autoMapper.Map<PostResponseDTO>(p))
-            //    .ToList();
-            throw new NotImplementedException();
+            return postsRepository.GetAllLikedByUser(username)
+                .Select(p => autoMapper.Map<PostResponseDTO>(p))
+                .ToList();
         }
 
         public int GetCount()

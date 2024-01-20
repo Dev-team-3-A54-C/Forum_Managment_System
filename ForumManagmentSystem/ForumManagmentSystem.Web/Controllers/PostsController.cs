@@ -10,6 +10,7 @@ using ForumManagmentSystem.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Hosting;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
@@ -57,6 +58,16 @@ namespace ForumManagmentSystem.Web.Controllers
 
                 string currentUser = HttpContext.Session.GetString("user");
                 ViewBag.currentUser = userService.GetDbUser(currentUser);
+
+                var likedPostsByUser = postService.GetAllLikedByUser(currentUser);
+
+                ViewBag.likedByUser = false;
+
+                foreach (var likedPost in likedPostsByUser)
+                {
+                    if (likedPost.Title == title)
+                        ViewBag.likedByUser = true;
+                }
 
                 return View(viewModel);
 			}catch(EntityNotFoundException)
@@ -185,16 +196,14 @@ namespace ForumManagmentSystem.Web.Controllers
         public IActionResult AddLiketoReply(string replyID)
         {
             var userId = HttpContext.Session.GetString("id");
-            //var replyDTO = new AddReplyLikeDTO();
-            //replyDTO.ReplyId = replyID;
-            //replyDTO.Username = username;
+            var replyResponseDTO = replyService.Get(new Guid(replyID));
+            var replyDTO = mapper.Map<ReplyDTO>(replyResponseDTO);
+
+            var post = postService.Get(replyDTO.PostTitle);
 
             replyService.AddLike(new Guid(userId), new Guid(replyID));
 
-            //var post = postService.Get();
-
-            //return RedirectToAction("Detail", "Posts", new { post.Title });
-            return RedirectToAction("Detail", "Posts");
+            return RedirectToAction("Detail", "Posts", new { post.Title });
         }
 
         [HttpGet("Posts/Delete/{postID}")]
