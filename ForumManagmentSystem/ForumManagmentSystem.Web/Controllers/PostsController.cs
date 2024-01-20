@@ -66,7 +66,7 @@ namespace ForumManagmentSystem.Web.Controllers
                 foreach (var likedPost in likedPostsByUser)
                 {
                     if (likedPost.Title == title)
-                        ViewBag.likedByUser = true;
+                        ViewBag.likedByUser = !ViewBag.likedByUser;
                 }
 
                 return View(viewModel);
