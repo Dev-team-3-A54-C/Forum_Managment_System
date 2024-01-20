@@ -79,6 +79,10 @@ namespace ForumManagmentSystem.Core.Services
             return autoMapper.Map<UserResponseDTO>
                 (usersRepository.Update(id, autoMapper.Map<UserDb>(user)));
         }
+        public UserResponseDTO Block(Guid id)
+        {
+            return autoMapper.Map<UserResponseDTO>(usersRepository.Block(id));
+        }
         public UserResponseDTO Delete(Guid id, string username)
         {
             UserDb user = usersRepository.GetByName(username);
