@@ -24,14 +24,22 @@
         background-color: #fff;
     }
 
-    #mainNav .navbar-nav .nav-item .nav-link {
-        color: black;
-        padding: 0 1rem;
-    }
+        #mainNav .navbar-nav .nav-item .nav-link {
+            color: black;
+            padding: 0 1rem;
+        }
+
+        #mainNav .navbar-nav .nav-item:hover {
+            background-color: rgba(0,0,0,0);
+        }
+
+        #mainNav .navbar-nav .nav-item .nav-link:hover {
+            color: #f4623a;
+        }
 </style>
 
 <section class="page-section">
-    <h2 style="margin-left:50px; margin-bottom:30px;">Sign Up</h2>
+    <h2 style="margin-left:50px; margin-top:30px;">Sign Up</h2>
     <form asp-controller="Users" asp-action="Register" method="post" style="max-width: 600px; margin-left:70px; margin-bottom:30px;">
         <div class="form-group" style="margin-top: 25px">
             <label asp-for="Username">Username</label>
