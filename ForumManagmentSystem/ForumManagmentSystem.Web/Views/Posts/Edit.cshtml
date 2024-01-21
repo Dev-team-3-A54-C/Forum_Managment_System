@@ -51,7 +51,7 @@
         <div class="form-group" style="margin-top: 25px">
             <label asp-for="@Model.Post.Content">Content</label>
             <textarea asp-for="@Model.Post.Content" class="form-control" style="width: 172%; height: 300px" maxlength="8192" id="contentInput" oninput="updateCounter('contentInput', 'contentCounter', 32, 8192)"></textarea>
-            <div style="margin-top:10px;" id="contentCounter" class="text-muted" title="Miimum Characters:32">Characters: 0/8192</div>
+            <div style="margin-top:10px;" id="contentCounter" class="text-muted" title="Minimum Characters:32">Characters: 0/8192</div>
             <span asp-validation-for="@Model.Post.Content" class="text-danger"></span>
         </div>
 
@@ -119,7 +119,7 @@
                                 <div class="media flex-wrap w-100 align-items-center">
                                     <div class="media-body ml-3">
                                         <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@replay.CreatedBy" data-abc="true">@replay.CreatedBy</a>
-                                        @if (Model.Post.CreatedBy == currentUser)
+                                        @if (Model.Post.CreatedBy == replay.CreatedBy)
                                         {
                                             <span>(OP)</span>
                                         }

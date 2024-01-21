@@ -130,7 +130,7 @@
 
         @if (ViewBag.currentUser != null && ((UserDb)ViewBag.currentUser).IsAdmin)
         {
-            // TODO
+            
             <form method="post" asp-controller="Users" asp-action="BlockUser">
                 <input type="hidden" name="userToDelete" value="@Model.LastOrDefault()?.CreatedBy" />
                 <button type="submit" class="material-symbols-outlined" style="margin-left: 70px; margin-bottom:20px;" title="Block User" role="button">

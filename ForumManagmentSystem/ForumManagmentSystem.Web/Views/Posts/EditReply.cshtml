@@ -2,7 +2,7 @@
 @using ForumManagmentSystem.Infrastructure.Data.Models
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Post - Edit";
+    ViewData["Title"] = "Reply - Edit";
     string currentUser = Context.Session.GetString("user");
 }
 
@@ -92,13 +92,11 @@
  
                 <div class="form-group" style="margin-top: 25px">
                     <label asp-for="@Model.Reply.Content">Content</label>
-                    <textarea asp-for="@Model.Reply.Content" class="form-control" style="width: 172%; height: 300px" maxlength="8192" ></textarea>
-                    <div style="margin-top:10px;" id="contentCounter" class="text-muted" title="Miimum Characters:32">Characters: 0/8192</div>
-                    <span asp-validation-for="@Model.Reply.Content" class="text-danger"></span>
+                    <textarea asp-for="@Model.Reply.Content" class="form-control" style="width: 172%; height: 300px"></textarea>
                 </div>
 
                 <div class="form-group" style="margin-top: 25px;">
-                    <a asp-controller="Posts" asp-action="Detail" asp-route-title="@Model.Post.Title" type="button" value="EditPost" class="btn">Cancel</a>
+                    <a asp-controller="Posts" asp-action="Detail" asp-route-title="@Model.Post.Title" type="button" value="EditReply" class="btn">Cancel</a>
                     <button type="submit" value="@Model" class="btn btn-primary">Save</button>
                 </div>
 
@@ -114,7 +112,7 @@
                                 <div class="media flex-wrap w-100 align-items-center">
                                     <div class="media-body ml-3">
                                         <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@replay.CreatedBy" data-abc="true">@replay.CreatedBy</a>
-                                        @if (Model.Post.CreatedBy == currentUser)
+                                        @if (Model.Post.CreatedBy == replay.CreatedBy)
                                         {
                                             <span>(OP)</span>
                                         }

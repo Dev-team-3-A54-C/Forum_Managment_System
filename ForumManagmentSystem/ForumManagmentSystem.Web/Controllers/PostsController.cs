@@ -58,6 +58,7 @@ namespace ForumManagmentSystem.Web.Controllers
 
                 string currentUser = HttpContext.Session.GetString("user");
                 ViewBag.currentUser = userService.GetDbUser(currentUser);
+                ViewBag.userIsBlocked = userService.GetDbUser(currentUser).IsBlocked;
 
                 var likedPostsByUser = postService.GetAllLikedByUser(currentUser);
 
@@ -70,7 +71,6 @@ namespace ForumManagmentSystem.Web.Controllers
                         ViewBag.likedByUser = !ViewBag.likedByUser;
                 }
 
-                // --------------
                 var likedRepliesByUser = replyService.GetLikedRepliesFromUser(currentUser);
 
                 if (ViewBag.likedReplyByUser == null)
@@ -93,6 +93,9 @@ namespace ForumManagmentSystem.Web.Controllers
         [IsAuthenticatedAttribute]
         public IActionResult Create()
 		{
+            string username = HttpContext.Session.GetString("user");
+            ViewBag.userIsBlocked = userService.GetDbUser(username).IsBlocked;
+
             var viewModel = new CreatePostViewModel();
 
             return View(viewModel);
