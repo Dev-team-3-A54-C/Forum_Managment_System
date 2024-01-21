@@ -1,4 +1,5 @@
 ﻿@using ForumManagmentSystem.Core.ViewModels
+@using ForumManagmentSystem.Infrastructure.Data.Models
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Post - Edit";
@@ -42,75 +43,67 @@
 
 <section class="page-section" style="margin-left: 160px; margin-right: 160px; margin-top:30px;">
 
-    <h2 style="margin-left:30px; margin-bottom:30px;">Edit Post:</h2>
-    <h2 style="margin-left:50px; margin-bottom:30px;">@Model.Reply.PostTitle</h2>
+    <h2 style="margin-bottom:30px;">@Model.Reply.PostTitle</h2>
+    @*Original Post*@
+    <div class="container-fluid mt-100">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="media flex-wrap w-100 align-items-center">
+                            <div class="media-body ml-3">
+                                <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@Model.Post.CreatedBy" data-abc="true">@Model.Post.CreatedBy</a> <span>(OP)</span>
+                                <div class="text-muted small">
+                                    @Model.Post.CreatedOn.ToString("dd.MM.yyyy, HH:mm", new System.Globalization.CultureInfo("bg-BG"))
+                                </div>
+                            </div>
+                        </div>
 
-    <form method="post" asp-controller="Posts" asp-action="Edit" style="max-width: 600px; margin-left: 70px" id="postForm">
-
-        <input type="text" asp-for="@Model.Post.Title" type="hidden" style="display: none;">
-
-        <div class="form-group" style="margin-top: 25px">
-            <label asp-for="@Model.Post.Content">Content</label>
-            <textarea asp-for="@Model.Post.Content" class="form-control" style="width: 172%; height: 300px" maxlength="8192" id="contentInput" oninput="updateCounter('contentInput', 'contentCounter', 32, 8192)"></textarea>
-            <div style="margin-top:10px;" id="contentCounter" class="text-muted" title="Miimum Characters:32">Characters: 0/8192</div>
-            <span asp-validation-for="@Model.Post.Content" class="text-danger"></span>
+                    </div>
+                    <div class="card-body">
+                        @Model.Post.Content
+                    </div>
+                    <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
+                        <div class="px-4 pt-3 d-flex align-items-center">
+                            <span style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
+                                <span class="material-symbols-outlined">
+                                    thumb_up
+                                </span>
+                            </span>
+                            <span class="ml-5">@Model.Post.Likes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group" style="margin-top: 25px;">
-            <a asp-controller="Posts" asp-action="Detail" asp-route-title="@Model.Post.Title" type="button" value="EditPost" class="btn">Cancel</a>
-            <button type="submit" value="@Model" class="btn btn-primary">Save</button>
-        </div>
-
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                // Call the updateCounter function once to initialize the character counter
-                updateCounter('contentInput', 'contentCounter', 32, 8192);
-            });
-
-            // Function to update character counters
-            function updateCounter(inputId, counterId, minChars, maxChars) {
-                const input = document.getElementById(inputId);
-                const counter = document.getElementById(counterId);
-                const currentChars = input.value.length;
-                const remainingChars = maxChars - currentChars;
-
-                counter.textContent = `Characters: ${currentChars}/${maxChars}`;
-
-                // Change text color to red if the limit is exceeded or below the minimum length
-                if (remainingChars < 0 || currentChars < minChars) {
-                    counter.style.color = "FF0000";
-                } else {
-                    counter.style.color = '';
-                }
-            }
-
-            function validateAndSubmit() {
-                // Check minimum length conditions
-                const titleInput = document.getElementById('titleInput');
-                const contentInput = document.getElementById('contentInput');
-
-                if (titleInput.value.length < 16 || contentInput.value.length < 32) {
-                    alert('Minimum length not reached. Please fill in all required fields.');
-                    return;
-                }
-
-                // If conditions are met, submit the form
-                document.getElementById('postForm').submit();
-            }
-        </script>
-
-
-    </form>
+    </div>
 
     @*  Reply   *@
-    @if (Model.Post.Replies.Count == 0)
+
+    @foreach (var replay in Model.Post.Replies)
     {
-        <p class="container-fluid mt-100" style="margin-top: 30px; margin-bottom: 30px;">There are still no replies!</p>
-    }
-    else
-    {
-        @foreach (var replay in Model.Post.Replies)
+        if (replay.ID == ViewBag.ReplyId)
+        {
+            <form method="post" asp-controller="Posts" asp-action="EditReply" style="max-width: 52.5%; margin-left: 70px" id="postForm">
+
+                @* <input type="text" asp-for="@Model.Reply.PostTitle" type="hidden" style="display: none;">
+                <input type="text" asp-for="@Model.Reply.CreatedBy" type="hidden" style="display: none;">
+ *@
+                <div class="form-group" style="margin-top: 25px">
+                    <label asp-for="@Model.Reply.Content">Content</label>
+                    <textarea asp-for="@Model.Reply.Content" class="form-control" style="width: 172%; height: 300px" maxlength="8192" ></textarea>
+                    <div style="margin-top:10px;" id="contentCounter" class="text-muted" title="Miimum Characters:32">Characters: 0/8192</div>
+                    <span asp-validation-for="@Model.Reply.Content" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" style="margin-top: 25px;">
+                    <a asp-controller="Posts" asp-action="Detail" asp-route-title="@Model.Post.Title" type="button" value="EditPost" class="btn">Cancel</a>
+                    <button type="submit" value="@Model" class="btn btn-primary">Save</button>
+                </div>
+
+            </form>
+        }
+        else
         {
             <div class="container-fluid mt-100">
                 <div class="row">
@@ -120,6 +113,10 @@
                                 <div class="media flex-wrap w-100 align-items-center">
                                     <div class="media-body ml-3">
                                         <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@replay.CreatedBy" data-abc="true">@replay.CreatedBy</a>
+                                        @if (Model.Post.CreatedBy == currentUser)
+                                        {
+                                            <span>(OP)</span>
+                                        }
                                         <div class="text-muted small">
                                             @replay.CreatedOn.ToString("dd.MM.yyyy, HH:mm", new System.Globalization.CultureInfo("bg-BG"))
                                         </div>

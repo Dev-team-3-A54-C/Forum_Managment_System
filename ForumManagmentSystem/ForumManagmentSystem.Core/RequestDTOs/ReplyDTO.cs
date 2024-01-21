@@ -5,6 +5,7 @@ namespace ForumManagmentSystem.Core.RequestDTOs
 {
     public class ReplyDTO
     {
+        public string ID { get; set; }
         [Required]
         public string Content { get; set; }
         [Required]

@@ -135,16 +135,11 @@ namespace ForumManagmentSystem.Core.Services
             return mapper.Map<ReplyResponseDTO>(updatedReply);
         }
 
-        public ReplyResponseDTO Delete(Guid replyId, string username)
+        public ReplyResponseDTO Delete(Guid replyId)
         {
             var deletedReply = replyRepository.Delete(replyId).Result;
 
             return mapper.Map<ReplyResponseDTO>(deletedReply);
         }
-
-		public ReplyResponseDTO Delete(Guid id)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

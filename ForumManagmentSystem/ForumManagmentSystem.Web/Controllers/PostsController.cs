@@ -70,6 +70,18 @@ namespace ForumManagmentSystem.Web.Controllers
                         ViewBag.likedByUser = !ViewBag.likedByUser;
                 }
 
+                // --------------
+                var likedRepliesByUser = replyService.GetLikedRepliesFromUser(currentUser);
+
+                if (ViewBag.likedReplyByUser == null)
+                    ViewBag.likedReplyByUser = false;
+
+                foreach (var likedReply in likedRepliesByUser)
+                {
+                    if (likedReply.PostTitle == title)
+                        ViewBag.likedReplyByUser = !ViewBag.likedReplyByUser;
+                }
+
                 return View(viewModel);
 			}catch(EntityNotFoundException)
             {
@@ -147,6 +159,7 @@ namespace ForumManagmentSystem.Web.Controllers
         {
             try
             {
+                ViewBag.ReplyId = id;
                 var replyResponseDTO = replyService.Get(new Guid(id));
                 var replyDTO = mapper.Map<ReplyDTO>(replyResponseDTO);
 
@@ -166,9 +179,10 @@ namespace ForumManagmentSystem.Web.Controllers
 
         [HttpPost]
         [IsAuthenticatedAttribute]
-        public IActionResult EditReply(int TODO)
+        public IActionResult EditReply(PostDetailViewModel viewModel)
         {
-            throw new NotImplementedException();
+            replyService.Update(new Guid(viewModel.Reply.ID), viewModel.Reply);
+            return RedirectToAction("Detail", "Posts", new { title = viewModel.Post.Title });
         }
 
         [HttpPost]
@@ -213,6 +227,14 @@ namespace ForumManagmentSystem.Web.Controllers
             var username = HttpContext.Session.GetString("user");
             postService.Delete(username, new Guid(postID));
             return RedirectToAction("Index", "Posts");
+        }
+
+        [HttpGet("Posts/Reply/Delete/{replyId}")]
+        public IActionResult DeleteReply([FromRoute] string replyId)
+        {
+            var reply = replyService.Get(new Guid(replyId));
+            replyService.Delete(new Guid(replyId));
+            return RedirectToAction("Detail", "Posts", new { title = reply.PostTitle });
         }
     }
 }

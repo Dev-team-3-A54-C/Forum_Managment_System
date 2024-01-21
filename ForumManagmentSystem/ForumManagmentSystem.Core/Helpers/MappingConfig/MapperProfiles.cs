@@ -49,6 +49,9 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
             this.CreateMap<PostDTO, PostDetailViewModel>();
             this.CreateMap<PostResponseDTO, PostDTO>();
             this.CreateMap<ReplyResponseDTO, ReplyDTO>();
+
+
+            this.CreateMap<ReplyLikesDb, ReplyResponseDTO>();
         }
     }
 }
