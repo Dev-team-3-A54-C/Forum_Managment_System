@@ -1,4 +1,10 @@
 ﻿
+using AutoMapper;
+using ForumManagmentSystem.Core.Services;
+using ForumManagmentSystem.Infrastructure.Data.Models;
+using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
+using Moq;
+
 namespace ForummanagmentSystem.Test.Services.User
 {
     [TestClass]

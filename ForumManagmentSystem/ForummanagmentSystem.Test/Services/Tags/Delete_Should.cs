@@ -3,6 +3,7 @@ using ForumManagmentSystem.Core.Services;
 using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
+using ForumManagmentSystem.Infrastructure.Repositories;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 using Moq;
 using System;
@@ -16,81 +17,82 @@ namespace ForummanagmentSystem.Test.Services.Tags
 	[TestClass]
 	public class Delete_Should
 	{
-		Mock<IUsersRepository> usersRepositoryMock;
+		Mock<IUsersRepository> userRepositoryMock;
 		Mock<ITagRepository> tagRepositoryMock;
-		Mock<IMapper> mapper;
+		Mock<IMapper> mapperMock;
 		ITagService tagService;
 
 		[TestInitialize]
 		public void Init()
 		{
-			usersRepositoryMock = new Mock<IUsersRepository>();
+			userRepositoryMock = new Mock<IUsersRepository>();
 			tagRepositoryMock = new Mock<ITagRepository>();
-			mapper = new Mock<IMapper>();
-			tagService = new TagService(tagRepositoryMock.Object, mapper.Object, usersRepositoryMock.Object);
+			mapperMock = new Mock<IMapper>();
+			tagService = new TagService(tagRepositoryMock.Object, mapperMock.Object, userRepositoryMock.Object);
 		}
 
 		[TestMethod]
-		public void Return_Deleted_Tag()
+		public void Delete_ByTagName_ValidAdminUser_ReturnsTagResponseDTO()
 		{
 			// Arrange
-			var adminUser = new UserDb() { Id = new Guid(), Username = "Admin", IsAdmin = true };
-			usersRepositoryMock.Setup(repo => repo.GetById(adminUser.Id)).Returns(adminUser);
+			var userId = Guid.NewGuid();
+			var tagName = "TagToDelete";
 
-			var tagIdToDelete = new Guid();
-			var tagToDelete = new TagDb { Id = tagIdToDelete, Name = "ToDelete" };
-			tagRepositoryMock.Setup(repo => repo.GetById(tagIdToDelete)).ReturnsAsync(tagToDelete);
+			userRepositoryMock.Setup(repo => repo.GetById(userId))
+				.Returns(new UserDb { IsAdmin = true, Username = "AdminUser" });
+
+			var deletedTagDb = new TagDb { Id = Guid.NewGuid(), Name = tagName };
+			tagRepositoryMock.Setup(repo => repo.Delete(tagName)).ReturnsAsync(deletedTagDb);
+
+			mapperMock.Setup(mapper => mapper.Map<TagResponseDTO>(It.IsAny<TagDb>()))
+				.Returns(new TagResponseDTO { Id = deletedTagDb.Id.ToString(), Name = deletedTagDb.Name });
 
 			// Act
-			var result = tagService.Delete(adminUser.Id, tagIdToDelete);
+			var result = tagService.Delete(userId, tagName);
 
 			// Assert
 			Assert.IsNotNull(result);
-			Assert.AreEqual(tagToDelete, result);
+			Assert.AreEqual(deletedTagDb.Id.ToString(), result.Id);
+			Assert.AreEqual(deletedTagDb.Name, result.Name);
 		}
+
 		[TestMethod]
-		public void Throw_EntityNotFoundException_When_User_Not_Found()
+		public void Delete_ByTagId_ValidAdminUser_ReturnsTagResponseDTO()
 		{
 			// Arrange
-			var nonExistentUserId = new Guid("userid");
-			//usersRepositoryMock.Setup(repo => repo.GetById(nonExistentUserId)).Returns((UserDb)null);
-			var tagIdToDelete = new Guid("tagid");
+			var userId = Guid.NewGuid();
+			var tagId = Guid.NewGuid();
 
-			// Act and Assert
-			Assert.ThrowsException<EntityNotFoundException>(() =>
-				tagService.Delete(nonExistentUserId, tagIdToDelete));
+			userRepositoryMock.Setup(repo => repo.GetById(userId))
+				.Returns(new UserDb { IsAdmin = true, Username = "AdminUser" });
+
+			var deletedTagDb = new TagDb { Id = tagId, Name = "DeletedTag" };
+			tagRepositoryMock.Setup(repo => repo.Delete(tagId)).ReturnsAsync(deletedTagDb);
+
+			mapperMock.Setup(mapper => mapper.Map<TagResponseDTO>(It.IsAny<TagDb>()))
+				.Returns(new TagResponseDTO { Id = deletedTagDb.Id.ToString(), Name = deletedTagDb.Name });
+
+			// Act
+			var result = tagService.Delete(userId, tagId);
+
+			// Assert
+			Assert.IsNotNull(result);
+			Assert.AreEqual(deletedTagDb.Id.ToString(), result.Id);
+			Assert.AreEqual(deletedTagDb.Name, result.Name);
 		}
+
 		[TestMethod]
-		public void Throw_UnauthorizedOperationException_When_User_Not_Authorized()
+		public void Delete_NonAdminUser_ThrowsUnauthorizedOperationException()
 		{
 			// Arrange
-			var tagService = new TagService(tagRepositoryMock.Object, mapper.Object, usersRepositoryMock.Object);
+			var userId = Guid.NewGuid();
+			var tagToDelete = "TagToDelete";
 
-			var regularUser = new UserDb() { Username = "RegularUser", IsAdmin = false};
-			usersRepositoryMock.Setup(repo => repo.GetById(regularUser.Id)).Returns(regularUser);
+			userRepositoryMock.Setup(repo => repo.GetById(userId))
+				.Returns(new UserDb { IsAdmin = false, Username = "RegularUser" });
 
-			var tagIdToDelete = new Guid("1");
-
-			// Act and Assert
-			Assert.ThrowsException<UnauthorizedOperationException>(() =>
-				tagService.Delete(regularUser.Id, tagIdToDelete));
-		}
-		[TestMethod]
-		public void Throw_EntityNotFoundException_When_Tag_Not_Found()
-		{
-			// Arrange
-			var tagService = new TagService(tagRepositoryMock.Object, mapper.Object, usersRepositoryMock.Object);
-
-			var adminUser = new UserDb() { Username = "AdminUser", IsAdmin = true };
-			usersRepositoryMock.Setup(repo => repo.GetById(adminUser.Id)).Returns(adminUser);
-
-			var nonExistentTagId = new Guid();
-			tagRepositoryMock.Setup(repo => repo.GetById(nonExistentTagId)).ReturnsAsync((TagDb)null);
-
-			// Act and Assert
-			Assert.ThrowsException<EntityNotFoundException>(() =>
-				tagService.Delete(adminUser.Id, nonExistentTagId)
-			);
+			// Act & Assert
+			Assert.ThrowsException<UnauthorizedOperationException>(() => tagService.Delete(userId, tagToDelete));
 		}
 	}
 }

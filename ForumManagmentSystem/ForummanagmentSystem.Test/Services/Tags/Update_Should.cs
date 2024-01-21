@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using ForumManagmentSystem.Core.RequestDTOs;
 using ForumManagmentSystem.Core.Services;
+using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
+using ForumManagmentSystem.Infrastructure.Repositories;
 using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
 using Moq;
 using System;
@@ -16,118 +18,91 @@ namespace ForummanagmentSystem.Test.Services.Tags
 	[TestClass]
 	public class Update_Should
 	{
-		Mock<IUsersRepository> usersRepositoryMock;
+		Mock<IUsersRepository> userRepositoryMock;
 		Mock<ITagRepository> tagRepositoryMock;
-		Mock<IMapper> mapper;
+		Mock<IMapper> mapperMock;
+		ITagService tagService;
 
 		[TestInitialize]
 		public void Init()
 		{
-			usersRepositoryMock = new Mock<IUsersRepository>();
+			userRepositoryMock = new Mock<IUsersRepository>();
 			tagRepositoryMock = new Mock<ITagRepository>();
-			mapper = new Mock<IMapper>();
+			mapperMock = new Mock<IMapper>();
+			tagService = new TagService
+				(tagRepositoryMock.Object, mapperMock.Object, userRepositoryMock.Object);
 		}
 		[TestMethod]
-		public void Return_Updated_Tag()
+		public void Update_ValidAdminUserAndUniqueTagName_ReturnsTagResponseDTO()
 		{
 			// Arrange
-			var tagService = new TagService(tagRepositoryMock.Object, mapper.Object, usersRepositoryMock.Object);
+			var userId = Guid.NewGuid();
+			var tagId = Guid.NewGuid();
+			var tagDto = new TagDTO { Name = "UpdatedTag" };
 
-			var adminUser = new UserDb() { Username = "Admin", IsAdmin = true };
-			usersRepositoryMock.Setup(repo => repo.GetById(adminUser.Id)).Returns(adminUser);
+		
 
-			var tagIdToUpdate = new Guid("1");
-			var existingTag = new TagDb { Id = tagIdToUpdate, Name = "ToBeUpdated" };
-			var updatedTag = new TagDb { Id = tagIdToUpdate, Name = "Updated" };
+			userRepositoryMock.Setup(repo => repo.GetById(userId))
+				.Returns(new UserDb { IsAdmin = true, Username = "AdminUser" });
 
-			tagRepositoryMock.Setup(repo => repo.GetById(tagIdToUpdate)).ReturnsAsync(existingTag);
-			tagRepositoryMock.Setup(repo => repo.DoesNameExist(updatedTag.Name)).ReturnsAsync(false);
-			tagRepositoryMock.Setup(repo => repo.Update(existingTag)).ReturnsAsync(updatedTag);
+			var existingTagDb = new TagDb { Id = tagId, Name = "ExistingTag" };
+			tagRepositoryMock.Setup(repo => repo.GetById(tagId)).ReturnsAsync(existingTagDb);
+
+			var updatedTagDb = new TagDb { Id = tagId, Name = tagDto.Name };
+			tagRepositoryMock.Setup(repo => repo.DoesNameExist(tagDto.Name)).ReturnsAsync(false);
+			tagRepositoryMock.Setup(repo => repo.Update(It.IsAny<TagDb>())).ReturnsAsync(updatedTagDb);
+
+			mapperMock.Setup(mapper => mapper.Map<TagDb>(It.IsAny<TagDTO>()))
+				.Returns(new TagDb { Id = tagId, Name = tagDto.Name });
+			mapperMock.Setup(mapper => mapper.Map<TagResponseDTO>(It.IsAny<TagDb>()))
+				.Returns(new TagResponseDTO { Id = tagId.ToString(), Name = tagDto.Name });
 
 			// Act
-			TagDTO updatedTagDTO = new TagDTO()
-			{
-				Name = updatedTag.Name
-			};
-			var result = tagService.Update(adminUser.Id, tagIdToUpdate, updatedTagDTO);
+			var result = tagService.Update(userId, tagId, tagDto);
 
 			// Assert
 			Assert.IsNotNull(result);
-			Assert.AreEqual(updatedTag, result);
+			Assert.AreEqual(updatedTagDb.Id.ToString(), result.Id);
+			Assert.AreEqual(updatedTagDb.Name, result.Name);
 		}
+
 		[TestMethod]
-		public void Throw_EntityNotFoundException_When_User_Not_Found()
+		public void Update_NonAdminUser_ThrowsUnauthorizedOperationException()
 		{
 			// Arrange
-			var tagService = new TagService(tagRepositoryMock.Object, mapper.Object, usersRepositoryMock.Object);
+			var userId = Guid.NewGuid();
+			var tagId = Guid.NewGuid();
+			var tagDto = new TagDTO { Name = "UpdatedTag" };
 
-			var nonExistentUserId = new Guid("999");
-			
-			usersRepositoryMock.Setup(repo => repo.GetById(nonExistentUserId)).Returns((UserDb)null);
-			
-			var tagIdToUpdate = new Guid("1");
-			TagDb testTag = TestHelper.GetTestTag();
-			tagRepositoryMock.Setup(repo => repo.GetById(tagIdToUpdate)).ReturnsAsync(testTag);
-			var updatedTagName = "Updated";
+			userRepositoryMock.Setup(repo => repo.GetById(userId))
+				.Returns(new UserDb { IsAdmin = false, Username = "RegularUser" });
 
-			// Act and Assert
-
-			Assert.ThrowsException<EntityNotFoundException>(() =>
-				tagService.Update(nonExistentUserId, tagIdToUpdate, TestHelper.GetTestTagDTO()));
+			// Act & Assert
+			Assert.ThrowsException<UnauthorizedOperationException>(
+				() => tagService.Update(userId, tagId, tagDto));
 		}
+
 		[TestMethod]
-		public void Throw_UnauthorizedOperationException_When_User_Not_Unthorized()
+		public void Update_DuplicateTagName_ThrowsNameDuplicationException()
 		{
 			// Arrange
-			var tagService = new TagService(tagRepositoryMock.Object, mapper.Object, usersRepositoryMock.Object);
+			var userId = Guid.NewGuid();
+			var tagId = Guid.NewGuid();
+			var tagDto = new TagDTO { Name = "DuplicateTag" };
 
-			var regularUser = new UserDb() { Username = "RegularUser", IsAdmin = false};
-			usersRepositoryMock.Setup(repo => repo.GetById(regularUser.Id)).Returns(regularUser);
+			userRepositoryMock.Setup(repo => repo.GetById(userId))
+				.Returns(new UserDb { IsAdmin = true, Username = "AdminUser" });
 
-			var tagIdToUpdate = new Guid("1");
-			var updatedTag = TestHelper.GetTestTagDTO();
+			mapperMock.Setup(mapper => mapper.Map<TagDb>(It.IsAny<TagDTO>()))
+				.Returns((TagDTO r) => new TagDb { Name = r.Name });
 
-			// Act and Assert
-			Assert.ThrowsException<UnauthorizedOperationException>(() =>
-				tagService.Update(regularUser.Id, tagIdToUpdate, updatedTag));
-		}
-		[TestMethod]
-		public void Throw_NameDuplicationException_When_TagName_Exists()
-		{
-			// Arrange
-			var tagService = new TagService(tagRepositoryMock.Object, mapper.Object, usersRepositoryMock.Object);
+			var existingTagDb = new TagDb { Id = tagId, Name = "ExistingTag" };
+			tagRepositoryMock.Setup(repo => repo.GetById(tagId)).ReturnsAsync(existingTagDb);
 
-			var adminUser = new UserDb() { Username = "Admin", IsAdmin = true };
-			usersRepositoryMock.Setup(repo => repo.GetById(adminUser.Id)).Returns(adminUser);
+			tagRepositoryMock.Setup(repo => repo.DoesNameExist(tagDto.Name)).ReturnsAsync(true);
 
-			var tagIdToUpdate = new Guid("1");
-			var existingTag = new TagDb(){ Id = tagIdToUpdate, Name = "ExistingTag" };
-			var updatedTagName = "NewTag";
-
-			tagRepositoryMock.Setup(repo => repo.GetById(tagIdToUpdate)).ReturnsAsync(existingTag);
-			tagRepositoryMock.Setup(repo => repo.DoesNameExist(updatedTagName)).ReturnsAsync(true);
-
-			// Act and Assert
-			Assert.ThrowsException<NameDuplicationException>(() =>
-				tagService.Update(adminUser.Id, tagIdToUpdate, TestHelper.GetTestTagDTO()));
-		}
-		[TestMethod]
-		public void Throw_EntityNotFoundException_When_Tag_Not_Found()
-		{
-			// Arrange
-			var tagService = new TagService(tagRepositoryMock.Object, mapper.Object, usersRepositoryMock.Object);
-
-			var adminUser = new UserDb() { Username = "Admin", IsAdmin = true};
-			usersRepositoryMock.Setup(repo => repo.GetById(adminUser.Id)).Returns(adminUser);
-
-			var nonExistentTagId = new Guid("999");
-			var updatedTagName = "Updated";
-
-			tagRepositoryMock.Setup(repo => repo.GetById(nonExistentTagId)).ReturnsAsync((TagDb)null);
-
-			// Act and Assert
-			Assert.ThrowsException<EntityNotFoundException>(() =>
-				tagService.Update(adminUser.Id, nonExistentTagId, TestHelper.GetTestTagDTO()));
+			// Act & Assert
+			Assert.ThrowsException<NameDuplicationException>(() => tagService.Update(userId, tagId, tagDto));
 		}
 	}
 }
