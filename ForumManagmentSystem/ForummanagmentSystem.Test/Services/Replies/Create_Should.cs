@@ -5,7 +5,7 @@ namespace ForummanagmentSystem.Test.Services.Replies
     public class Create_Should
     {
         [TestMethod]
-        public void Create_Returns_ReplyResponseDTO_When_CreationSucceeds()
+        public void Returns_ReplyResponseDTO_When_CreationSucceeds()
         {
             // Arrange
             var replyDto = TestHelper.CreateReplyDto(); // Use your TestHelper to create a ReplyDTO
@@ -51,7 +51,7 @@ namespace ForummanagmentSystem.Test.Services.Replies
         }
 
         [TestMethod]
-        public void Create_Throws_EntityNotFoundException_When_UserDoesNotExist()
+        public void Throws_EntityNotFoundException_When_UserDoesNotExist()
         {
             // Arrange
             var nonExistingUserDto = TestHelper.CreateReplyDto(); // Use your TestHelper to create a ReplyDTO
@@ -75,7 +75,7 @@ namespace ForummanagmentSystem.Test.Services.Replies
         }
 
         [TestMethod]
-        public void Create_Throws_EntityNotFoundException_When_PostDoesNotExist()
+        public void Throws_EntityNotFoundException_When_PostDoesNotExist()
         {
             // Arrange
             var nonExistingPostDto = TestHelper.CreateReplyDto(); // Use your TestHelper to create a ReplyDTO
