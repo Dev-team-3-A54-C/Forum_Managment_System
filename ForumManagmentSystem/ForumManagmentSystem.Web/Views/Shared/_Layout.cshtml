@@ -9,6 +9,9 @@
 }
 
 <style>
+    .nav-li a {
+        margin-top: 10px;
+    }
     /* Custom styles for the navbar */
     #mainNav {
         transition: background-color 0.3s, color 0.3s;
@@ -141,23 +144,37 @@
                         </li>
                     }
                     @* <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Contact">Tags</a>
+                    <a class="nav-link" asp-controller="Home" asp-action="Contact">Tags</a>
                     </li> *@
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:5178/swagger">Develor API</a>
-                    </li>
+
+                    @if (isLogged)
+                    {
+                        <li class="nav-item nav-li">
+                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                        </li>
+                        <li class="nav-item nav-li">
+                            <a class="nav-link" href="http://localhost:5178/swagger">Develor API</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:5178/swagger">Develor API</a>
+                        </li>
+                    }
+
 
                     @{
                         if (isLogged)
                         {
-                            <div class="dropdown nav-item">
+                            <div class="dropdown nav-item" style="margin-top:10px;">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="margin-top: -10px">
                                     User: @username
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="margin-top:-15px;">
                                     <li><a class="dropdown-item" asp-controller="Posts" asp-action="Create">Create Post</a></li>
                                     <li><a class="dropdown-item" asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@username">My Posts</a></li>
                                     <li><a class="dropdown-item" asp-controller="Users" asp-action="Edit">Edit Profile</a></li>
@@ -204,7 +221,7 @@
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 
 
-   @*  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @*  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> *@
     @* <script src="js/scripts.js"></script> *@
 
