@@ -34,18 +34,21 @@ namespace ForummanagmentSystem.Test.Services.Posts
 			var newData = new PostDTO { Title = "UpdatedTitle", Content = "UpdatedContent" };
 
 			var adminUser = new UserDb { Id = Guid.NewGuid(), Username = username, IsAdmin = true };
-			var existingPostDb = new PostDb 
-			{ Id = postId, 
-				Title = "OriginalTitle", 
-				Content = "OriginalContent",
+			var updatedPostDb = new PostDb 
+			{ 
+				Id = postId, 
+				Title = "UpdatedTitle", 
+				Content = "UpdatedContent",
 				User = adminUser 
 			};
 
 			usersRepositoryMock.Setup(repo => repo.GetByName(username)).Returns(adminUser);
-			postsRepositoryMock.Setup(repo => repo.Update(postId, It.IsAny<PostDb>())).Returns(existingPostDb);
+			postsRepositoryMock.Setup(repo => repo.Update(postId, It.IsAny<PostDb>()))
+				.Returns(updatedPostDb);
 			autoMapperMock.Setup(mapper => mapper.Map<PostResponseDTO>(It.IsAny<PostDb>()))
 				.Returns((PostDb postDb) => new PostResponseDTO 
-				{ ID = postDb.Id.ToString(),
+				{ 
+					ID = postDb.Id.ToString(),
 					Title = postDb.Title,
 					Content = postDb.Content,
 					CreatedOn = postDb.CreatedOn
@@ -70,17 +73,18 @@ namespace ForummanagmentSystem.Test.Services.Posts
 			var newData = new PostDTO { Title = "UpdatedTitle", Content = "UpdatedContent" };
 
 			var regularUser = new UserDb { Id = Guid.NewGuid(), Username = username, IsAdmin = false };
-			var existingPostDb = new PostDb { 
+			var updatedPostDb = new PostDb { 
 				Id = postId, 
-				Title = "OriginalTitle", 
-				Content = "OriginalContent", 
+				Title = "UpdatedTitle", 
+				Content = "UpdatedContent", 
 				User = regularUser 
 			};
+			regularUser.MyPosts.Add(updatedPostDb);
 
 			usersRepositoryMock.Setup(repo => repo.GetByName(username))
 				.Returns(regularUser);
 			postsRepositoryMock.Setup(repo => repo.Update(postId, It.IsAny<PostDb>()))
-				.Returns(existingPostDb);
+				.Returns(updatedPostDb);
 			autoMapperMock.Setup(mapper => mapper.Map<PostResponseDTO>(It.IsAny<PostDb>()))
 				.Returns((PostDb postDb) => new PostResponseDTO { 
 					ID = postDb.Id.ToString(), 
