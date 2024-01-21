@@ -10,6 +10,7 @@ using ForumManagmentSystem.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Hosting;
 
 namespace ForumManagmentSystem.Web.Controllers
 {
@@ -18,12 +19,14 @@ namespace ForumManagmentSystem.Web.Controllers
         private readonly IMapper mapper;
         private readonly IPostService postService;
         private readonly IReplyService replyService;
+        private readonly IUserService userService;
 
-        public PostsController(IMapper mapper, IPostService postService, IReplyService replyService)
+        public PostsController(IMapper mapper, IPostService postService, IReplyService replyService, IUserService userService)
         {
             this.mapper = mapper;
             this.postService = postService;
             this.replyService = replyService;
+            this.userService = userService;
         }
 
 		[HttpGet]
@@ -37,6 +40,8 @@ namespace ForumManagmentSystem.Web.Controllers
         [HttpGet("Posts/Users/{createdBy}")]
         public IActionResult Overview([FromRoute] string createdBy)
         {
+            string currentUser = HttpContext.Session.GetString("user");
+            ViewBag.currentUser = userService.GetDbUser(currentUser);
             var posts = postService.GetAllFromUser(createdBy);
             return View(posts);
         }
@@ -47,9 +52,35 @@ namespace ForumManagmentSystem.Web.Controllers
         {
             try
             {
-				var postResponse = postService.Get(title);
+                var postResponse = postService.Get(title);
                 var viewModel = new PostDetailViewModel();
                 viewModel.Post = postResponse;
+
+                string currentUser = HttpContext.Session.GetString("user");
+                ViewBag.currentUser = userService.GetDbUser(currentUser);
+
+                var likedPostsByUser = postService.GetAllLikedByUser(currentUser);
+
+                if (ViewBag.likedByUser == null)
+                    ViewBag.likedByUser = false;
+
+                foreach (var likedPost in likedPostsByUser)
+                {
+                    if (likedPost.Title == title)
+                        ViewBag.likedByUser = !ViewBag.likedByUser;
+                }
+
+                // --------------
+                var likedRepliesByUser = replyService.GetLikedRepliesFromUser(currentUser);
+
+                if (ViewBag.likedReplyByUser == null)
+                    ViewBag.likedReplyByUser = false;
+
+                foreach (var likedReply in likedRepliesByUser)
+                {
+                    if (likedReply.PostTitle == title)
+                        ViewBag.likedReplyByUser = !ViewBag.likedReplyByUser;
+                }
 
                 return View(viewModel);
 			}catch(EntityNotFoundException)
@@ -119,7 +150,39 @@ namespace ForumManagmentSystem.Web.Controllers
 
             postService.Update(new Guid(postID),username, post);
 
-            return RedirectToAction("Index", "Posts");
+            return RedirectToAction("Detail", "Posts", new { title = post.Title });
+        }
+
+        [HttpGet("Posts/Reply/Edit/{id}")]
+        [IsAuthenticatedAttribute]
+        public IActionResult EditReply([FromRoute] string id)
+        {
+            try
+            {
+                ViewBag.ReplyId = id;
+                var replyResponseDTO = replyService.Get(new Guid(id));
+                var replyDTO = mapper.Map<ReplyDTO>(replyResponseDTO);
+
+                var post = postService.Get(replyDTO.PostTitle);
+
+                var viewModel = new PostDetailViewModel();
+                viewModel.Reply = replyDTO;
+                viewModel.Post = post;
+
+                return View(viewModel);
+            }
+            catch(EntityNotFoundException)
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        [IsAuthenticatedAttribute]
+        public IActionResult EditReply(PostDetailViewModel viewModel)
+        {
+            replyService.Update(new Guid(viewModel.Reply.ID), viewModel.Reply);
+            return RedirectToAction("Detail", "Posts", new { title = viewModel.Post.Title });
         }
 
         [HttpPost]
@@ -148,16 +211,14 @@ namespace ForumManagmentSystem.Web.Controllers
         public IActionResult AddLiketoReply(string replyID)
         {
             var userId = HttpContext.Session.GetString("id");
-            //var replyDTO = new AddReplyLikeDTO();
-            //replyDTO.ReplyId = replyID;
-            //replyDTO.Username = username;
+            var replyResponseDTO = replyService.Get(new Guid(replyID));
+            var replyDTO = mapper.Map<ReplyDTO>(replyResponseDTO);
+
+            var post = postService.Get(replyDTO.PostTitle);
 
             replyService.AddLike(new Guid(userId), new Guid(replyID));
 
-            //var post = postService.Get();
-
-            //return RedirectToAction("Detail", "Posts", new { post.Title });
-            return RedirectToAction("Detail", "Posts");
+            return RedirectToAction("Detail", "Posts", new { post.Title });
         }
 
         [HttpGet("Posts/Delete/{postID}")]
@@ -166,6 +227,14 @@ namespace ForumManagmentSystem.Web.Controllers
             var username = HttpContext.Session.GetString("user");
             postService.Delete(username, new Guid(postID));
             return RedirectToAction("Index", "Posts");
+        }
+
+        [HttpGet("Posts/Reply/Delete/{replyId}")]
+        public IActionResult DeleteReply([FromRoute] string replyId)
+        {
+            var reply = replyService.Get(new Guid(replyId));
+            replyService.Delete(new Guid(replyId));
+            return RedirectToAction("Detail", "Posts", new { title = reply.PostTitle });
         }
     }
 }

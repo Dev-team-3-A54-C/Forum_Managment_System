@@ -1,4 +1,5 @@
 ﻿@using ForumManagmentSystem.Core.ViewModels
+@using ForumManagmentSystem.Infrastructure.Data.Models
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Post - Details";
@@ -30,6 +31,14 @@
             color: black;
             padding: 0 1rem;
         }
+
+        #mainNav .navbar-nav .nav-item:hover {
+            background-color: rgba(0,0,0,0);
+        }
+
+        #mainNav .navbar-nav .nav-item .nav-link:hover {
+            color: #f4623a;
+        }
 </style>
 
 
@@ -45,7 +54,11 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="media flex-wrap w-100 align-items-center">
                             <div class="media-body ml-3">
-                                <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@Model.Post.CreatedBy" data-abc="true">@Model.Post.CreatedBy</a> <span>(OP)</span>
+                                <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@Model.Post.CreatedBy" data-abc="true">@Model.Post.CreatedBy</a>
+                                @if (Model.Post.CreatedBy == currentUser)
+                                {
+                                    <span>(OP)</span>
+                                }
                                 <div class="text-muted small">
                                     @Model.Post.CreatedOn.ToString("dd.MM.yyyy, HH:mm", new System.Globalization.CultureInfo("bg-BG"))
                                 </div>
@@ -53,7 +66,7 @@
                         </div>
                         @if (currentUser == @Model.Post.CreatedBy)
                         {
-                            <a asp-controller="Posts" asp-action="Edit" asp-route-title="@Model.Post.Title" title="Like">
+                            <a asp-controller="Posts" asp-action="Edit" asp-route-title="@Model.Post.Title" title="Edit" style="color: black">
                                 <span class="material-symbols-outlined">
                                     edit
                                 </span>
@@ -65,7 +78,16 @@
                             </button> *@
 
                             <div class="ml-auto">
-                                <a asp-controller="Posts" asp-action="Delete" asp-route-postID="@Model.Post.ID" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Delete">
+                                <a asp-controller="Posts" asp-action="Delete" asp-route-postID="@Model.Post.ID" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Delete" style="color: black">
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+                                </a>
+                            </div>
+                        }else if (ViewBag.currentUser != null && ((UserDb)ViewBag.currentUser).IsAdmin)
+                        {
+                            <div class="ml-auto">
+                                <a asp-controller="Posts" asp-action="Delete" asp-route-postID="@Model.Post.ID" type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Delete" style="color: black">
                                     <span class="material-symbols-outlined">
                                         delete
                                     </span>
@@ -78,14 +100,30 @@
                     </div>
                     <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
                         <div class="px-4 pt-3 d-flex align-items-center">
-                            <form asp-controller="Posts" asp-action="AddLiketoPost">
-                                <input name="postID" type="hidden" style="display: none;" value="@Model.Post.ID">
-                                <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
-                                    <span class="material-symbols-outlined">
-                                        thumb_up
-                                    </span>
-                                </button>
-                            </form>
+
+                            @if (ViewBag.likedByUser)
+                            {
+                                <form asp-controller="Posts" asp-action="AddLiketoPost">
+                                    <input name="postID" type="hidden" style="display: none;" value="@Model.Post.ID">
+                                    <button class="btn" style="margin-right: 5px; color: #f4623a;" data-toggle="tooltip" data-placement="top" title="Like">
+                                        <span class="material-symbols-outlined">
+                                            thumb_up
+                                        </span>
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-controller="Posts" asp-action="AddLiketoPost">
+                                    <input name="postID" type="hidden" style="display: none;" value="@Model.Post.ID">
+                                    <button class="btn" style="margin-right: 5px; color: black;" data-toggle="tooltip" data-placement="top" title="Unlike">
+                                        <span class="material-symbols-outlined">
+                                            thumb_up
+                                        </span>
+                                    </button>
+                                </form>
+                                
+                            }
 
                             <span class="ml-5">@Model.Post.Likes</span>
                         </div>
@@ -119,6 +157,10 @@
                                 <div class="media flex-wrap w-100 align-items-center">
                                     <div class="media-body ml-3">
                                         <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@replay.CreatedBy" data-abc="true">@replay.CreatedBy</a>
+                                        @if (Model.Post.CreatedBy == currentUser)
+                                        {
+                                            <span>(OP)</span>
+                                        }
                                         <div class="text-muted small">
                                             @replay.CreatedOn.ToString("dd.MM.yyyy, HH:mm", new System.Globalization.CultureInfo("bg-BG"))
                                         </div>
@@ -126,17 +168,15 @@
                                 </div>
                                 @if (currentUser == replay.CreatedBy)
                                 {
-                                    <form asp-controller="Posts" asp-action="TODO">
-                                        <input name="PostID" type="hidden" style="display: none;" value="@replay.ID">
-                                        <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
-                                            <span class="material-symbols-outlined">
-                                                edit
-                                            </span>
-                                        </button>
-                                    </form>
+                                    <a asp-controller="Posts" asp-action="EditReply" asp-route-id="@replay.ID" title="Edit" style="color: black">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </a>
+                                    
 
                                     <div class="ml-auto">
-                                        <a type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <a asp-controller="Posts" asp-action="DeleteReply" asp-route-replyId="@replay.ID" type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Delete" style="color: black">
                                             <span class="material-symbols-outlined">
                                                 delete
                                             </span>
@@ -149,14 +189,38 @@
                             </div>
                             <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
                                 <div class="px-4 pt-3 d-flex align-items-center">
-                                    <form asp-controller="Posts" asp-action="AddLiketoReply">
+                                    @* <form asp-controller="Posts" asp-action="AddLiketoReply">
                                         <input name="replyID" type="hidden" style="display: none;" value="@replay.ID">
                                         <button class="btn" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Like">
                                             <span class="material-symbols-outlined">
                                                 thumb_up
                                             </span>
                                         </button>
-                                    </form>
+                                    </form> *@
+
+                                    @if (ViewBag.likedReplyByUser)
+                                    {
+                                        <form asp-controller="Posts" asp-action="AddLiketoReply">
+                                            <input name="replyID" type="hidden" style="display: none;" value="@replay.ID">
+                                            <button class="btn" style="margin-right: 5px; color: #f4623a;" data-toggle="tooltip" data-placement="top" title="Like">
+                                                <span class="material-symbols-outlined">
+                                                    thumb_up
+                                                </span>
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-controller="Posts" asp-action="AddLiketoReply">
+                                            <input name="replyID" type="hidden" style="display: none;" value="@replay.ID">
+                                            <button class="btn" style="margin-right: 5px; color: black;" data-toggle="tooltip" data-placement="top" title="Unlike">
+                                                <span class="material-symbols-outlined">
+                                                    thumb_up
+                                                </span>
+                                            </button>
+                                        </form>
+
+                                    }
                                     <span class="ml-5">@replay.LikesCount</span>
                                 </div>
                             </div>
@@ -167,11 +231,12 @@
         }
     }
 
-    <form asp-controller="Posts" asp-action="Reply" method="post" style="max-width: 600px; margin-left:70px" id="replayForm">
+    <form asp-controller="Posts" asp-action="Reply" method="post" style="max-width: 44%; margin-left:70px" id="replayForm">
 
         <div class="form-group" style="margin-top: 25px">
             <label asp-for="Reply.Content">Replay</label>
-            <textarea type="Content" asp-for="Reply.Content" class="form-control" style="width: 203%; height:300px"></textarea>
+            <textarea type="Content" asp-for="Reply.Content" class="form-control" style="width: 203%; height:300px" maxlength="8192" id="contentInput" oninput="updateCounter('contentInput', 'contentCounter', 32, 8192)"></textarea>
+            <div style="margin-top:10px;" id="contentCounter" class="text-muted">Characters: 0/8192</div>
             <span asp-validation-for="Reply.Content" class="text-danger"></span>
         </div>
 
@@ -181,6 +246,37 @@
 
         <input asp-for="Reply.PostTitle" style="display: none;" value="@Model.Post.Title" />
 
+
+        <script>
+            function updateCounter(inputId, counterId, minChars, maxChars) {
+                const input = document.getElementById(inputId);
+                const counter = document.getElementById(counterId);
+                const currentChars = input.value.length;
+                const remainingChars = maxChars - currentChars;
+
+                counter.textContent = `Characters: ${currentChars}/${maxChars}`;
+
+                // Change text color to red if the limit is exceeded or below the minimum length
+                if (remainingChars <= 0 || currentChars < minChars) {
+                    counter.style.color = 'red';
+                } else {
+                    counter.style.color = '';
+                }
+            }
+
+            function validateAndSubmit() {
+                // Check minimum length conditions
+                const replyContent = document.getElementById('Reply_Content');
+
+                if (replyContent.value.length < 32) {
+                    alert('Minimum length not reached. Please fill in all required fields.');
+                    return;
+                }
+
+                // If conditions are met, submit the form
+                document.getElementById('replayForm').submit();
+            }
+        </script>
     </form>
 
 

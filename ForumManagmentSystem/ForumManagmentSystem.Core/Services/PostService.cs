@@ -104,7 +104,7 @@ namespace ForumManagmentSystem.Core.Services
                 Title = newData.Title,
                 Content = newData.Content,
             };
-            if (!user.IsAdmin && !user.MyPosts.Contains(p))
+            if (!user.IsAdmin && !user.MyPosts.Any(post => post.Title == p.Title))
             {
                 throw new UnauthorizedOperationException
                     (String.Format(UNAUTHORIZED_ERROR_MESSAGE, user.Username));

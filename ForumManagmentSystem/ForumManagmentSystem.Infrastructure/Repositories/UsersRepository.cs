@@ -71,6 +71,26 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
             context.SaveChanges();
             return userToUpdate;
         }
+
+        public UserDb Block(Guid id)
+        {
+            UserDb userToUpdate = context.Users.FirstOrDefault(u => u.Id == id) ??
+                throw new EntityNotFoundException($"User to update with id:{id} not found.");
+
+            if (userToUpdate.IsBlocked)
+            {
+                userToUpdate.IsBlocked = false;
+            }
+            else
+            {
+                userToUpdate.IsBlocked = true;
+            }
+
+            context.SaveChanges();
+
+            return userToUpdate;
+        }
+
         public UserDb Delete(Guid id)
         {
             UserDb toDelete = GetById(id);

@@ -1,1 +1,9 @@
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
+global using AutoMapper;
+global using ForumManagmentSystem.Core.Services;
+global using ForumManagmentSystem.Infrastructure.Data.Models;
+global using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
+global using Microsoft.Extensions.Configuration;
+global using Moq;
+global using ForumManagmentSystem.Core.ResponseDTOs;
+global using ForumManagmentSystem.Infrastructure.Exceptions;

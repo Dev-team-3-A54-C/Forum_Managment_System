@@ -13,6 +13,7 @@ namespace ForumManagmentSystem.Core.Services.Contracts
         UserResponseDTO GetUser(string username);
         UserResponseDTO GetUser(Guid id);
         UserResponseDTO Update(Guid id, EditUserDTO user);
+        UserResponseDTO Block(Guid id, string username);
         UserResponseDTO Delete(Guid id, string username);
         IList<UserResponseDTO> FilterBy(UserQueryParameters usersParams);
         bool UserExists(string username);

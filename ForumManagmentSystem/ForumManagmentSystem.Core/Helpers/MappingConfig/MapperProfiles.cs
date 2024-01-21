@@ -19,9 +19,18 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
             this.CreateMap<ReplyDb, PostReplyResponseDTO>()
                 .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
 			this.CreateMap<ReplyDb, ReplyResponseDTO>()
-                .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username));
+                .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.User.Username))
+                .ForMember(d => d.PostTitle, p => p.MapFrom(s => s.Post.Title));
             this.CreateMap<UserDb, UserResponseDTO>();
             this.CreateMap<TagDb, TagResponseDTO>();
+            this.CreateMap<PostLikesDb, PostResponseDTO>()
+                .ForMember(d => d.ID, p => p.MapFrom(s => s.Post.Id))
+                .ForMember(d => d.Title, p => p.MapFrom(s => s.Post.Title))
+                .ForMember(d => d.Content, p => p.MapFrom(s => s.Post.Content))
+                .ForMember(d => d.Likes, p => p.MapFrom(s => s.Post.LikesCount))
+                .ForMember(d => d.CreatedBy, p => p.MapFrom(s => s.Post.CreatedBy))
+                .ForMember(d => d.CreatedOn, p => p.MapFrom(s => s.Post.CreatedOn))
+                .ForMember(d => d.Replies, p => p.MapFrom(s => s.Post.Replies));
 
             this.CreateMap<UserDTO, UserDb>()
                 .ForMember(x => x.CreatedOn, d => d.MapFrom(src => DateTime.Now)).ReverseMap();
@@ -38,6 +47,11 @@ namespace ForumManagmentSystem.Core.Helpers.MappingConfig
             this.CreateMap<AddReplyLikeDTO, ReplyLikesDb>();
             this.CreateMap<PostDetailViewModel, PostDTO>();
             this.CreateMap<PostDTO, PostDetailViewModel>();
+            this.CreateMap<PostResponseDTO, PostDTO>();
+            this.CreateMap<ReplyResponseDTO, ReplyDTO>();
+
+
+            this.CreateMap<ReplyLikesDb, ReplyResponseDTO>();
         }
     }
 }

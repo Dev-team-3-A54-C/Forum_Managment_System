@@ -30,6 +30,9 @@ namespace ForumManagmentSystem.Web.Controllers
 		[HttpGet]
         public IActionResult Login()
         {
+            var user = userService.GetDbUser("admin");
+            //user.
+
             var loginViewModel = new LoginViewModel();
 
             return View(loginViewModel);
@@ -51,7 +54,7 @@ namespace ForumManagmentSystem.Web.Controllers
 
 
                 // TODO
-                HttpContext.Session.SetString("", user.Id.ToString());
+                //HttpContext.Session.SetString("", user.Id.ToString());
 
                 return RedirectToAction("Index", "Posts");
             }
@@ -113,14 +116,16 @@ namespace ForumManagmentSystem.Web.Controllers
         [IsAuthenticatedAttribute]
         public IActionResult Edit() // Update profile information
         {
-            string currentUsername = HttpContext.Session.GetString("user");
-            var user = userService.GetUser(currentUsername);
+            string currentUser = HttpContext.Session.GetString("user");
+            var user = userService.GetUser(currentUser);
+            ViewBag.currentUser = userService.GetDbUser(currentUser);
 
             var viewModel = new EditProfileViewModel();
             viewModel.Username = user.Username;
             viewModel.FirstName = user.FirstName;
             viewModel.LastName = user.LastName;
             viewModel.Email = user.Email;
+            viewModel.PhoneNumber = user.PhoneNumber;
 
             return View(viewModel);
         }
@@ -139,6 +144,16 @@ namespace ForumManagmentSystem.Web.Controllers
             var userDTO = mapper.Map<EditUserDTO>(viewModel);
             _ = userService.Update(new Guid(userId), userDTO);
 
+            return RedirectToAction("Index", "Posts");
+        }
+
+        [HttpPost]
+        [IsAuthenticatedAttribute]
+        public IActionResult BlockUser(string userToDelete)
+        {
+            var username = HttpContext.Session.GetString("user");
+            var user = userService.GetDbUser(userToDelete);
+            userService.Block(user.Id, username);
             return RedirectToAction("Index", "Posts");
         }
     }

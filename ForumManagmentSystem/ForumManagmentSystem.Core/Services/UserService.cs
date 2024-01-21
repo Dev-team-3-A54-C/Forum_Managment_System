@@ -79,6 +79,15 @@ namespace ForumManagmentSystem.Core.Services
             return autoMapper.Map<UserResponseDTO>
                 (usersRepository.Update(id, autoMapper.Map<UserDb>(user)));
         }
+        public UserResponseDTO Block(Guid id, string username)
+        {
+            if (!IsCurrentUserAdmin(username))
+            {
+                throw new UnauthorizedOperationException($"User {username} does not have a permission for blicking users.");
+            }
+
+            return autoMapper.Map<UserResponseDTO>(usersRepository.Block(id));
+        }
         public UserResponseDTO Delete(Guid id, string username)
         {
             UserDb user = usersRepository.GetByName(username);

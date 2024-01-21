@@ -12,5 +12,6 @@ namespace ForumManagmentSystem.Core.ViewModels
     {
         public PostResponseDTO Post { get; set; }
         public ReplyDTO Reply { get; set; }
+
     }
 }

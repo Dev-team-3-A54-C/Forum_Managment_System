@@ -1,38 +1,15 @@
 ﻿
-using AutoMapper;
-using ForumManagmentSystem.Core.RequestDTOs;
-using ForumManagmentSystem.Core.ResponseDTOs;
-using ForumManagmentSystem.Core.Services;
-using ForumManagmentSystem.Core.Services.Contracts;
-using ForumManagmentSystem.Infrastructure.Data.Models;
-using ForumManagmentSystem.Infrastructure.Exceptions;
-using ForumManagmentSystem.Infrastructure.Repositories;
-using ForumManagmentSystem.Infrastructure.Repositories.Contracts;
-using Microsoft.Extensions.Configuration;
-using Moq;
-
 namespace ForummanagmentSystem.Test.Services.User
 {
     [TestClass]
     public class Create_Shuld
     {
-        private UserService userService;
-
-        [TestInitialize]
-        public void Initialize()
-        {
-            var mockRepository = new Mock<IUsersRepository>();
-            var mockMapper = new Mock<IMapper>();
-            var mockConfiguration = new Mock<IConfiguration>();
-
-            userService = new UserService(mockRepository.Object, mockMapper.Object, mockConfiguration.Object);
-        }
 
         [TestMethod]
-        public void CreateUser_Returns_UserResponseDTO_When_UserDoesNotExist()
+        public void Returns_UserResponseDTO_When_UserDoesNotExist()
         {
             // Arrange
-            var userDto = TestHelper.GetTestUser(); // Use your TestHelper to get a UserDTO
+            var userDto = TestHelper.CreateTestUser(); // Use your TestHelper to get a UserDTO
 
             var mockRepository = new Mock<IUsersRepository>();
             var mockMapper = new Mock<IMapper>();
@@ -65,10 +42,10 @@ namespace ForummanagmentSystem.Test.Services.User
 
         [TestMethod]
         [ExpectedException(typeof(NameDuplicationException))]
-        public void CreateUser_Throws_NameDuplicationException_When_UserExists()
+        public void Throws_NameDuplicationException_When_UserExists()
         {
             // Arrange
-            var userDto = TestHelper.GetTestUser(); // Use your TestHelper to get a UserDTO
+            var userDto = TestHelper.CreateTestUser(); // Use your TestHelper to get a UserDTO
 
             var mockRepository = new Mock<IUsersRepository>();
             var mockMapper = new Mock<IMapper>();
