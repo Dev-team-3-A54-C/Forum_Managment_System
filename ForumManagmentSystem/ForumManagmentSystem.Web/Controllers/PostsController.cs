@@ -47,6 +47,7 @@ namespace ForumManagmentSystem.Web.Controllers
             string currentUser = HttpContext.Session.GetString("user");
             ViewBag.currentUser = userService.GetDbUser(currentUser);
             ViewBag.IsBlocked = userService.GetDbUser(createdBy).IsBlocked;
+            ViewBag.Profile = userService.GetDbUser(createdBy).Username;
             var posts = postService.GetAllFromUser(createdBy);
             return View(posts);
         }

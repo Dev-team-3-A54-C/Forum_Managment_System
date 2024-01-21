@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Profile Overview";
     string currentUser = Context.Session.GetString("user");
+    string profile = "";
 }
 @model IList<PostResponseDTO>
 
@@ -129,7 +130,7 @@
         {
 
             <form method="post" asp-controller="Users" asp-action="BlockUser">
-                <input asp-for="@Model.FirstOrDefault().CreatedBy" type="hidden" name="userToBlock" value="@Model.LastOrDefault().CreatedBy" />
+                <input asp-for="@profile" type="hidden" name="userToBlock" value="@ViewBag.Profile" />
                 <button type="submit" title="Block/Unblock User" role="button" class="btn btn-secondary" style="margin-left: 70px; margin-bottom:20px;">
                     <span style="vertical-align: middle;">
                         <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle;">
