@@ -231,5 +231,9 @@ namespace ForummanagmentSystem.Test
                 Name = "TagTest"
             };
         }
+        //internal static IEnumerable<PostDb> GetMultiplePosts()
+        //{
+
+        //}
     }
 }
