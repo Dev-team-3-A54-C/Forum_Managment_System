@@ -86,9 +86,10 @@
         {
             <form method="post" asp-controller="Posts" asp-action="EditReply" style="max-width: 52.5%; margin-left: 70px" id="postForm">
 
-                @* <input type="text" asp-for="@Model.Reply.PostTitle" type="hidden" style="display: none;">
+                <input type="text" asp-for="@Model.Reply.PostTitle" type="hidden" style="display: none;">
                 <input type="text" asp-for="@Model.Reply.CreatedBy" type="hidden" style="display: none;">
- *@
+                <input type="text" asp-for="@Model.Reply.ID" type="hidden" style="display: none;">
+ 
                 <div class="form-group" style="margin-top: 25px">
                     <label asp-for="@Model.Reply.Content">Content</label>
                     <textarea asp-for="@Model.Reply.Content" class="form-control" style="width: 172%; height: 300px" maxlength="8192" ></textarea>
