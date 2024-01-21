@@ -91,6 +91,11 @@
         margin-top: 5px; /* Adjust the margin-top as needed */
     }
 
+    button{
+        border: 0px;
+        background-color: rgba(0,0,0,0);
+    }
+
     #mainNav {
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         background-color: #fff;
@@ -115,7 +120,39 @@
 
     @if (currentUser == @Model.LastOrDefault()?.CreatedBy)
     {
-        <h2 style="margin-left:50px; margin-bottom:30px;">Your Posts</h2>
+        <h2 style="margin-left:50px; margin-bottom:30px;">You</h2>
+    }
+    else
+    {
+        <h2 style="margin-left:50px; margin-bottom:30px;">User: @Model.LastOrDefault()?.CreatedBy</h2>
+        @if (ViewBag.currentUser != null && ((UserDb)ViewBag.currentUser).IsAdmin)
+        {
+
+            <form method="post" asp-controller="Users" asp-action="BlockUser">
+                <input asp-for="@Model.FirstOrDefault().CreatedBy" type="hidden" name="userToBlock" value="@Model.LastOrDefault().CreatedBy" />
+                <button type="submit" title="Block/Unblock User" role="button" class="btn btn-secondary" style="margin-left: 70px; margin-bottom:20px;">
+                    <span style="vertical-align: middle;">
+                        <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle;">
+                            block
+                        </span>
+
+                        @if (ViewBag.IsBlocked)
+                        {
+                            <span style="display: inline-block; vertical-align: middle;">Unblock User</span>
+                        }
+                        else
+                        {
+                            <span style="display: inline-block; vertical-align: middle;">Block User</span>
+                        }
+                    </span>
+                </button>
+            </form>
+        }
+    }
+
+    @if (currentUser == @Model.LastOrDefault()?.CreatedBy)
+    {
+        <h2 style="margin-left:50px; margin-bottom:30px;">Your Posts:</h2>
     }
     else
     {
@@ -125,23 +162,11 @@
         }
         else
         {
-            <h2 style="margin-left:50px; margin-bottom:30px;">@Model.LastOrDefault()?.CreatedBy's Posts</h2>
+            <h2 style="margin-left:70px; margin-bottom:30px;">Posts:</h2>
         }
-
-        @if (ViewBag.currentUser != null && ((UserDb)ViewBag.currentUser).IsAdmin)
-        {
-            
-            <form method="post" asp-controller="Users" asp-action="BlockUser">
-                <input type="hidden" name="userToDelete" value="@Model.LastOrDefault()?.CreatedBy" />
-                <button type="submit" class="material-symbols-outlined" style="margin-left: 70px; margin-bottom:20px;" title="Block User" role="button">
-                    block
-                </button>
-            </form>
-        }
-
     }
 
-    <ul style="margin-left: 70px;">
+    <ul style="margin-left: 90px;">
         @foreach (var post in Model)
         {
             <li id="list">

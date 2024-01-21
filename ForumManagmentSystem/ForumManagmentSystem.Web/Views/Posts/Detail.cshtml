@@ -209,6 +209,7 @@
                                     }
                                     else
                                     {
+
                                         <form asp-controller="Posts" asp-action="AddLiketoReply">
                                             <input name="replyID" type="hidden" style="display: none;" value="@replay.ID">
                                             <button class="btn" style="margin-right: 5px; color: black;" data-toggle="tooltip" data-placement="top" title="Unlike">
@@ -217,7 +218,6 @@
                                                 </span>
                                             </button>
                                         </form>
-
                                     }
                                     <span class="ml-5">@replay.LikesCount</span>
                                 </div>

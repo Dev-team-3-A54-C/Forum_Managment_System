@@ -4,6 +4,10 @@
     var viewName = ViewContext.View.Path;
     var isLogged = Context.Session.Keys.Contains("user");
     string username = Context.Session.GetString("user");
+
+    string isAdmin = Context.Session.GetString("isAdmin");
+
+    string SearchQuery = "";
 }
 
 <style>
@@ -113,7 +117,31 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
 
-                    
+                    @if (isAdmin == "True")
+                    {
+                        <li class="nav-item">
+                            <div class="container-fluid">
+                                <form method="get" asp-controller="Users" asp-action="Search" class="d-flex">
+                                    <input id="searchInput" name="username" class="form-control me-2" type="search" placeholder="Search User" aria-label="Search User">
+                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                </form>
+
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        var searchInput = document.getElementById('searchInput');
+                                        var form = document.querySelector('form');
+
+                                        form.addEventListener('submit', function (event) {
+                                            var inputValue = encodeURIComponent(searchInput.value);
+                                            var searchUrl = '/Users/Search?username=' + inputValue;
+                                            form.action = searchUrl;
+                                        });
+                                    });
+                                </script>
+
+                            </div>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Contact">Tags</a>
                     </li>

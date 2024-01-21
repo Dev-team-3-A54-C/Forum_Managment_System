@@ -1,0 +1,137 @@
+﻿@using ForumManagmentSystem.Core.ResponseDTOs
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Search User";
+}
+
+@model IList<UserResponseDTO>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+    }
+
+    #list {
+        border-bottom: 1px solid #ccc;
+        padding: 0px;
+        max-width: 53%;
+        transition: background-color 0.3s;
+        box-sizing: border-box;
+        margin-left: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+    }
+
+    li:hover {
+        background-color: #f0f0f0;
+    }
+
+    h5 {
+        font-size: 30px;
+        display: inline;
+    }
+
+    .material-symbols-outlined
+    {
+        font-size: 1px;
+    }
+
+    .post-details {
+        display: flex;
+        align-items: flex-start; /* Align items to the start of the container */
+        justify-content: space-between;
+        font-size: 14px;
+    }
+
+    .name-group {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .material-symbols-outlined {
+        font-size: 20px;
+        margin-right: 5px;
+    }
+
+    .user-group {
+        align-items: center;
+        display: flex;
+    }
+
+    .likes-and-comments {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 20px; /* Adjust the margin-left as needed */
+        margin-right: 10px; /* Adjust the margin-left as needed */
+    }
+
+    .date-group {
+        margin-top: 2px; /* Adjust the margin-top for separation */
+        align-items: center;
+        display: flex;
+    }
+
+    .comment-group {
+        display: flex;
+        align-items: flex-end;
+        margin-top: 50px; /* Adjust the margin-top as needed */
+    }
+
+    .likes-group {
+        display: flex;
+        align-items: flex-end;
+        margin-top: 5px; /* Adjust the margin-top as needed */
+    }
+
+    #mainNav {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        background-color: #fff;
+    }
+
+        #mainNav .navbar-nav .nav-item .nav-link {
+            color: black;
+            padding: 0 1rem;
+        }
+
+        #mainNav .navbar-nav .nav-item:hover {
+            background-color: rgba(0,0,0,0);
+        }
+
+        #mainNav .navbar-nav .nav-item .nav-link:hover {
+            color: #f4623a;
+        }
+
+</style>
+
+<section class="page-section" style="margin-left: 160px; margin-right: 160px; margin-top:30px;">
+
+    <ul>
+        @foreach (var user in Model)
+        {
+            
+            <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@user.Username" style="margin-left:10px">
+                <li id="list" style="height:90px;">
+                        <span class="material-symbols-outlined" style="font-size: 40px; vertical-align: middle; display: inline-block;">
+                            person
+                        </span>
+                        <h5 style="display: inline-block; margin-left: 10px; vertical-align: middle; margin-top: 10px;">@user.Username</h5>
+                </li>
+            </a>
+            
+        }
+    </ul>
+</section>
