@@ -6,8 +6,6 @@
     string username = Context.Session.GetString("user");
 
     string isAdmin = Context.Session.GetString("isAdmin");
-
-    string SearchQuery = "";
 }
 
 <style>
@@ -117,7 +115,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
 
-                    @if (isAdmin == "True")
+                    @if (isAdmin == "True" && isLogged)
                     {
                         <li class="nav-item">
                             <div class="container-fluid">

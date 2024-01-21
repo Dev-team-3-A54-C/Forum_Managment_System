@@ -119,19 +119,28 @@
 
 <section class="page-section" style="margin-left: 160px; margin-right: 160px; margin-top:30px;">
 
-    <ul>
-        @foreach (var user in Model)
-        {
-            
-            <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@user.Username" style="margin-left:10px">
+    @if(Model.Count == 0)
+    {
+        <h5>Sorry, there are no such users !</h5>
+    }
+    else
+    {
+        <ul>
+
+            @foreach (var user in Model)
+            {
+
+                <a asp-controller="Posts" asp-action="Overview" asp-route-createdBy="@user.Username" style="margin-left:10px">
                 <li id="list" style="height:90px;">
-                        <span class="material-symbols-outlined" style="font-size: 40px; vertical-align: middle; display: inline-block;">
-                            person
-                        </span>
-                        <h5 style="display: inline-block; margin-left: 10px; vertical-align: middle; margin-top: 10px;">@user.Username</h5>
+                    <span class="material-symbols-outlined" style="font-size: 40px; vertical-align: middle; display: inline-block;">
+                        person
+                    </span>
+                    <h5 style="display: inline-block; margin-left: 10px; vertical-align: middle; margin-top: 10px;">@user.Username</h5>
                 </li>
-            </a>
-            
-        }
-    </ul>
+                </a>
+
+            }
+        </ul>
+    }
+    
 </section>

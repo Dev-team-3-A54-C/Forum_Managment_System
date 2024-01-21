@@ -8,6 +8,7 @@ using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
 using ForumManagmentSystem.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Hosting;
@@ -30,9 +31,12 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
 		[HttpGet]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult Index()
         {
+            var currentUser = HttpContext.Session.GetString("user");
+            var isAdminObject = userService.IsCurrentUserAdmin(currentUser);
+            HttpContext.Session.SetString("isAdmin", isAdminObject.ToString());
             var viewModel = postService.GetAll();
             return View(viewModel);
         }
@@ -42,12 +46,13 @@ namespace ForumManagmentSystem.Web.Controllers
         {
             string currentUser = HttpContext.Session.GetString("user");
             ViewBag.currentUser = userService.GetDbUser(currentUser);
+            ViewBag.IsBlocked = userService.GetDbUser(createdBy).IsBlocked;
             var posts = postService.GetAllFromUser(createdBy);
             return View(posts);
         }
 
         [HttpGet("Posts/Detail/{title}")]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult Detail([FromRoute] string title)
         {
             try
@@ -90,7 +95,7 @@ namespace ForumManagmentSystem.Web.Controllers
 		}
 
 		[HttpGet]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult Create()
 		{
             string username = HttpContext.Session.GetString("user");
@@ -102,7 +107,7 @@ namespace ForumManagmentSystem.Web.Controllers
 		}
 
         [HttpPost]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult Create(CreatePostViewModel createPostViewModel)
         {
             if (!ModelState.IsValid)
@@ -120,7 +125,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet("Posts/Edit/{title}")]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult Edit([FromRoute] string title)
         {
             try
@@ -138,7 +143,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpPost]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult Edit(PostDetailViewModel viewModel)
         {
             string username = HttpContext.Session.GetString("user");
@@ -157,7 +162,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet("Posts/Reply/Edit/{id}")]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult EditReply([FromRoute] string id)
         {
             try
@@ -181,7 +186,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpPost]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult EditReply(PostDetailViewModel viewModel)
         {
             replyService.Update(new Guid(viewModel.Reply.ID), viewModel.Reply);
@@ -189,7 +194,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpPost]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult Reply(ReplyDTO reply)
         {
             string username = HttpContext.Session.GetString("user");

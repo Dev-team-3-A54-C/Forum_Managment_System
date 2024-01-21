@@ -7,6 +7,7 @@ using ForumManagmentSystem.Core.Services.Contracts;
 using ForumManagmentSystem.Core.ViewModels;
 using ForumManagmentSystem.Infrastructure.Data.Models;
 using ForumManagmentSystem.Infrastructure.Exceptions;
+using ForumManagmentSystem.Infrastructure.QueryParameters;
 using ForumManagmentSystem.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,8 +31,6 @@ namespace ForumManagmentSystem.Web.Controllers
 		[HttpGet]
         public IActionResult Login()
         {
-            var user = userService.GetDbUser("admin");
-            //user.
 
             var loginViewModel = new LoginViewModel();
 
@@ -74,7 +73,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("user");
@@ -113,7 +112,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpGet]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult Edit() // Update profile information
         {
             string currentUser = HttpContext.Session.GetString("user");
@@ -131,7 +130,7 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpPost]
-        [IsAuthenticatedAttribute]
+        [IsAuthenticated]
         public IActionResult Edit(EditProfileViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -148,13 +147,24 @@ namespace ForumManagmentSystem.Web.Controllers
         }
 
         [HttpPost]
-        [IsAuthenticatedAttribute]
-        public IActionResult BlockUser(string userToDelete)
+        [IsAuthenticated]
+        public IActionResult BlockUser(string userToBlock)
         {
             var username = HttpContext.Session.GetString("user");
-            var user = userService.GetDbUser(userToDelete);
+            var user = userService.GetDbUser(userToBlock);
             userService.Block(user.Id, username);
-            return RedirectToAction("Index", "Posts");
+            return RedirectToAction("Overview", "Posts", new { createdBy = userToBlock });
+        }
+
+        [HttpGet]
+        [IsAuthenticated]
+        public IActionResult Search([FromQuery] string username)
+        {
+            UserQueryParameters parameters = new UserQueryParameters();
+            parameters.Username = username;
+
+            var users = userService.FilterBy(parameters);
+            return View(users);
         }
     }
 }
