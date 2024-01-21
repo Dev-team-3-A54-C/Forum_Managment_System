@@ -37,6 +37,7 @@ namespace ForumManagmentSystem.Infrastructure.Repositories
         {
             var userLikedReplies = await context.ReplyLikes
                 .Include(rl => rl.Reply)
+                .ThenInclude(r => r.Post)
                 .Include(rl => rl.User)
                 .Where(r => r.User.Username == username)
                 .ToListAsync();
